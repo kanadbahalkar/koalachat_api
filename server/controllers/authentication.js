@@ -1,18 +1,18 @@
 "use strict";
 
-const jwt = require('jsonwebtoken'),  
+const jwt = require('jsonwebtoken'),
       crypto = require('crypto'),
       User = require('../models/user'),
       config = require('../config/main');
 
-function generateToken(user) {  
+function generateToken(user) {
   return jwt.sign(user, config.secret, {
     expiresIn: 10080 // in seconds
   });
 }
 
 // Set user info from request
-function setUserInfo(request) {  
+function setUserInfo(request) {
   return {
     _id: request._id,
     firstName: request.profile.firstName,
@@ -35,25 +35,25 @@ exports.login = function(req, res, next) {
 
 
 // Registration Route
-exports.register = function(req, res, next) {  
+exports.register = function(req, res, next) {
   // Check for registration errors
   const email = req.body.email;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
-  const password = req.body.password;
-
+  const password = req.body.password || 'koala@2016';
+  let isPasswordRequired = req.body.loginType === 'emailOnly' ? false : true;
   // Return error if no email provided
   if (!email) {
     return res.status(422).send({ error: 'You must enter an email address.'});
   }
 
   // Return error if full name not provided
-  if (!firstName || !lastName) {
-    return res.status(422).send({ error: 'You must enter your full name.'});
-  }
+  // if (!firstName || !lastName) {
+  //   return res.status(422).send({ error: 'You must enter your full name.'});
+  // }
 
   // Return error if no password provided
-  if (!password) {
+  if (isPasswordRequired && !password) {
     return res.status(422).send({ error: 'You must enter a password.' });
   }
 
@@ -92,7 +92,7 @@ exports.register = function(req, res, next) {
 
 // Authorization Middleware
 // Role authorization check
-exports.roleAuthorization = function(role) {  
+exports.roleAuthorization = function(role) {
   return function(req, res, next) {
     const user = req.user;
 

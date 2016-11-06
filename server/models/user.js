@@ -1,9 +1,9 @@
-const mongoose = require('mongoose'),  
+const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       bcrypt = require('bcrypt-nodejs');
 
 // User Schema
-const UserSchema = new Schema({  
+const UserSchema = new Schema({
  	email: {
     	type: String,
     	lowercase: true,
@@ -12,7 +12,7 @@ const UserSchema = new Schema({
   	},
   	password: {
     	type: String,
-    	required: true
+    	required: false
   	},
   	profile: {
     	firstName: { type: String },
@@ -31,7 +31,7 @@ const UserSchema = new Schema({
 });
 
 // Pre-save of user to database, hash password if password is modified or new
-UserSchema.pre('save', function(next) {  
+UserSchema.pre('save', function(next) {
   const user = this,
         SALT_FACTOR = 5;
 
@@ -49,12 +49,23 @@ UserSchema.pre('save', function(next) {
 });
 
 // Method to compare password for login
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {  
+UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) { return cb(err); }
 
     cb(null, isMatch);
   });
+}
+
+UserSchema.methods.getAllUsers = () => {
+  //let currentUser = this;
+  //if (currentUser.type !== 'Admin')
+  User.find({}, function(err, users) {
+    if (err) return next(err);
+    let usersList = [];
+    users.map(user => usersList.push(user)
+    return usersList;
+  }
 }
 
 module.exports = mongoose.model('User', UserSchema);
