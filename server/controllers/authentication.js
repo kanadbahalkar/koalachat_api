@@ -26,6 +26,7 @@ function setUserInfo(request) {
 exports.login = function(req, res, next) {
 
   let userInfo = setUserInfo(req.user);
+  console.log(req.user);
 
   res.status(200).json({
     token: 'JWT ' + generateToken(userInfo),
@@ -33,27 +34,21 @@ exports.login = function(req, res, next) {
   });
 }
 
-
-// Registration Route
-exports.register = function(req, res, next) {
+// Registration for Website Owners Route
+exports.registerowner = function(req, res, next) {
   // Check for registration errors
   const email = req.body.email;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
-  const password = req.body.password || 'koala@2016';
-  let isPasswordRequired = req.body.loginType === 'emailOnly' ? false : true;
+  const password = req.body.password;
+  
   // Return error if no email provided
   if (!email) {
     return res.status(422).send({ error: 'You must enter an email address.'});
   }
 
-  // Return error if full name not provided
-  // if (!firstName || !lastName) {
-  //   return res.status(422).send({ error: 'You must enter your full name.'});
-  // }
-
   // Return error if no password provided
-  if (isPasswordRequired && !password) {
+  if (!password) {
     return res.status(422).send({ error: 'You must enter a password.' });
   }
 
@@ -87,6 +82,47 @@ exports.register = function(req, res, next) {
           user: userInfo
         });
       });
+  });
+}
+
+// Registration for Visitors Route
+exports.registervisitor = function(req, res, next) {
+  // Check for registration errors
+  const email = req.body.email || config.default_email;
+  const password = req.body.password || config.default_password;
+  
+  User.findOne({ email: email }, function(err, existingUser) {
+      if (err) { return next(err); }
+
+      // If user is not unique, return error
+      if (existingUser && (email !== config.default_email) && (password !== config.default_password)) {
+        //Log the user in
+        //return User's conversation history
+      }
+      else {
+        let user = new User({
+          email: email,
+          password: password,
+          profile: { firstName: 'Anonymous', lastName: 'Koala' }
+          //Owner ID
+          //Timestamp
+          //IP address
+          //User-agent
+        });
+
+        user.save(function(err, user) {
+          if (err) { return next(err); }
+
+          let userInfo = setUserInfo(user);
+
+          res.status(201).json({
+            token: 'JWT ' + generateToken(userInfo),
+            user: userInfo
+          });
+        });
+
+        console.log('User created: ', user);
+      }
   });
 }
 

@@ -12,8 +12,7 @@ const requireLogin = passport.authenticate('local', { session: false });
 // Constants for role types
 const REQUIRE_ADMIN = "Admin",
       REQUIRE_OWNER = "Owner",
-      REQUIRE_CLIENT = "Client",
-      REQUIRE_MEMBER = "Member";
+      REQUIRE_VISITOR = "Visitor";
 
 module.exports = function(app) {
   // Initializing route groups
@@ -26,7 +25,10 @@ module.exports = function(app) {
   apiRoutes.use('/auth', authRoutes);
 
   // Registration route
-  authRoutes.post('/register', AuthenticationController.register);
+  authRoutes.post('/registerowner', AuthenticationController.registerowner);
+
+  // Registration route
+  authRoutes.post('/registervisitor', AuthenticationController.registervisitor);
 
   // Login route
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
@@ -35,7 +37,7 @@ module.exports = function(app) {
   apiRoutes.use('/chat', chatRoutes);
 
   // View messages to and from authenticated user
-  //chatRoutes.get('/', requireAuth, ChatController.getConversations);
+  // chatRoutes.get('/', requireAuth, ChatController.getConversations);
 
   // Retrieve single conversation
   chatRoutes.get('/conversations/:conversationId', requireAuth, ChatController.getConversation);
@@ -43,17 +45,17 @@ module.exports = function(app) {
   // Send reply in conversation
   chatRoutes.post('/conversations/:conversationId', requireAuth, ChatController.sendReply);
 
-  chatRoutes.get('/users', requireAuth, ChatController.getAllUsers);
-  chatRoutes.get('/conversations/users/:userID', requireAuth, ChatController.getClientConversations);
+  // chatRoutes.get('/users', requireAuth, ChatController.getAllUsers);
+  // chatRoutes.get('/conversations/users/:userID', requireAuth, ChatController.getClientConversations);
 
   // Start new conversation
   chatRoutes.post('/new/:recipient', requireAuth, ChatController.newConversation);
 
   // Broadcast message to all clients
-  chatRoutes.post('/announcement', requireAuth, ChatController.announcement);
+  // chatRoutes.post('/announcement', requireAuth, ChatController.announcement);
 
-  chatRoutes.post('/:clientID/message', requireAuth, ChatController.getMessage);
-  chatRoutes.post('/:clientID/', requireAuth, ChatController.getMessage);
+  // chatRoutes.post('/messages/:clientID/', requireAuth, ChatController.getMessage);
+
 	// Set url for API group routes
   app.use('/api', apiRoutes);
 };

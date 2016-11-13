@@ -1,30 +1,51 @@
+'use strict';
 const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       bcrypt = require('bcrypt-nodejs');
 
 // User Schema
 const UserSchema = new Schema({
- 	email: {
-    	type: String,
-    	lowercase: true,
-    	unique: true,
-    	required: true
-  	},
-  	password: {
-    	type: String,
-    	required: false
-  	},
-  	profile: {
-    	firstName: { type: String },
-    	lastName: { type: String }
-  	},
-  	role: {
-    	type: String,
-    	enum: ['Member', 'Client', 'Owner', 'Admin'],
-    	default: 'Member'
-  	},
-  	resetPasswordToken: { type: String },
-  	resetPasswordExpires: { type: Date }
+ 	anonymous: {
+     type: Boolean,
+     default: true
+  },
+  ownerID: {
+    type: String,
+    required: false
+  },
+  ipAddress: {
+    type: String,
+    required: false
+  },
+  userAgent: {
+    type: String,
+    required: false
+  },
+  timestamp: {
+    type: Date,
+    required: true
+  },
+  email: {
+    type: String,
+    lowercase: true,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: false
+  },
+  profile: {
+    firstName: { type: String },
+    lastName: { type: String }
+  },
+  role: {
+    type: String,
+    enum: ['Visitor', 'Owner', 'Admin'],
+    default: 'Visitor'
+  },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date }
 },
 {
 	timestamps: true
@@ -63,9 +84,9 @@ UserSchema.methods.getAllUsers = () => {
   User.find({}, function(err, users) {
     if (err) return next(err);
     let usersList = [];
-    users.map(user => usersList.push(user)
+    users.map(user => usersList.push(user));
     return usersList;
-  }
+  })
 }
 
 module.exports = mongoose.model('User', UserSchema);
