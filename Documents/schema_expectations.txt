@@ -1,0 +1,25 @@
+This document list downs the schema requirements
+
+1. User Schema
+   - Should able to differentiate between Admin, Owner, Live Support, Bot and Visitor
+   - if owner, require attributes would be personal details, live supports number and login details
+   - if Visitor, identity can be store as personal details with login or email or anonymous
+   - owner/admin can block visitor
+
+2. Conversation Schema
+   - identify conversatin as live or completed
+   - maintains involve parties in the conversation
+   - tag conversation by owner
+   - identify whether conversation is between admin-owner or owner-visitor or bot-visitor or live support-visitor
+   - it should be easy to find all conversations by user.
+
+3. Message Schema
+   - This should belong to the conversation
+   - records sender/receiver information
+   - for bot reply this should have some weight associated, to which positive or negative feedback can be given
+   - Identify if it is a canned/bot/live support response - This would be helpful in designing learnign model for bot
+
+4. Information associated with owner
+   - Information such as FAQ, question/answer
+   - standard answers/specific answers for the owner
+   - canned responses for live support
