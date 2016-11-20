@@ -15,8 +15,6 @@ function generateToken(user) {
 function setUserInfo(request) {
   return {
     _id: request._id,
-    firstName: request.profile.firstName,
-    lastName: request.profile.lastName,
     email: request.email,
     role: request.role,
   };
@@ -38,17 +36,26 @@ exports.login = function(req, res, next) {
 exports.registerowner = function(req, res, next) {
   // Check for registration errors
   const email = req.body.email;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
+  const website = req.body.website;
   const password = req.body.password;
+  const anonymous = req.body.anonymous;
+  const role = req.body.role;
   
   // Return error if no email provided
   if (!email) {
+    console.log('You must enter an email address.');
     return res.status(422).send({ error: 'You must enter an email address.'});
+  }
+
+  // Return error if no website provided
+  if (!website) {
+    console.log('Hey! We need your website address! :o');
+    return res.status(422).send({ error: 'Hey! We need your website address! :o'});
   }
 
   // Return error if no password provided
   if (!password) {
+    console.log('You must enter a password.');
     return res.status(422).send({ error: 'You must enter a password.' });
   }
 
@@ -57,6 +64,7 @@ exports.registerowner = function(req, res, next) {
 
       // If user is not unique, return error
       if (existingUser) {
+        console.log('That email address is already in use.');
         return res.status(422).send({ error: 'That email address is already in use.' });
       }
 
@@ -64,9 +72,12 @@ exports.registerowner = function(req, res, next) {
       let user = new User({
         email: email,
         password: password,
-        profile: { firstName: firstName, lastName: lastName }
+        website: website,
+        role: role,
+        anonymous: anonymous
       });
 
+      
       user.save(function(err, user) {
         if (err) { return next(err); }
 
@@ -134,6 +145,7 @@ exports.roleAuthorization = function(role) {
 
     User.findById(user._id, function(err, foundUser) {
       if (err) {
+        console.log('No user was found.');
         res.status(422).json({ error: 'No user was found.' });
         return next(err);
       }

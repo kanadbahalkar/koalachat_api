@@ -13,6 +13,10 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  website: {
+    type: String,
+    required: false
+  },
   ipAddress: {
     type: String,
     required: false
@@ -20,10 +24,6 @@ const UserSchema = new Schema({
   userAgent: {
     type: String,
     required: false
-  },
-  timestamp: {
-    type: Date,
-    required: true
   },
   email: {
     type: String,
@@ -37,11 +37,12 @@ const UserSchema = new Schema({
   },
   profile: {
     firstName: { type: String },
-    lastName: { type: String }
+    lastName: { type: String },
+    required: false
   },
   role: {
     type: String,
-    enum: ['Visitor', 'Owner', 'Admin'],
+    enum: ['Visitor', 'Owner', 'Admin', 'Agent', 'Bot'],
     default: 'Visitor'
   },
   resetPasswordToken: { type: String },
