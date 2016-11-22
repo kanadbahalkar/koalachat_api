@@ -1,62 +1,32 @@
 exports = module.exports = (io) => {
   
-  var userIsConnected = true;
-  var users = [];
-  var users_connected = [];
-  var sockets = {};
+  var connectedUsers = {};
 
   // Set socket.io listeners.
   io.on('connection', (socket) => {
-    
-    var uid = null;
-    
-    socket.on('set oid', function (oid) {
-      sockets[oid] = socket;
+
+    var vid = null;
+
+    // Subscribe a new Visitor with an Owner
+    socket.on('subscribe to owner', function (visitor) {
+        socket.join(visitor.oid);
+        connectedUsers[visitor.vid] = socket;
+        console.log('New user connected: ' + visitor.vid + ' to Owner: ' + visitor.oid);
+        vid = visitor.vid;
     });
 
-    // register the new user
-    socket.on('register', function (visitor) {
-      if ( users_connected.indexOf(visitor.tempSessionId) < 0 ) {
-        users_connected.push(visitor);
-      }
+    //Visitor sends a messge to the Owner
+    socket.on('message from visitor', function (data) {
+      // connectedUsers[data.vid].emit('bot replies', data.message);
+      console.log('Message from Visitor: ', data);
 
-      if ( users.indexOf(visitor.tempSessionId) < 0 ) {
-        console.log('New user connected: ' + visitor.tempSessionId + ' to Owner: ' + visitor.oid);
-        users.push(visitor.tempSessionId);
-      }
-
-      uid = visitor.tempSessionId;
+      //Respond with an echo of the same message
+      connectedUsers[data.vid].emit('message from owner', data.message);
     });
 
-    // clean up when a user leaves, and broadcast it to other users
-    socket.on('disconnect', function () {
-      users_connected.splice( users_connected.indexOf(uid), 1);
-      
-      setTimeout(function () {
-        if ( users_connected.indexOf(uid) < 0 ) {
-          var index = users.indexOf(uid);
-          users.splice(index, 1);
-        }
-      }, 3000);
-    });
-
-    socket.on('enter conversation', (conversation) => {
-      socket.join(conversation);
-      console.log('joined ' + conversation);
-    });
-
-    socket.on('leave conversation', (conversation) => {
-      socket.leave(conversation);
-      console.log('left ' + conversation);
-    })
-
-    //Receive Message
-    socket.on('send message', function (data) {
-      sockets[data.oid].emit('bot replies', data.message);
-    });
-
-    socket.on('new message', (conversation) => {
-      io.sockets.in(conversation).emit('refresh messages', conversation);
+    // Disconnect a Visitor
+    socket.on('disconnect', function (oid) {
+      socket.leave(oid);
     });
   });
 }

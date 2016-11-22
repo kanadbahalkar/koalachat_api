@@ -34,13 +34,17 @@ exports.login = function(req, res, next) {
 
 // Registration for Website Owners Route
 exports.registerowner = function(req, res, next) {
+  
+  //Create a random OwnerID
+  var oid = Math.random().toString(36).substring(3,16)+ +new Date;
+
   // Check for registration errors
   const email = req.body.email;
   const website = req.body.website;
   const password = req.body.password;
   const anonymous = req.body.anonymous;
   const role = req.body.role;
-  
+
   // Return error if no email provided
   if (!email) {
     console.log('You must enter an email address.');
@@ -73,6 +77,7 @@ exports.registerowner = function(req, res, next) {
         email: email,
         password: password,
         website: website,
+        ownerID : oid,
         role: role,
         anonymous: anonymous
       });
@@ -115,10 +120,6 @@ exports.registervisitor = function(req, res, next) {
           email: email,
           password: password,
           profile: { firstName: 'Anonymous', lastName: 'Koala' }
-          //Owner ID
-          //Timestamp
-          //IP address
-          //User-agent
         });
 
         user.save(function(err, user) {
