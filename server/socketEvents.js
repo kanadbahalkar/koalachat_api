@@ -17,11 +17,16 @@ exports = module.exports = (io) => {
 
     //Visitor sends a messge to the Owner
     socket.on('message from visitor', function (data) {
-      // connectedUsers[data.vid].emit('bot replies', data.message);
       console.log('Message from Visitor: ', data);
+      socket.broadcast.emit('incoming', data);
 
       //Respond with an echo of the same message
-      connectedUsers[data.vid].emit('message from owner', data.message);
+      //connectedUsers[data.vid].emit('reply from owner', data.message);
+    });
+
+    //Owner sends messge to a Visitor
+    socket.on('message from owner', function (message) {
+      console.log('Message from Owner: ', message);
     });
 
     // Disconnect a Visitor
