@@ -1,47 +1,183 @@
 // Importing Passport, strategies, and config
-const passport = require('passport'),  
-      User = require('../models/user'),
-      config = require('./main'),
-      JwtStrategy = require('passport-jwt').Strategy,
-      ExtractJwt = require('passport-jwt').ExtractJwt,
-      LocalStrategy = require('passport-local');
+const passport = require('passport'),
+    User = require('../models/user'),
+    config = require('./main'),
+    JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt,
+    LocalStrategy = require('passport-local'),
+    FacebookStrategy = require('passport-facebook').Strategy,
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
+    TwitterStrategy = require('passport-twitter').Strategy;
 
-const localOptions = { usernameField: 'email' };
+
+
+const localOptions = {
+    usernameField: 'email'
+};
+var configAuth = require('./auth');
 
 // Setting up local login strategy
-const localLogin = new LocalStrategy(localOptions, function(email, password, done) {  
-  User.findOne({ email: email }, function(err, user) {
-    if(err) { return done(err); }
-    if(!user) { return done(null, false, { error: 'Your login details could not be verified. Please try again.' }); }
+const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
+    User.findOne({
+        email: email
+    }, function(err, user) {
+        if (err) {
+            return done(err);
+        }
+        if (!user) {
+            return done(null, false, {
+                error: 'Your login details could not be verified. Please try again.'
+            });
+        }
 
-    user.comparePassword(password, function(err, isMatch) {
-      if (err) { return done(err); }
-      if (!isMatch) { return done(null, false, { error: "Your login details could not be verified. Please try again." }); }
+        user.comparePassword(password, function(err, isMatch) {
+            if (err) {
+                return done(err);
+            }
+            if (!isMatch) {
+                return done(null, false, {
+                    error: "Your login details could not be verified. Please try again."
+                });
+            }
 
-      return done(null, user);
+            return done(null, user);
+        });
     });
-  });
 });
 
-const jwtOptions = {  
-  // Telling Passport to check authorization headers for JWT
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  // Telling Passport where to find the secret
-  secretOrKey: config.secret
+let facebookLogin = new FacebookStrategy({
+        clientID: configAuth.facebookAuth.clientID,
+        clientSecret: configAuth.facebookAuth.clientSecret,
+        callbackURL: configAuth.facebookAuth.callbackURL,
+        profileFields: ["emails", "displayName", "photos", "gender", "first_name", "website", "birthday", "accounts"]
+    },
+    // facebook will send back the token and profile
+    function(token, refreshToken, profile, done) {
+        // asynchronous
+        process.nextTick(function() {
+            // try to find the user based on their google id
+            User.findOne({
+                'id': profile.id
+            }, function(err, user) {
+                if (err)
+                    return done(err);
+
+                let str = JSON.stringify(profile, null, '\t');
+                console.log(str);
+                //accounts = []
+                // if (profile._json.accounts) {
+                //   console.log('************ acccounts present ******');
+                //   profile._json.accounts.data.forEach(function(manage_page) {
+                //     page = {}
+                //     page.id = manage_page.id;
+                //     page.access_token = manage_page.access_token;
+                //     page.name = manage_page.name;
+                //     page.category = manage_page.category;
+                //     accounts.push(page)
+                //   });
+                // }
+
+                if (user) {
+                    // if a user is found, log them in
+                    console.log('User Found');
+                    return done(null, user);
+                } else {
+                    // if the user isnt in our database, create a new user
+                    var newUser = new User();
+                    newUser.autherticationType = 'facebook';
+                    newUser.id = profile.id;
+                    newUser.email = profile.emails ? profile.emails[0].value : '';
+                    newUser.profile = {
+                      'givenName': profile.displayName,
+                      'photo': profile.photos ? profile.photos[0].value : ''
+                    }
+                    accounts = []
+                    if (profile._json.accounts) {
+                        profile._json.accounts.data.forEach(function(manage_page) {
+                          page = {}
+                          page.id = manage_page.id;
+                          page.access_token = manage_page.access_token;
+                          page.name = manage_page.name;
+                          page.category = manage_page.category;
+                          accounts.push(page)
+                      });
+                    }
+                    newUser.accounts = accounts;
+                    // save the user
+                    newUser.save(function(err) {
+                        if (err)
+                            throw err;
+                        return done(null, newUser)
+                    });
+
+                }
+            });
+        });
+    });
+
+let googleLogin = new GoogleStrategy({
+        clientID: configAuth.googleAuth.clientID,
+        clientSecret: configAuth.googleAuth.clientSecret,
+        callbackURL: configAuth.googleAuth.callbackURL,
+    },
+    function(token, refreshToken, profile, done) {
+        // make the code asynchronous
+        // User.findOne won't fire until we have all our data back from Google
+        process.nextTick(function() {
+            str = JSON.stringify(profile);
+            console.log(str);
+
+            return done(null, profile)
+        });
+    });
+
+let twitterLogin = new TwitterStrategy({
+        consumerKey: configAuth.twitterAuth.consumerKey,
+        consumerSecret: configAuth.twitterAuth.consumerSecret,
+        callbackURL: configAuth.twitterAuth.callbackURL
+    },
+    function(token, tokenSecret, profile, done) {
+        process.nextTick(function() {
+            str = JSON.stringify(profile);
+            console.log(str);
+
+            return done(null, profile);
+        });
+    });
+
+const jwtOptions = {
+    // Telling Passport to check authorization headers for JWT
+    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    // Telling Passport where to find the secret
+    secretOrKey: config.secret
 };
 
-// Setting up JWT login strategy
-const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {  
-  User.findById(payload._id, function(err, user) {
-    if (err) { return done(err, false); }
 
-    if (user) {
-      done(null, user);
-    } else {
-      done(null, false);
-    }
-  });
+// Setting up JWT login strategy
+const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
+    User.findById(payload._id, function(err, user) {
+        if (err) {
+            return done(err, false);
+        }
+
+        if (user) {
+            done(null, user);
+        } else {
+            done(null, false);
+        }
+    });
 });
 
-passport.use(jwtLogin);  
-passport.use(localLogin);  
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.use(jwtLogin);
+passport.use(localLogin);
+passport.use(facebookLogin);
+passport.use(googleLogin);
+passport.use(twitterLogin);

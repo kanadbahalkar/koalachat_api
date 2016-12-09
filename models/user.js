@@ -29,15 +29,33 @@ const UserSchema = new Schema({
     type: String,
     lowercase: true,
     unique: true,
-    required: true
+    required: false
   },
+  // Stores list of pages manage by user on facebook
+  accounts: [{
+    access_token: {type: String},
+    name: {type: String},
+    category: {type: String},
+    id: {type: String}
+  }],
   password: {
+    type: String,
+    required: false
+  },
+  autherticationType: {
+    type: String,
+    enum: ['local', 'google', 'facebook', 'twitter'],
+    default: 'local'
+  },
+  id: {
     type: String,
     required: false
   },
   profile: {
     firstName: { type: String },
     lastName: { type: String },
+    givenName: {type: String},
+    photo: {type: String},
     required: false
   },
   role: {

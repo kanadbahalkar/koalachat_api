@@ -16,7 +16,7 @@ function setUserInfo(request) {
   return {
     _id: request._id,
     email: request.email,
-    role: request.role,
+    role: request.role
   };
 }
 
@@ -34,7 +34,7 @@ exports.login = function(req, res, next) {
 
 // Registration for Website Owners Route
 exports.registerowner = function(req, res, next) {
-  
+
   //Create a random OwnerID
   var oid = Math.random().toString(36).substring(3,16)+ +new Date;
 
@@ -82,7 +82,7 @@ exports.registerowner = function(req, res, next) {
         anonymous: anonymous
       });
 
-      
+
       user.save(function(err, user) {
         if (err) { return next(err); }
 
@@ -106,7 +106,7 @@ exports.registervisitor = function(req, res, next) {
   // Check for registration errors
   const email = req.body.email || config.default_email;
   const password = req.body.password || config.default_password;
-  
+
   User.findOne({ email: email }, function(err, existingUser) {
       if (err) { return next(err); }
 

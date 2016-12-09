@@ -19,7 +19,7 @@ module.exports = function(app) {
   const apiRoutes = express.Router(),
         authRoutes = express.Router(),
         chatRoutes = express.Router();
-        
+
   // Auth Routes
   // Set auth routes as subgroup/middleware to apiRoutes
   apiRoutes.use('/auth', authRoutes);
@@ -56,9 +56,64 @@ module.exports = function(app) {
 
   // chatRoutes.post('/messages/:clientID/', requireAuth, ChatController.getMessage);
 
-  // Set url for API group routes
-  app.use('/api', apiRoutes);
+  //for facebook authentication
+  // route for facebook authentication and login
+    app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_birthday', 'pages_show_list']}));
+
+    // handle the callback after facebook has authenticated the user
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
+
+        app.get('/profile', isLoggedIn, function(req, res) {
+           res.status(200).json({
+             user: req.user
+           });
+       });
+
+    //Google Auth
+    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    // the callback after google has authenticated the user
+    app.get('/auth/google/callback',
+            passport.authenticate('google', {
+                    successRedirect : '/profile',
+                    failureRedirect : '/'
+            }));
+
+    // Twitter Auth
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+
+    // handle the callback after twitter has authenticated the user
+    app.get('/auth/twitter/callback',
+        passport.authenticate('twitter', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
+    // route for logging out
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+
+    // Set url for API group routes
+    app.use('/api', apiRoutes);
+
 };
+
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
 
 //Other routes needed
 //1. Register a Visitor under an Owners account
