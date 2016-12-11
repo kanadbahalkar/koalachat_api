@@ -67,11 +67,14 @@ module.exports = function(app) {
             failureRedirect : '/'
         }));
 
-
         app.get('/profile', isLoggedIn, function(req, res) {
-           res.status(200).json({
-             user: req.user
-           });
+        //    res.status(200).json({
+        //      user: req.user
+        //    });
+
+        //Redirect Owner to the Dashboard after succesful authentication
+        res.redirect('http://localhost:4730/#/app/dashboard');
+        
        });
 
     //Google Auth

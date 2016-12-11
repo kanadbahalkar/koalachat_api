@@ -1,3 +1,5 @@
+'use strict';
+
 // Importing Passport, strategies, and config
 const passport = require('passport'),
     User = require('../models/user'),
@@ -8,8 +10,6 @@ const passport = require('passport'),
     FacebookStrategy = require('passport-facebook').Strategy,
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     TwitterStrategy = require('passport-twitter').Strategy;
-
-
 
 const localOptions = {
     usernameField: 'email'
