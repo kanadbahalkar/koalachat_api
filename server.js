@@ -35,7 +35,11 @@ app.use('/dashboard', express.static('../client'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(session({ secret: 'SECRET' })); // session secret
+app.use(session({
+    secret: 'SECRET',
+    saveUninitialized: true,
+    resave: true
+})); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
 
