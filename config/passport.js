@@ -8,12 +8,7 @@ const passport = require('passport'),
     ExtractJwt = require('passport-jwt').ExtractJwt,
     LocalStrategy = require('passport-local'),
     FacebookStrategy = require('passport-facebook').Strategy,
-<<<<<<< HEAD
-    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-    TwitterStrategy = require('passport-twitter').Strategy;
-=======
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
->>>>>>> 8098010f1e5d8e3d465a437b67d672545194b340
 
 const localOptions = {
     usernameField: 'email'

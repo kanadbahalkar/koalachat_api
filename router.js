@@ -67,22 +67,6 @@ module.exports = function(app) {
             failureRedirect : '/'
         }));
 
-        app.get('/profile', isLoggedIn, function(req, res) {
-<<<<<<< HEAD
-        //    res.status(200).json({
-        //      user: req.user
-        //    });
-
-        //Redirect Owner to the Dashboard after succesful authentication
-        res.redirect('http://localhost:4730/#/app/dashboard');
-        
-=======
-           res.status(200).send({
-             user: req.user
-           });
->>>>>>> 8098010f1e5d8e3d465a437b67d672545194b340
-       });
-
     //Google Auth
     app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
     // the callback after google has authenticated the user
@@ -91,6 +75,15 @@ module.exports = function(app) {
                     successRedirect : '/profile',
                     failureRedirect : '/'
             }));
+
+    app.get('/profile', isLoggedIn, function(req, res) {
+        //Redirect Owner to the Dashboard after succesful authentication
+        res.redirect('http://localhost:4730/#/app/dashboard');
+    
+        // res.status(200).send({
+        //     user: req.user
+        // });
+    });
 
     // route for logging out
     app.get('/logout', function(req, res) {
