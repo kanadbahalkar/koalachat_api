@@ -68,6 +68,7 @@ module.exports = function(app) {
         }));
 
         app.get('/profile', isLoggedIn, function(req, res) {
+<<<<<<< HEAD
         //    res.status(200).json({
         //      user: req.user
         //    });
@@ -75,6 +76,11 @@ module.exports = function(app) {
         //Redirect Owner to the Dashboard after succesful authentication
         res.redirect('http://localhost:4730/#/app/dashboard');
         
+=======
+           res.status(200).send({
+             user: req.user
+           });
+>>>>>>> 8098010f1e5d8e3d465a437b67d672545194b340
        });
 
     //Google Auth
@@ -85,16 +91,6 @@ module.exports = function(app) {
                     successRedirect : '/profile',
                     failureRedirect : '/'
             }));
-
-    // Twitter Auth
-    app.get('/auth/twitter', passport.authenticate('twitter'));
-
-    // handle the callback after twitter has authenticated the user
-    app.get('/auth/twitter/callback',
-        passport.authenticate('twitter', {
-            successRedirect : '/profile',
-            failureRedirect : '/'
-        }));
 
     // route for logging out
     app.get('/logout', function(req, res) {
@@ -114,6 +110,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
+    console.log("User not authenticated");
     // if they aren't redirect them to the home page
     res.redirect('/');
 }

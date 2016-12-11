@@ -8,8 +8,12 @@ const passport = require('passport'),
     ExtractJwt = require('passport-jwt').ExtractJwt,
     LocalStrategy = require('passport-local'),
     FacebookStrategy = require('passport-facebook').Strategy,
+<<<<<<< HEAD
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     TwitterStrategy = require('passport-twitter').Strategy;
+=======
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+>>>>>>> 8098010f1e5d8e3d465a437b67d672545194b340
 
 const localOptions = {
     usernameField: 'email'
@@ -64,18 +68,6 @@ let facebookLogin = new FacebookStrategy({
 
                 let str = JSON.stringify(profile, null, '\t');
                 console.log(str);
-                //accounts = []
-                // if (profile._json.accounts) {
-                //   console.log('************ acccounts present ******');
-                //   profile._json.accounts.data.forEach(function(manage_page) {
-                //     page = {}
-                //     page.id = manage_page.id;
-                //     page.access_token = manage_page.access_token;
-                //     page.name = manage_page.name;
-                //     page.category = manage_page.category;
-                //     accounts.push(page)
-                //   });
-                // }
 
                 if (user) {
                     // if a user is found, log them in
@@ -121,27 +113,39 @@ let googleLogin = new GoogleStrategy({
         callbackURL: configAuth.googleAuth.callbackURL,
     },
     function(token, refreshToken, profile, done) {
-        // make the code asynchronous
-        // User.findOne won't fire until we have all our data back from Google
         process.nextTick(function() {
-            str = JSON.stringify(profile);
-            console.log(str);
+          User.findOne({
+              'id': profile.id
+          }, function(err, user) {
+              if (err)
+                  return done(err);
 
-            return done(null, profile)
-        });
-    });
+              //let str = JSON.stringify(profile, null, '\t');
+              //console.log(str);
 
-let twitterLogin = new TwitterStrategy({
-        consumerKey: configAuth.twitterAuth.consumerKey,
-        consumerSecret: configAuth.twitterAuth.consumerSecret,
-        callbackURL: configAuth.twitterAuth.callbackURL
-    },
-    function(token, tokenSecret, profile, done) {
-        process.nextTick(function() {
-            str = JSON.stringify(profile);
-            console.log(str);
+              if (user) {
+                  // if a user is found, log them in
+                  console.log('User Found :'+user);
+                  return done(null, user);
+              } else {
+                  // if the user isnt in our database, create a new user
+                  var newUser = new User();
+                  newUser.autherticationType = 'google';
+                  newUser.id = profile.id;
+                  newUser.email = profile.emails ? profile.emails[0].value : '';
+                  newUser.profile = {
+                    'givenName': profile.displayName,
+                    'photo': profile.photos ? profile.photos[0].value : ''
+                  }
 
-            return done(null, profile);
+                  newUser.save(function(err) {
+                    console.log('Saving user');
+                      if (err)
+                          throw err;
+                      return done(null, newUser)
+                  });
+                }
+              });
         });
     });
 
@@ -180,4 +184,3 @@ passport.use(jwtLogin);
 passport.use(localLogin);
 passport.use(facebookLogin);
 passport.use(googleLogin);
-passport.use(twitterLogin);
