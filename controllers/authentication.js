@@ -12,17 +12,21 @@ function generateToken(user) {
 }
 
 // Set user info from request
-function setUserInfo(request) {
+let setUserInfo = (user) => {
   return {
-    _id: request._id,
-    email: request.email,
-    role: request.role
-  };
+    _id: user._id,
+    email: user.email,
+    role: user.role,
+    anonymous: user.anonymous,
+    ownerID: user.ownerID,
+    website: user.website,
+    accounts: user.accounts,
+    profile: user.profile
+  }
 }
 
 // Login Route
 exports.login = function(req, res, next) {
-
   let userInfo = setUserInfo(req.user);
   console.log(req.user);
 
