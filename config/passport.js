@@ -73,12 +73,16 @@ let facebookLogin = new FacebookStrategy({
                     var newUser = new User();
                     newUser.autherticationType = 'facebook';
                     newUser.id = profile.id;
+                    // Only owner can login using facebook/google
+                    newUser.ownerID = profile.id;
                     newUser.email = profile.emails ? profile.emails[0].value : '';
                     newUser.profile = {
                       'givenName': profile.displayName,
                       'photo': profile.photos ? profile.photos[0].value : ''
-                    }
-                    accounts = []
+                    };
+                    newUser.role = "Owner";
+                    newUser.anonymous = false;
+                    accounts = [];
                     if (profile._json.accounts) {
                         profile._json.accounts.data.forEach(function(manage_page) {
                           page = {}
@@ -120,19 +124,22 @@ let googleLogin = new GoogleStrategy({
 
               if (user) {
                   // if a user is found, log them in
-                  console.log('User Found :'+user);
+                  console.log('User Found');
                   return done(null, user);
               } else {
                   // if the user isnt in our database, create a new user
                   var newUser = new User();
                   newUser.autherticationType = 'google';
                   newUser.id = profile.id;
+                  // Only owner can login using facebook/google
+                  newUser.ownerID = profile.id;
                   newUser.email = profile.emails ? profile.emails[0].value : '';
                   newUser.profile = {
                     'givenName': profile.displayName,
                     'photo': profile.photos ? profile.photos[0].value : ''
-                  }
-
+                  };
+                  newUser.role = "Owner";
+                  newUser.anonymous = false;
                   newUser.save(function(err) {
                     console.log('Saving user');
                       if (err)

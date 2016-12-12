@@ -6,8 +6,10 @@ const AuthenticationController = require('./controllers/authentication'),
     passport = require('passport');
 
 // Middleware to require login/auth
-const requireAuth = passport.authenticate('jwt', { session: false });
-const requireLogin = passport.authenticate('local', { session: false });
+let requireAuth = passport.authenticate('jwt', { session: false });
+let requireLogin = passport.authenticate('local', { session: false });
+let facebookAuth = passport.authenticate('facebook', { scope: ['email', 'user_birthday', 'pages_show_list']});
+let googleAuth = passport.authenticate('google', { scope : ['profile', 'email'] });
 
 // Constants for role types
 const REQUIRE_ADMIN = "Admin",
@@ -58,7 +60,7 @@ module.exports = function(app) {
 
   //for facebook authentication
   // route for facebook authentication and login
-    app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_birthday', 'pages_show_list']}));
+  app.get('/auth/facebook', facebookAuth);
 
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
@@ -67,8 +69,11 @@ module.exports = function(app) {
             failureRedirect : '/'
         }));
 
+    app.get('/profile', isLoggedIn, AuthenticationController.login);
+
+
     //Google Auth
-    app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    app.get('/auth/google', googleAuth);
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',
             passport.authenticate('google', {
@@ -76,14 +81,15 @@ module.exports = function(app) {
                     failureRedirect : '/'
             }));
 
-    app.get('/profile', isLoggedIn, function(req, res) {
-        //Redirect Owner to the Dashboard after succesful authentication
-        res.redirect('http://localhost:4730/#/app/dashboard');
-    
-        // res.status(200).send({
-        //     user: req.user
-        // });
-    });
+    //TODO Kanad changes does not account for jwt token
+    // app.get('/profile', isLoggedIn, function(req, res) {
+    //     //Redirect Owner to the Dashboard after succesful authentication
+    //     res.redirect('http://localhost:4730/#/app/dashboard');
+    //
+    //     // res.status(200).send({
+    //     //     user: req.user
+    //     // });
+    // });
 
     // route for logging out
     app.get('/logout', function(req, res) {
@@ -91,6 +97,8 @@ module.exports = function(app) {
         res.redirect('/');
     });
 
+    //Route to update owners' welcome message
+    //apiRoutes.get()
     // Set url for API group routes
     app.use('/api', apiRoutes);
 
