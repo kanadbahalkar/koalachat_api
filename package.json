@@ -8,6 +8,9 @@
   },
   "author": "Kanad Bahalkar",
   "license": "ISC",
+  "engines": {
+    "node": "6.9.2"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
