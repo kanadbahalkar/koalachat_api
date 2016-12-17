@@ -13,6 +13,11 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  welcomeMessage:{
+    type: String,
+    required: false,
+    default: "Hey there! Are you looking for something specific? Let me know, I\'m here to answer your questions ... :)"
+  },
   website: {
     type: String,
     required: false

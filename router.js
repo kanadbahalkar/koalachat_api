@@ -1,6 +1,7 @@
 const AuthenticationController = require('./controllers/authentication'),
     // UserController = require('./controllers/user'),
     ChatController = require('./controllers/chat'),
+    profileController = require('./controllers/profile'),
     express = require('express'),
     passportService = require('./config/passport'),
     passport = require('passport');
@@ -20,7 +21,8 @@ module.exports = function(app) {
   // Initializing route groups
   const apiRoutes = express.Router(),
         authRoutes = express.Router(),
-        chatRoutes = express.Router();
+        chatRoutes = express.Router(),
+        profileRouters = express.Router();
 
   // Auth Routes
   // Set auth routes as subgroup/middleware to apiRoutes
@@ -97,8 +99,10 @@ module.exports = function(app) {
         res.redirect('/');
     });
 
+    //apiRoutes.post('/profile/welcome-message', requireAuth, profileController.updateWelcomeMessage);
+    apiRoutes.use('/profile', profileRouters);
     //Route to update owners' welcome message
-    //apiRoutes.get()
+    profileRouters.post('/welcome-message', requireAuth, profileController.updateWelcomeMessage);
     // Set url for API group routes
     app.use('/api', apiRoutes);
 

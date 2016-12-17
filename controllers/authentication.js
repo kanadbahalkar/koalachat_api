@@ -27,6 +27,15 @@ let setUserInfo = (user) => {
 
 // Login Route
 exports.login = function(req, res, next) {
+  // console.log("Request :");
+  // for (let prop in req) {
+  //   console.log(prop);
+  // }
+
+  // console.log("\nResponse :");
+  // for (let prop in res) {
+  //   console.log(prop);
+  // }
   let userInfo = setUserInfo(req.user);
   console.log(req.user);
 
