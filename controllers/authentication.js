@@ -19,6 +19,7 @@ let setUserInfo = (user) => {
     role: user.role,
     anonymous: user.anonymous,
     ownerID: user.ownerID,
+    userID: user.userID,
     website: user.website,
     accounts: user.accounts,
     profile: user.profile
@@ -52,11 +53,14 @@ exports.registerowner = function(req, res, next) {
   var oid = Math.random().toString(36).substring(3,16)+ +new Date;
 
   // Check for registration errors
-  const email = req.body.email;
-  const website = req.body.website;
-  const password = req.body.password;
-  const anonymous = req.body.anonymous;
-  const role = req.body.role;
+  let email = req.body.email;
+  let website = req.body.website;
+  let password = req.body.password;
+  let anonymous = req.body.anonymous;
+  let role = req.body.role;
+  let firstName = req.body.firstName;
+  let lastName = req.body.lastName;
+  let givenName = req.body.givenName;
 
   // Return error if no email provided
   if (!email) {
@@ -90,9 +94,15 @@ exports.registerowner = function(req, res, next) {
         email: email,
         password: password,
         website: website,
-        ownerID : oid,
+        ownerID: oid,
+        userID: oid,
         role: role,
-        anonymous: anonymous
+        anonymous: anonymous,
+        profile: {
+          firstName: firstName,
+          lastName: lastName,
+          givenName: givenName === '' ? firstName + ' ' + lastName : givenName
+        }
       });
 
 
@@ -119,6 +129,15 @@ exports.registervisitor = function(req, res, next) {
   // Check for registration errors
   const email = req.body.email || config.default_email;
   const password = req.body.password || config.default_password;
+  let id = Math.random().toString(36).substring(3,16)+ +new Date;
+  let ownerID = req.body.ownerID;
+  let role = req.body.role;
+
+  //if Visitor is not associated with owner then don't allow to create
+  if (!ownerID) {
+    console.log("Register visitor request is not associated with ownerID");
+    return res.status(422).send({ error: "Register visitor request is not associated with ownerID" });
+  }
 
   User.findOne({ email: email }, function(err, existingUser) {
       if (err) { return next(err); }
@@ -132,6 +151,9 @@ exports.registervisitor = function(req, res, next) {
         let user = new User({
           email: email,
           password: password,
+          userID: id,
+          ownerID: ownerID,
+          role: role,
           profile: { firstName: 'Anonymous', lastName: 'Koala' }
         });
 

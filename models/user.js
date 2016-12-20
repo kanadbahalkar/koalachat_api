@@ -52,7 +52,7 @@ const UserSchema = new Schema({
     enum: ['local', 'google', 'facebook', 'twitter'],
     default: 'local'
   },
-  id: {
+  userID: {
     type: String,
     required: false
   },
@@ -95,8 +95,12 @@ UserSchema.pre('save', function(next) {
 
 // Method to compare password for login
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+  console.log("password:"+candidatePassword);
+  console.log("hash :"+this.password);
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if (err) { return cb(err); }
+    if (err) {
+       return cb(err);
+     }
 
     cb(null, isMatch);
   });
