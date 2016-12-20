@@ -103,6 +103,9 @@ module.exports = function(app) {
     apiRoutes.use('/profile', profileRouters);
     //Route to update owners' welcome message
     profileRouters.post('/welcome-message', requireAuth, profileController.updateWelcomeMessage);
+
+    //Route to get owner's info
+    profileRouters.post('/getownerinfo', requireAuth, profileController.getOwnerInfo);
     // Set url for API group routes
     app.use('/api', apiRoutes);
 
