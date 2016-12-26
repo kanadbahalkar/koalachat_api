@@ -4,7 +4,8 @@ const AuthenticationController = require('./controllers/authentication'),
     profileController = require('./controllers/profile'),
     express = require('express'),
     passportService = require('./config/passport'),
-    passport = require('passport');
+    passport = require('passport'),
+    WidgetController = require('./controllers/widget_controller');
 
 // Middleware to require login/auth
 let requireAuth = passport.authenticate('jwt', { session: false });
@@ -39,6 +40,9 @@ module.exports = function(app) {
 
   // Set chat routes as a subgroup/middleware to apiRoutes
   apiRoutes.use('/chat', chatRoutes);
+
+  // widget routes -
+  apiRoutes.use('/widget/embedcode', WidgetController.embedCode);
 
   // View Visitors and an authenticated Owner
   // chatRoutes.get('/visitors', requireAuth, ChatController.getVisitors);
