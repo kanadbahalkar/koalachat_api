@@ -31,7 +31,10 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/dashboard', express.static('../client'));
+app.use('/', express.static(__dirname + '/public'));
+app.route('/*').get(function(req, res) { 
+    return res.sendFile(__dirname + '/public/index.html'); 
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
