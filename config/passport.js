@@ -82,10 +82,10 @@ let facebookLogin = new FacebookStrategy({
                     };
                     newUser.role = "Owner";
                     newUser.anonymous = false;
-                    let accounts = [];
+                    var accounts = [];
                     if (profile._json.accounts) {
                         profile._json.accounts.data.forEach(function(manage_page) {
-                          let page = {};
+                          var page = {};
                           page.id = manage_page.id;
                           page.access_token = manage_page.access_token;
                           page.name = manage_page.name;

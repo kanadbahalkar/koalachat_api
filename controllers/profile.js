@@ -1,4 +1,4 @@
-let User = require('../models/user');
+var User = require('../models/user');
 
 // exports.updateWelcomeMessage = function(req, res, next) {
 //   //find owner in database

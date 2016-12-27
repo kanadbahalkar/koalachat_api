@@ -8,10 +8,10 @@ const AuthenticationController = require('./controllers/authentication'),
     WidgetController = require('./controllers/widget_controller');
 
 // Middleware to require login/auth
-let requireAuth = passport.authenticate('jwt', { session: false });
-let requireLogin = passport.authenticate('local', { session: false });
-let facebookAuth = passport.authenticate('facebook', { scope: ['email', 'user_birthday', 'pages_show_list']});
-let googleAuth = passport.authenticate('google', { scope : ['profile', 'email'] });
+var requireAuth = passport.authenticate('jwt', { session: false });
+var requireLogin = passport.authenticate('local', { session: false });
+var facebookAuth = passport.authenticate('facebook', { scope: ['email', 'user_birthday', 'pages_show_list']});
+var googleAuth = passport.authenticate('google', { scope : ['profile', 'email'] });
 
 // Constants for role types
 const REQUIRE_ADMIN = "Admin",
