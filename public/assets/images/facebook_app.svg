@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>facebook_app</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#067EE6" offset="0%"></stop>
+            <stop stop-color="#0248C8" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="8.1.2.-Apps---Chatbot-Integrations---Coming-Soon" transform="translate(-574.000000, -320.000000)" fill="url(#linearGradient-1)">
+            <g id="Top-Bar">
+                <g id="Group-2" transform="translate(470.000000, 120.000000)">
+                    <path d="M134.667,200 L105.334,200 C104.597,200 104,200.597 104,201.333 L104,230.667 C104,231.403 104.597,232 105.334,232 L121,232 L121,220 L117,220 L117,215 L121,215 L121,211 C121,206.867 123.617,204.833 127.304,204.833 C129.07,204.833 130.588,204.965 131.03,205.023 L131.03,209.343 L128.473,209.344 C126.468,209.344 126,210.297 126,211.695 L126,215 L131,215 L130,220 L126,220 L126.08,232 L134.667,232 C135.403,232 136,231.403 136,230.667 L136,201.333 C136,200.597 135.403,200 134.667,200" id="facebook_app"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

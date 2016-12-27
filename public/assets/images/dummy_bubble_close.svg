@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#389BFF" offset="0%"></stop>
+            <stop stop-color="#0054FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3.1.-Onboarding---Welcome-Message" transform="translate(-1360.000000, -732.000000)">
+            <g id="Group-3" transform="translate(1170.000000, 390.000000)">
+                <g id="dummy_bubble" transform="translate(10.000000, 260.000000)">
+                    <g id="Group" filter="url(#filter-1)" transform="translate(190.000000, 90.000000)">
+                        <path d="M19.54075,0 C22.5525,0 24.058,0 25.67925,0.5125 C27.44925,1.15675 28.84325,2.55075 29.4875,4.32075 C30,5.94175 30,7.44775 30,10.45925 L30,19.54075 C30,22.5525 30,24.058 29.4875,25.67925 C28.84325,27.44925 27.44925,28.84325 25.67925,29.48725 C24.058,30 22.5525,30 19.54075,30 L10.45925,30 C7.4475,30 5.94175,30 4.32075,29.48725 C2.55075,28.84325 1.15675,27.44925 0.5125,25.67925 C0,24.058 0,22.5525 0,19.54075 L0,10.45925 C0,7.44775 0,5.94175 0.5125,4.32075 C1.15675,2.55075 2.55075,1.15675 4.32075,0.5125 C5.94175,0 7.4475,0 10.45925,0 L19.54075,0 Z" id="Icon" fill="url(#linearGradient-2)"></path>
+                        <path d="M14,14 L9.00684547,14 C8.44994876,14 8,14.4477153 8,15 C8,15.5561352 8.45078007,16 9.00684547,16 L14,16 L14,20.9931545 C14,21.5500512 14.4477153,22 15,22 C15.5561352,22 16,21.5492199 16,20.9931545 L16,16 L20.9931545,16 C21.5500512,16 22,15.5522847 22,15 C22,14.4438648 21.5492199,14 20.9931545,14 L16,14 L16,9.00684547 C16,8.44994876 15.5522847,8 15,8 C14.4438648,8 14,8.45078007 14,9.00684547 L14,14 Z" id="Combined-Shape" fill="#FFFFFF" transform="translate(15.000000, 15.000000) rotate(45.000000) translate(-15.000000, -15.000000) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

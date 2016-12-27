@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>tooltip</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="4.1.-Measure-(Analytics-Dashboard)" transform="translate(-440.000000, -146.000000)" fill="#FFFFFF">
+            <g id="Group" transform="translate(240.000000, 100.000000)">
+                <g id="tooltip" transform="translate(200.000000, 44.000000)">
+                    <circle id="Oval-2" fill-opacity="0.200000018" cx="8" cy="10" r="8"></circle>
+                    <text id="breadcrumbs" font-family="Avenir-Book, Avenir" font-size="12" font-weight="normal" line-spacing="20">
+                        <tspan x="5.108" y="12">?</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

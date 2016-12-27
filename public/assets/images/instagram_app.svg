@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>instagram_app</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#B100F4" offset="0%"></stop>
+            <stop stop-color="#7900E4" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="8.1.2.-Apps---Chatbot-Integrations---Coming-Soon" transform="translate(-1094.000000, -320.000000)" fill="url(#linearGradient-1)">
+            <g id="Top-Bar">
+                <g id="Group-2" transform="translate(470.000000, 120.000000)">
+                    <path d="M652,229 L628,229 C627.448,229 627,228.552 627,228 L627,213 L631,213 C630.479,213.75 630.303,215.149 630.303,216.037 C630.303,221.392 634.67,225.749 640.037,225.749 C645.405,225.749 649.772,221.392 649.772,216.037 C649.772,215.149 649.646,213.771 649,213 L653,213 L653,228 C653,228.552 652.552,229 652,229 M640.037,209.898 C643.436,209.898 646.191,212.647 646.191,216.037 C646.191,219.428 643.436,222.177 640.037,222.177 C636.639,222.177 633.884,219.428 633.884,216.037 C633.884,212.647 636.639,209.898 640.037,209.898 M648,204 L651,204 C651.552,204 652,204.448 652,205 L652,208 C652,208.552 651.552,209 651,209 L648,209 C647.448,209 647,208.552 647,208 L647,205 C647,204.448 647.448,204 648,204 M652.196,200 L627.804,200 C625.703,200 624,201.699 624,203.795 L624,228.205 C624,230.301 625.703,232 627.804,232 L652.196,232 C654.297,232 656,230.301 656,228.205 L656,203.795 C656,201.699 654.297,200 652.196,200" id="instagram_app"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

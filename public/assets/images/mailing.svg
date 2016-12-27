@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="267px" height="213px" viewBox="0 0 267 213" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>mailing</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="12" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#199BFF" offset="0%"></stop>
+            <stop stop-color="#0B61FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3.4.-Onboarding---Embed-Code" transform="translate(-1156.000000, -672.000000)">
+            <g id="Group-3" transform="translate(1170.000000, 474.000000)">
+                <g id="mailing" filter="url(#filter-1)" transform="translate(10.000000, 220.000000)">
+                    <path d="M184.258594,2.80737824 L93.7500781,60.3762642 L3.2415625,2.80737824 C1.25597656,4.63939896 0,7.25325389 0,10.1526632 L0,123.320368 C0,126.233969 1.26800781,128.858575 3.27035156,130.691456 L93.7496484,73.1518135 L186.728437,133.328964 L187.499297,133.328964 L187.499297,10.1526632 C187.500156,7.25325389 186.24418,4.63939896 184.258594,2.80737824 Z" id="Shape" fill-opacity="0.400000006" fill="#B5CFFF"></path>
+                    <path d="M10.0001172,133.328964 L186.729297,133.328964 L123.613359,66.7367306 L63.8863672,66.7367306 L3.27035156,130.691886 C5.05097656,132.322642 7.41082031,133.328964 10.0001172,133.328964 Z" id="Shape" fill="#85B0FF"></path>
+                    <path d="M10.0001172,0.144497409 C7.39707031,0.144497409 5.025625,1.16156995 3.2415625,2.80780829 L86.8510156,90.619658 C90.6455859,94.6045181 96.8541406,94.6045181 100.648711,90.619658 L184.258594,2.80737824 C182.474531,1.1611399 180.103086,0.144067358 177.500039,0.144067358 L10.0001172,0.144067358 L10.0001172,0.144497409 Z" id="Shape" fill="url(#linearGradient-2)"></path>
+                    <ellipse id="Oval" fill="#F14742" cx="187.500156" cy="133.328104" rx="32.4998437" ry="32.527399"></ellipse>
+                    <path d="M188.500156,149.593093 C186.428633,149.593093 184.750273,147.912881 184.750273,145.840031 L184.750273,129.362596 C183.431133,129.827912 181.904453,129.533326 180.848281,128.476689 C179.383906,127.011073 179.383906,124.634606 180.848281,123.16899 L185.848125,118.164907 C186.921055,117.091067 188.534102,116.769819 189.935313,117.351249 C191.336953,117.932249 192.250469,119.301104 192.250469,120.818756 L192.250469,145.840031 C192.250039,147.912451 190.57168,149.593093 188.500156,149.593093 Z" id="Shape" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

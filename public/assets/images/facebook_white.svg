@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3.2.-Onboarding---Fill-up-User-Profile" transform="translate(-447.000000, -500.000000)">
+            <g id="Group-3" transform="translate(447.000000, 450.000000)">
+                <g id="Group" transform="translate(0.000000, 50.000000)">
+                    <g id="Group-6">
+                        <rect id="Base" fill="#3B5998" x="0" y="0" width="40" height="40"></rect>
+                        <path d="M25.6485215,20.007982 L22.9341398,20.007982 L22.9341398,30 L18.9119624,30 L18.9119624,20.007982 L17,20.007982 L17,16.4764879 L18.9119624,16.4764879 L18.9119624,14.192261 C18.9119624,12.5563075 19.6646505,10 22.9711022,10 L25.9516129,10.0117994 L25.9516129,13.4398751 L23.7883065,13.4398751 C23.4361559,13.4398751 22.9354839,13.6217248 22.9354839,14.401874 L22.9354839,16.477182 L26,16.477182 L25.6485215,20.007982 L25.6485215,20.007982 Z" id="facebook_white" fill="#FFFFFF"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

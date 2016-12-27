@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>imessage</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="50%" x2="99.9999992%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#00EA66" offset="0%"></stop>
+            <stop stop-color="#00D50F" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="51.7743781%" y1="98.785882%" x2="51.7743781%" y2="43.2455155%" id="linearGradient-2">
+            <stop stop-color="#E5F5D9" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="4.1.-Measure-(Analytics-Dashboard)" transform="translate(-270.000000, -451.000000)">
+            <g id="Group-Copy-2" transform="translate(240.000000, 260.000000)">
+                <g id="imessage" transform="translate(30.000000, 191.000000)">
+                    <rect id="rect2383" fill="url(#linearGradient-1)" transform="translate(7.500000, 7.500000) rotate(90.000000) translate(-7.500000, -7.500000) " x="-4.68750105e-08" y="4.68750105e-08" width="15" height="15" rx="4.6875"></rect>
+                    <path d="M7.50289636,3.98452235 C6.67966097,3.98452235 5.91825183,4.19738173 5.28323738,4.56408485 C5.17565855,4.62617079 5.0700562,4.68863173 4.97028253,4.7591786 C4.8741862,4.82740516 4.78602136,4.90238173 4.69789613,4.9779911 C4.69469691,4.98056923 4.68949613,4.98103798 4.68630628,4.98385048 C3.96529331,5.60194423 3.51562472,6.45345204 3.51562472,7.39660048 C3.51562472,8.32606141 3.95467144,9.16395204 4.65732886,9.77974891 C4.66074605,9.80482704 4.66312495,9.83168641 4.66312495,9.85071766 C4.66312495,10.3948427 4.24455206,10.8381395 3.71267034,10.8442099 C3.9713798,10.9525614 4.26182644,11.0157255 4.55880698,11.0157255 C5.0721855,11.0157255 5.53454081,10.8246395 5.90914777,10.5248739 C6.39696652,10.7074286 6.93658003,10.8146317 7.50289753,10.8146317 C9.70335558,10.8146317 11.4843747,9.28287391 11.4843747,7.39660048 C11.4843747,5.51032704 9.70335558,3.98447548 7.50289753,3.98447548 L7.50289636,3.98452235 Z" id="path4193" fill="url(#linearGradient-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

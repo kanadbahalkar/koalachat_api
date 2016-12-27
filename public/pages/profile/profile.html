@@ -1,0 +1,64 @@
+<div ng-controller="navbarController">
+    <div class="sidebar" sidebar-directive="state">
+        <ul class="navigation">
+            <li class="navigation-items list-header"> Profile </li>
+            <li class="navigation-items"> <a href="/Profile"> <img src="/assets/images/overview.svg"/> Overview</a> </li>
+            <li class="navigation-items"> <a href="/Profile/Billing"> <img src="/assets/images/billing.svg"/> Billing</a> </li>
+            <li class="navigation-items"> <a href="/Profile/Team"> <img src="/assets/images/team.svg"/> Team</a> </li>
+            <li class="navigation-items"> <a href="/Profile/EmnedCodes"> <img src="/assets/images/embedcode.svg"/> Embed Codes</a> </li>
+            <li class="navigation-items"> <a href="/Profile/Notifications"> <img src="/assets/images/notifications.svg"/> Notifications</a> </li>
+        </ul>
+    </div>
+</div>
+
+<div class="koalabot_content">
+    <div class="profile_header">
+        <img src="assets/images/profile_header.png" />
+        <img src="assets/images/profile_pic.png" class="profile_pic"/>
+        <p class="user_fullname">Rachel Curtis</p>
+        <p class="user_profile_completion">(Profile 80% complete)</p>
+        <p class="user_city">Boston, MA</p>
+    </div>
+    <div class="profile_info">
+        <div class="profile_info_col">
+            <label class="profile_info_label">Name</label>
+            <input type="text" class="profile_info_textbox" value="Rachel Curtis" />
+
+            <label class="profile_info_label">Business Name</label>
+            <input type="text" class="profile_info_textbox" value="KoalaChat" />
+
+            <label class="profile_info_label">Business Website</label>
+            <input type="text" class="profile_info_textbox" value="www.koalachat.com" />
+
+            <label class="profile_info_label">Job Title</label>
+            <input type="text" class="profile_info_textbox profile_info_textbox_empty" value="Type in your job title here..." />
+
+            <label class="profile_info_label">Location</label>
+            <input type="text" class="profile_info_textbox" value="Boston, MA" />
+
+            <label class="profile_info_label">Account Created</label>
+            <label class="profile_info_label">On 14th Nov 2016</label>
+        </div>
+
+        <div class="profile_info_col">
+            <label class="profile_info_label">Username</label>
+            <input type="text" class="profile_info_textbox" value="rachel@koalachat.com" />
+
+            <label class="profile_info_label">Password</label>
+            <input type="password" class="profile_info_textbox" value="lulzpasswordislulz" />
+
+            <a class="text_button" href="/">Change Password</a>
+
+            <label class="profile_info_label">Notifications</label>
+            <input type="checkbox" name="vehicle" value="Car"> <label class="checkbox_label">Send me email when Chief Koala has any cool updates</label>
+        </div>
+
+        <div class="profile_info_col">
+            <label class="profile_info_label">Connect Your Social Profiles</label>
+            <a class="btn_social_profile" href="/"> <img class="social_button_icon" src="assets/images/facebook_white.svg" /> Facebook</a>
+            <a class="btn_social_profile" href="/"> <img class="social_button_icon" src="assets/images/google_plus_colored.svg" /> Google</a>
+            <a class="btn_social_profile" href="/"> <img class="social_button_icon" src="assets/images/twitter_white.svg" /> Twitter</a>
+            <a class="btn_social_profile" href="/"> <img class="social_button_icon" src="assets/images/instagram_white.svg" /> Instagram</a>
+        </div>
+    </div>
+</div>

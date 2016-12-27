@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="291px" height="169px" viewBox="0 0 291 169" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow-bottom-right</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="0.-Login-or-Register" transform="translate(-842.000000, -603.000000)">
+            <g id="Pointer" transform="translate(750.000000, 525.000000)">
+                <g id="arrow-bottom-right" transform="translate(85.000000, 0.000000)">
+                    <path d="M239.960482,295.968523 C239.960482,295.968523 125.989447,264.474193 77.3004598,188.898899 C28.6114722,113.323604 58.6957345,28.3559169 58.6957345,28.3559169" id="Line" stroke="#0B61FF" stroke-width="2" stroke-linecap="square" transform="translate(144.732624, 162.162220) rotate(-26.000000) translate(-144.732624, -162.162220) "></path>
+                    <polygon id="Triangle" fill="#0B61FF" transform="translate(292.000000, 240.000000) rotate(79.000000) translate(-292.000000, -240.000000) " points="292 234 298 246 286 246"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

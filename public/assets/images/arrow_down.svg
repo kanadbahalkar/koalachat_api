@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="58px" height="117px" viewBox="0 0 58 117" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow_down</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3.1.-Onboarding---Welcome-Message" transform="translate(-1172.000000, -629.000000)">
+            <g id="Group-3" transform="translate(1170.000000, 490.000000)">
+                <g id="arrow_down" transform="translate(3.000000, 141.000000)">
+                    <path d="M23.8839595,110.853117 C23.8839595,110.853117 -2.0277953,97.6119999 0.499781329,59.2015698 C3.02735796,20.7911397 55.601016,0.123359762 55.601016,0.123359762" id="Line" stroke="#0B61FF" stroke-width="2" stroke-linecap="square"></path>
+                    <polygon id="Triangle" fill="#0B61FF" transform="translate(25.000000, 111.000000) rotate(125.000000) translate(-25.000000, -111.000000) " points="25 105 31 117 19 117"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

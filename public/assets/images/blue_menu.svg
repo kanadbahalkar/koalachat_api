@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="57px" height="50px" viewBox="0 0 57 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>blue_menu</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="2" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="12" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="5.1---Messaging---Inbox" transform="translate(-522.000000, -123.000000)" fill="#0B61FF">
+            <g id="Conversations" filter="url(#filter-1)" transform="translate(240.000000, 60.000000)">
+                <g id="item3" transform="translate(24.000000, 78.000000)">
+                    <path d="M284.5,12 C285.629673,12 286.545455,11.1045695 286.545455,10 C286.545455,8.8954305 285.629673,8 284.5,8 C283.370327,8 282.454545,8.8954305 282.454545,10 C282.454545,11.1045695 283.370327,12 284.5,12 Z M279.045455,12 C280.175128,12 281.090909,11.1045695 281.090909,10 C281.090909,8.8954305 280.175128,8 279.045455,8 C277.915781,8 277,8.8954305 277,10 C277,11.1045695 277.915781,12 279.045455,12 Z M289.954545,12 C291.084219,12 292,11.1045695 292,10 C292,8.8954305 291.084219,8 289.954545,8 C288.824872,8 287.909091,8.8954305 287.909091,10 C287.909091,11.1045695 288.824872,12 289.954545,12 Z" id="blue_menu"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

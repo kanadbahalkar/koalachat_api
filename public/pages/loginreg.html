@@ -1,0 +1,20 @@
+<div id="authController" ng-controller="authController">
+    <img class="koala-eyes" src="assets/images/koala-eyes.svg" alt="KoalaChat FTW"/>
+
+    <div class="fabs">
+        <div class="chat white">
+            <div class="chat_login">
+                <p class="register_tip_social">You could also login with your social media...</p>
+                <button id="fb_login" class="button fb_login" ng-click="fblogin()">Facebook</button>
+                <button id="gmail_login" class="button gmail_login" ng-click="gmaillogin()">Gmail</button>
+
+                <input id="website" name="website" placeholder="Your Website Link" class="chat_field chat_message" ng-model="website" ></input>
+                <input id="email" name="chat_message" placeholder="Your Cool Email" class="chat_field chat_message" ng-model="email" ></input>
+                <input id="password" type="password" name="chat_message" placeholder="Your Strong Password" class="chat_field chat_message" ng-model="password" ></input>
+                <button id="email_login" class="button login">Login</button>
+                <button id="email_reg" class="button register">Register</button>
+            </div>
+        </div>
+        <a id="prime" class="fab chathead-closed"><i class="prime zmdi"></i></a>
+    </div>
+</div>

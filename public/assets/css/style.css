@@ -1,0 +1,1426 @@
+@font-face {
+font-family: 'Avenir Book';
+src:
+    local('Avenir Book'),
+    url('/assets/fonts/AvenirLTStd-Book.otf');
+}
+
+@font-face {
+font-family: 'Avenir Light';
+src:
+    local('Avenir Light'),
+    url('/assets/fonts/AvenirLTStd-Light.otf');
+}
+
+body {
+    font-family: 'Avenir Book';
+    background: #FDFDFD;
+}
+
+a {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.container {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+/*Top nav shit*/
+.navbar {
+    background-color: #2D3035;
+    border: none;
+    border-radius: 0px;
+    height: 60px;
+}
+
+.topnav {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+.logo {
+    height: 60px;
+    padding: 15px 40px 15px 40px;
+    width: 240px;
+    text-align: center;
+}
+
+.logo > img {
+    display: initial;
+}
+
+.notification{
+    height: 60px;
+    width: 60px;
+    display: initial;
+    text-align: center;
+}
+
+.notification > img {
+    display: initial;
+}
+
+.search {
+    float: right;
+    height: 60px;
+}
+
+.search > a {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    width: auto;
+}
+
+.profile {
+    float: right;
+    width: auto;
+    height: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.profile > .name {
+    padding: 0px;
+    line-height: 60px;
+    height: 60px;
+    width: auto;
+    text-align: center;
+    font-size: 14px;
+}
+
+.profile > a > .image {
+    padding: 15px 0px 15px 10px;
+    line-height: 60px;
+    display: inline !important;
+}
+
+.profile > a > .down-arrow {
+    line-height: 60px;
+    padding-left: 10px;
+    display: inline !important;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+}
+
+.nav-item > a {
+    height: 60px;
+    width: 120px;
+    text-align: center;
+    line-height: 60px;
+    padding: 0px;
+    font-size: 14px;
+}
+
+.nav-item > a:hover {
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    padding: 0px;
+    background-color: rgba(11, 97, 255, 0.1) !important;
+    border-bottom: solid rgb(11, 97, 255) 4px;
+    font-size: 14px;
+}
+
+/*Left Nav Shit*/
+.sidebar {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 240px;
+    height: 100%;
+}
+
+.navigation {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #070707;
+    height: 100%;
+}
+
+.navigation-items.list-header {
+    text-transform: uppercase;
+    margin-left: 30px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    height: 60px;
+    font-size: 14px;
+    color: #767B7B;
+}
+
+.navigation-items > a > img {
+    padding-right: 30px;
+}
+
+.navigation-items{
+    height: 40px;
+}
+
+.navigation-items a {
+    padding-left: 30px;
+    display: block;
+    color: white;
+    line-height: 40px;
+    font-size: 14px;
+    text-decoration: none;
+    width: 100%;
+    height: 40px;
+}
+
+.navigation-items a:hover {
+    background-color: rgba(11, 97, 255, 0.1) !important;
+    border-right: solid rgb(11, 97, 255) 4px;
+}
+
+/*Onboarding Screens Shit*/
+.embed_code_box {
+    width: auto;
+    padding-right: 300px;
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    height: auto;
+}
+
+.embed_code_box_body {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.onboarding-headline {
+    text-align: center;
+    color: rgb(11, 97, 255);
+    padding: 80px 180px 20px 180px;
+    margin: 0px;
+    line-height: 60px;
+}
+
+.onboarding-blurb {
+    text-align: center;
+    color: #4A4A4A;
+    padding: 0px 180px 80px 180px;
+    margin: 0px;
+    line-height: 30px;
+    font-size: 20px;
+}
+
+textarea.onboarding-textarea {
+    width: 70%;
+    height: 160px;
+    margin: 0 15%;
+    margin-bottom: 80px;
+    line-height: 30px;
+    font-size: 20px;
+    border-radius: 20px 20px 20px 4px;
+    border: 1px solid #FDFDFD;
+    box-shadow: 0px 1px 15px #FDFDFD;
+    padding: 20px;
+    overflow: hidden;
+    resize: none;
+    -ms-overflow-style: hidden;
+}
+
+.copy_code {
+    display: block;
+    text-align: right;
+    margin-right: 15%;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #0B61FF;
+    margin-bottom: 60px;
+}
+
+.copy_code:hover {
+    text-decoration: none;
+    color: rgb(11, 97, 255);
+}
+
+a.disabled {
+    color: #D8D8D8;
+    pointer-events: none;
+    cursor: default;
+}
+
+a:hover {
+    text-decoration: none;
+    color: rgb(11, 97, 255);
+}
+
+.back_left {
+    float: left;
+    text-decoration: none;
+    line-height: 40px;
+    color: rgb(11, 97, 255);
+}
+
+.back_right {
+    float: right;
+    line-height: 40px;
+    color: rgb(11, 97, 255);
+}
+
+.next_prev {
+    height: 40px;
+    width: 70%;
+    margin: 0 15%;
+}
+
+a.btn.btn_blue {
+    text-align: center;
+    margin: 0 auto !important;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.business_info {
+    border: none;
+    border-bottom: solid 1px #0B61FF;
+    background: none;
+    font-size: 16px;
+    line-height: 20px;
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+.business_info::-webkit-input-placeholder { /* Chrome */
+  color: #0B61FF;
+}
+business_info:-ms-input-placeholder { /* IE 10+ */
+  color: #0B61FF;
+}
+business_info::-moz-placeholder { /* Firefox 19+ */
+  color: #0B61FF;
+  opacity: 1;
+}
+business_info:-moz-placeholder { /* Firefox 4 - 18 */
+  color: #0B61FF;
+  opacity: 1;
+}
+
+.btn_blue {
+    text-align: center;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    width: 200px;
+    color: #FFF;
+    text-decoration: none;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #0B61FF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+}
+
+.btn_blue:hover {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.social_buttons {
+    width: 100%;
+}
+
+.btn_white {
+    display: block;
+    text-align: left;
+    padding: 0;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border: none;
+    font-size: 14px;
+    border-radius: 20px 20px 20px 4px;
+    width: 220px;
+    color: #0B61FF;
+    text-decoration: none;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #FFFFFF; /* For browsers that do not support gradients */
+}
+
+.btn_white:hover {
+    text-decoration: none;
+    color: #FFF;
+    -o-transition:color .2s ease-in, background .2s ease-in;
+    -ms-transition:color .2s ease-in, background .2s ease-in;
+    -moz-transition:color .2s ease-in, background .2s ease-in;
+    -webkit-transition:color .2s ease-in, background .2s ease-in;
+    /* ...and now override with proper CSS property */
+    transition:color .2s ease-in, background .2s ease-in;
+    
+    background: #0B61FF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+}
+
+.social_button_icon {
+    margin-left: auto;
+    margin-right: 10px;
+    border-radius: 20px 0px 0px 4px;
+}
+
+.platforms {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.button_column {
+    display: inline-block;
+}
+
+#button_column1 {
+    display: inline-block;
+    margin-right: 10px;
+}
+#button_column2 {
+    vertical-align:top;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.faqs_url {
+    display: inline-block;
+    line-height: 40px;
+    margin-bottom: 80px;
+    width: 60%;
+    float: left; 
+}
+
+.faqs_textarea {
+    display: inline-block;
+    line-height: 30px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    width: 100%; 
+    border: none;
+    border-bottom: 1px solid #B6B6B6;
+    background: none;
+    overflow: hidden;
+    resize: none;
+}
+
+.add_faq_url_btn {
+    padding: 10px 15px; 
+    float: right; 
+    vertical-align: top;
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.faq_collector {
+    width: 100%;
+    padding: 0 15%;
+    display: inline-block;
+}
+
+.date_text {
+    color: #B6B6B6; 
+    font-size: 14px; 
+    float: right;
+    width: auto;
+    text-align: right;
+    line-height: 40px; 
+    margin-bottom: 20px;
+}
+
+aside.right_side {
+    width: 300px;
+    float: right !important;
+    right: 0px;
+    top: 0px;
+    position: absolute;
+    background: #FFF;
+    height: 100%;
+    z-index: -999;
+}
+
+aside.right_side p {
+    margin-top: 120%;
+    padding: 20px;
+    text-align: left;
+    background: #fff!important;
+}
+
+img.window_screen {
+    width: 90%;
+    padding-top: 100px;
+    float: right;
+}
+
+label#dummy_chat_bubble {
+    padding: 20px;
+    width: 80%;
+    background: #0B61FF;
+    color: #FFF;
+    border-radius: 20px 20px 4px 20px;
+    margin: 0 10%;
+    font-size: 14px;
+    font-family: 'Avenir Book';
+    letter-spacing: 1px;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #0B61FF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+}
+
+.img-hor-vert {
+    -moz-transform: scale(-1, 1);
+    -o-transform: scale(-1, 1);
+    -webkit-transform: scale(-1, 1);
+    transform: scale(-1, 1);
+}
+
+.img-hor {
+    -moz-transform: scale(1, -1);
+    -o-transform: scale(1, -1);
+    -webkit-transform: scale(1, -1);
+    transform: scale(1, -1);
+}
+
+img.dummy_chat_thread {
+    width: 90%;
+    bottom: 30px;
+    position: absolute;
+}
+
+img.dummy_bubble_close {
+    width: 25%;
+    float: right;
+    margin-right: 5%;
+}
+
+img.arrow_up {
+    position: relative;
+    right: -160px;
+    top: -100px;
+}
+
+img.arrow_upper {
+    position: relative;
+    right: -100px;
+    top: 65px;
+}
+
+img.arrow_down {
+    position: relative;
+    right: -30px;
+    top: -30px;
+    margin-bottom: -20px;
+}
+
+p.explainer-blurb {
+    font-size: 16px;
+    color: #4A4A4A;
+}
+
+/*Dashboard Shit*/
+.analytics_snapshot {
+    width: 960px;
+    margin: 40px auto 20px auto;
+    height: 140px;
+    padding: 30px;
+    color: #FFF;
+    border-radius: 4px;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #0B61FF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+}
+
+.analytics {
+    font-family: 'Avenir Light' !important;
+    display: inline-block;
+    text-align: center;
+    height: 80px;
+    vertical-align: middle;
+}
+
+.analytics:first-child {
+    width: 30%;
+    border-right: solid 1px #FFF;
+    float: left;
+}
+
+.analytics:nth-child(2) {
+    width: 40%;
+}
+
+.analytics:nth-child(3) {
+    width: 30%;
+    border-left: solid 1px #FFF;
+    float: right;
+}
+
+.analytics_datapoint {
+    font-size: 32px;
+    display: inline-block;
+    margin: 5px 0 5px 0;
+    line-height: 40px;
+}
+
+.analytics_explainer {
+    font-size: 14px;
+    margin: 0;
+}
+
+.tooltip_explainer {
+    display: inline-block;
+    width: 30px;
+    padding-top: 14px;
+    padding-left: 14px;
+    position: absolute;
+}
+
+.messaging_snapshot {
+    width: 960px;
+    margin: 0 auto 20px auto;
+}
+
+.messaging_overview {
+    display: inline-block;
+    margin: 0 auto 20px auto;
+    width: 470px;
+    height: 240px;
+    padding: 30px;
+    color: #4A4A4A;
+    border-radius: 4px;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #FFF;
+}
+
+.messages_per_channel {
+    float: left;
+    overflow: auto;
+}
+
+.messages_per_channel > table {
+    width: 100%;
+    font-size: 14px;
+}
+
+td > p {
+    margin-left: 20px;
+    margin-bottom: 0px;
+    line-height: 20px;
+}
+
+td {
+    padding-bottom: 20px;
+}
+
+td:nth-child(3) {
+    text-align: right;
+    color: #0B61FF;
+}
+
+.messaging_growth {
+    float: right;
+}
+
+.chart_title {
+    text-align: center;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0B61FF;
+    width: 100%;
+}
+
+.chart_axis_title {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4A4A4A;
+    width: 100%;
+}
+
+.dummy_chart {
+    width: 100%;
+    height: 130px;
+}
+
+.growthhack {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    color: #4A4A4A;
+    border-radius: 4px;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #FFF;
+}
+
+.growthhack_title {
+    display: inline-block;
+    text-align: left;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0B61FF;
+    width: 75%; 
+}
+
+.growthhack_blurb {
+    display: inline-block;
+    text-align: left;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4A4A4A;
+    width: 75%; 
+}
+
+.more_growthhacks {
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4A4A4A;
+    width: 180px;
+    float: right;
+    height: 40px;
+    line-height: 40px;
+    border: solid 1px #0B61FF;
+    border-radius: 20px 20px 20px 4px;
+}
+
+/*Inbox Shit*/
+.main_box {
+    float: left;
+    width: 100%;
+    background: #fff;
+    height: 100vh;
+    position: absolute;
+    top: 60px;
+    left: 240px;   
+}
+
+.list_user {
+    width: 340px;
+    box-shadow: 2px 0px 24px rgba(0, 0, 0, 0.3);
+    float: left;
+    height: 100%;
+    border-right: solid 1px #D8D8D8;
+}
+
+.green_circle {
+    width: 15px;
+    height: 15px;
+    background-color:#26C74C;
+    border: 2px solid #FFF;    
+    border-radius:50%;
+    -moz-border-radius:50%;
+    -webkit-border-radius:50%;
+    position: absolute;
+    margin: -3px 0px 0px -3px;
+}
+
+img.dot_position {
+    float: right;
+}
+
+ul.list {
+    padding: 0px;
+    list-style: none;
+}
+
+.main_box_search {
+    margin-left: 10px;
+    color: #767B7B;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+ul.list li.search_chat:hover {
+    background: none;
+    border: none;
+}
+
+ul.list li {
+    position: relative;
+    float: left;
+    padding: 12px 24px 12px 24px;
+    width: 100%;
+}
+
+ul.list li:hover {
+ background-color: rgba(11, 97, 255, 0.1);
+ border-right: 4px solid #0B61FF;
+}
+
+img.profile_icon {
+    width: 60px;
+    float: left;
+    padding-right: 15px;
+}
+
+ul.list li a {
+    text-decoration: none;
+    color: #222;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+span.name {
+    display: block;
+    line-height: 20px;
+    margin-bottom: 4px;
+    margin-top: 2px;
+    font-size: 16px;
+}
+
+span.name_details {
+    font-size: 14px;
+}
+
+span.name_time {
+    float:right;
+    font-size: 12px;
+    color: #B6B6B6;
+}
+
+img.small_icon {
+    width: 14px;
+    vertical-align: middle;
+}
+
+.chat_box {
+    width: 43%; /*Fallback if necessary*/
+    width: calc(100% - 820px);
+    float: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.chat_box h4 {
+    font-size: 14px;
+    margin: 24px 0px 24px 0px;
+    color: #767B7B;
+}
+
+.sender {
+    width: 100%;
+    display: block;
+    max-height: 240px;
+}
+
+.message_sender {
+    display: inline-block;
+    width: calc(60% - 50px);
+    text-align: right;
+    float: right;
+}
+
+.message_sender p.sent_message {
+    color: #FFF;
+    padding: 15px 20px 15px 20px;
+    margin-bottom: 2px;
+    border-radius: 20px;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #0B61FF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+}
+
+.sender_pic {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    float: right;
+}
+
+.receiver {
+    width: 100%;
+    display: block;
+    max-height: 240px;
+}
+
+.message_receiver {
+    display: inline-block;
+    width: calc(60% - 50px);
+    text-align: left;
+}
+
+.message_receiver p.received_message {
+    color: #4A4A4A;
+    padding: 15px 20px 15px 20px;
+    margin-bottom: 2px;
+    border-radius: 20px;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #FFF;
+}
+
+.receiver_pic {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+    float: left;
+}
+
+.message_timestamp {
+    color: #767B7B;
+    font-size: 12px;
+}
+
+.message_textbox {
+    position: absolute;
+    bottom: 0px;
+    background-color: #FFF;
+    padding-top: 20px;
+    width: 620px;
+    z-index: 99;
+    border-top: solid 1px #D8D8D8;
+    left: 340px;
+}
+
+input.attachfile {
+    opacity: 0;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    top: -30px;
+    cursor: pointer;
+}
+
+img.clip {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.attach {
+    width: 60px;
+    height: 40px;
+    float: left;
+}
+
+.input {
+    float: left;
+    width: 75%;
+}
+
+textarea.message_input {
+    width: 100%;
+    border: 0;
+    height: 90px;
+    overflow: hidden;
+    resize: none;
+    background: #FFF;
+    padding: 0px;
+}
+
+a.send {
+    text-decoration: none;
+    color: #0B61FF;
+    float: right;
+    margin-right: 30px;
+}
+
+.visitor_profile {
+    width: 240px;
+    text-align: center;
+    background: #222;
+    height: 100vh;
+    position: absolute;
+    display: inline-block;
+}
+
+.profile_pic_large img {
+    width: 75px;
+    margin: 20px;
+}
+
+h2.user_name {
+    color: #FDFDFD;
+    font-size: 16px;
+    margin: 0px;
+    line-height: 20px;
+}
+
+h3.location {
+    font-size: 14px;
+    color: #FDFDFD;
+    opacity: .4;
+    margin: 10px 0px 40px 0px;
+}
+
+.profile_edit {
+    text-align: left;
+    padding-left: 20px;
+    color: #FDFDFD;
+    font-size: 14px;
+}
+
+p.profile_title {
+    opacity: .4;
+    font-size: 14px;
+    margin: 20px 0px 0px 0px;
+}
+
+.visitor_nickname {
+    color: #FDFDFD;
+    text-decoration: none;
+    line-height: 20px;
+    margin-bottom: 20px;
+}
+
+.profile_edit a img {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/*Contacts Shit*/
+.contacts_list {
+    position: absolute;
+    left: 240px;
+    width: calc(100% - 240px);
+}
+
+.search_contacts {
+    position: absolute;
+    left: 260px;
+}
+
+.contacts_table {
+    margin-top: 40px;
+    width: 100%;
+    text-align: left;
+}
+
+.contacts_table th {
+    color: #B6B6B6;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+th.contact_pic, td.contact_pic {
+    width: 5%;
+}
+
+th.contact_first_seen, th.contact_last_seen, th.contact_visits, th.contact_score {
+    width: 10%;
+}
+
+th.contact_location, th.contact_bounced_in {
+    width: 15%;
+}
+
+th.contact_name {
+    width: 20%;
+}
+
+table.contacts_table > tbody > tr {
+    height: 40px;
+}
+
+table.contacts_table > tbody > tr:hover {
+    background-color: rgba(11, 97, 255, 0.1) !important;
+    border-right: solid rgb(11, 97, 255) 4px;
+}
+
+td.contact_pic, td.contact_first_seen, td.contact_last_seen, td.contact_visits, td.contact_score, td.contact_location, td.contact_bounced_in, td.contact_name {
+    color: #4A4A4A;
+    text-align: left;
+    padding: 10px 0 10px 0;
+    line-height: 30px;
+}
+
+td.contact_pic {
+    padding-left: 20px; 
+}
+
+/*FAQs Shit*/
+.koalabot_content {
+    position: absolute;
+    left: 240px;
+    top: 60px;
+    width: calc(100% - 240px);
+}
+
+.koalabot_headline {
+    text-align: center;
+    color: rgb(11, 97, 255);
+    padding: 60px 180px 20px 180px;
+    margin: 0px;
+    line-height: 60px;
+}
+
+.koalabot_blurb {
+    text-align: center;
+    color: #4A4A4A;
+    padding: 0px 180px 40px 180px;
+    margin: 0px;
+    line-height: 30px;
+    font-size: 20px;
+}
+
+textarea.koalabot_textarea {
+    width: 70%;
+    height: 160px;
+    margin: 0 15%;
+    margin-bottom: 80px;
+    line-height: 30px;
+    font-size: 20px;
+    border-radius: 20px 20px 20px 4px;
+    border: 1px solid #FDFDFD;
+    box-shadow: 0px 1px 15px #FDFDFD;
+    padding: 20px;
+    overflow: hidden;
+    resize: none;
+    -ms-overflow-style: none;
+}
+
+.faqs_list, .faqs_search_add {
+    width: 70%;
+    margin: auto;
+}
+
+.search_faqs {
+    width: auto;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 40px;
+}
+
+.add_faq_btn {
+    float: right;
+    display: inline-block;
+    width: 160px;
+    border: none;
+    border-radius: 20px 20px 4px 20px;
+    background: #FFF;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    color: #0B61FF;
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.add_faq_btn:hover {
+    text-decoration: none;
+    color: #FFF;
+    -o-transition:color .2s ease-in, background .2s ease-in;
+    -ms-transition:color .2s ease-in, background .2s ease-in;
+    -moz-transition:color .2s ease-in, background .2s ease-in;
+    -webkit-transition:color .2s ease-in, background .2s ease-in;
+    /* ...and now override with proper CSS property */
+    transition:color .2s ease-in, background .2s ease-in;
+    
+    background: #0B61FF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+}
+
+.faqs_list_item {
+    width: 100%;
+    background: #FFF;
+    border-radius: 20px 20px 4px 20px;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    height: 100%;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.faq_question, .faq_answer {
+    background: none;
+    padding: 0px;
+    line-height: 20px;
+    border: none;
+    width: 100%
+}
+
+.faq_question {
+    width: calc(100% - 20px);
+    color: #0B61FF;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.faq_answer {
+    color: #4A4A4A;
+    font-size: 14px;
+    resize: none;
+    height: 100%;
+    overflow: hidden;
+    -ms-overflow-style: hidden;
+}
+
+.faqs_list_item:last-of-type {
+    margin-bottom: 80px;
+}
+
+/*Growthhacks Shit*/
+.gh_thumbnail {
+    width: 90px;
+    height: 90px;
+    vertical-align: sub;
+    display: inline-block;
+}
+
+.gh_content {
+    padding-left: 20px;
+    width: calc(100% - 120px);
+    display: inline-block;
+}
+
+.gh_title {
+    width: calc(100% - 40px);
+    display: inline-block;
+    color: #0B61FF;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/*Apps Shit*/
+.integrations_content {
+    width: 790px;
+    margin: auto;
+}
+
+.integrations_content::last-of-type {
+    margin-bottom: 70px;
+}
+
+.integrations {
+    display: inline-block;
+    width: 240px;
+    height: 240px;
+    margin: 10px;
+    background: #FFF;
+    border-radius: 4px;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+}
+
+.app_logo {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    margin: 40px 0px 18px 0px;
+}
+
+.app_logo > img {
+    margin: auto;
+    height: 32px;
+}
+
+.app_headline {
+    text-align: center;
+    color: rgb(11, 97, 255);
+    width: 100%;
+    padding: 0px 20px 30px 20px;
+    margin: 0px;
+    line-height: 20px;
+    font-size: 20px;
+}
+
+.app_blurb {
+    text-align: center;
+    color: #4A4A4A;
+    padding: 0px 20px 40px 20px;
+    margin: 0px;
+    width: 100%;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+/*Profile Shit*/
+.koalabot_content {
+    position: absolute;
+    left: 240px;
+    top: 60px;
+    width: calc(100% - 240px);
+}
+
+.profile_header {
+    width: 100%;
+    background: #272B2E;
+    height: 160px;
+}
+
+.profile_header > img {
+    float: right;
+    height: 100%;
+}
+
+.profile_pic {
+    float: left;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    width: 120px;
+	height: 120px !important;
+	-moz-border-radius: 60px;
+	-webkit-border-radius: 60px;
+	border-radius: 60px;
+    box-shadow: 0px 1px 15px #FDFDFD;
+}
+
+.user_fullname {
+    font-size: 20px;
+    line-height: 30px;
+    position: absolute;
+    left: 240px;
+    top: 100px;
+    color: #FDFDFD;
+    margin-bottom: 0px; 
+}
+
+.user_city {
+    font-size: 14px;
+    line-height: 20px;
+    position: absolute;
+    left: 240px;
+    top: 130px;
+    color: #80878F;
+    margin-bottom: 0px; 
+}
+
+.user_profile_completion {
+    font-size: 14px;
+    line-height: 30px;
+    position: absolute;
+    left: 400px;
+    top: 100px;
+    color: #80878F;
+    margin-bottom: 0px; 
+}
+
+.profile_info {
+    width: calc(100% - 200px);
+    margin: 100px 100px 0px 100px;
+}
+
+.profile_info_col {
+    width: 33%;
+    display: inline-block;
+    background: none;
+    float: left;
+}
+
+.profile_info_label {
+    font-size: 14px;
+    line-height: 30px;
+    color: #80878F;
+    margin-bottom: 0px; 
+    width: 100%;
+}
+
+.profile_info_textbox {
+    width: 70%;
+    border: none;
+    padding: 0px;
+    background: none;
+    display: inline-block;
+    font-size: 16px;
+    color: #4A4A4A;
+    line-height: 30px;
+    margin-bottom: 40px; 
+    font-style: initial;
+}
+
+.profile_info_edit {
+    display: inline-block;
+    visibility: hidden;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.profile_info_textbox:hover {
+    border-bottom: solid 1px #0B61FF;
+}
+
+.profile_info_edit:hover {
+    visibility: visible;
+}
+
+.profile_info_textbox_empty {
+    color: #B6B6B6;
+    font-style: italic;
+}
+
+a.text_button {
+    color: #0B61FF;
+    font-size: 16px;
+    margin-bottom: 40px;
+    margin-top: -30px;
+    float: left;
+}
+
+a.text_button:hover {
+    text-decoration: none;
+}
+
+/* Checkbox */
+input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    float: left;
+}
+
+.checkbox_label {
+    width: 70%;
+    border: none;
+    padding: 0px;
+    background: none;
+    display: inline-block;
+    font-size: 14px;
+    color: #4A4A4A;
+    line-height: 20px;
+    margin-bottom: 40px;
+    margin-left: 10px; 
+    font-style: initial;
+    float: left;
+}
+
+.btn_social_profile {
+    display: block;
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    font-size: 14px;
+    border-radius: 20px 20px 20px 4px;
+    width: 200px;
+    height: 40px;
+    color: #0B61FF;
+    text-decoration: none;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    background: #FFFFFF; /* For browsers that do not support gradients */
+}
+
+.btn_social_profile:hover {
+    text-decoration: none;
+    color: #FFF;
+    -o-transition:color .2s ease-in, background .2s ease-in;
+    -ms-transition:color .2s ease-in, background .2s ease-in;
+    -moz-transition:color .2s ease-in, background .2s ease-in;
+    -webkit-transition:color .2s ease-in, background .2s ease-in;
+    /* ...and now override with proper CSS property */
+    transition:color .2s ease-in, background .2s ease-in;
+    
+    background: #0B61FF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+}

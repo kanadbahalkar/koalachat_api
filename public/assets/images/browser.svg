@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="294px" height="193px" viewBox="0 0 294 193" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>browser</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="300" height="145"></rect>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="12" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#199BFF" offset="0%"></stop>
+            <stop stop-color="#0B61FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3.4.-Onboarding---Embed-Code" transform="translate(-1146.000000, -78.000000)">
+            <g id="Group-3" transform="translate(1170.000000, 100.000000)">
+                <g id="browser">
+                    <g id="Rectangle-path">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#FDFDFD" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <rect id="Rectangle-path" fill="#546A79" x="0" y="0" width="300" height="30"></rect>
+                    <circle id="Oval" fill="#ED7161" cx="15" cy="15" r="7.5"></circle>
+                    <circle id="Oval" fill="#F0C419" cx="37.5" cy="15" r="7.5"></circle>
+                    <circle id="Oval" fill="#4FBA6F" cx="60" cy="15" r="7.5"></circle>
+                    <rect id="Rectangle-path" fill="#95A5A5" x="0" y="30" width="17.5" height="115"></rect>
+                    <g id="Group" transform="translate(5.000000, 40.000000)" fill="#BDC3C7">
+                        <path d="M2.5,5 L5,5 C6.3825,5 7.5,3.8825 7.5,2.5 C7.5,1.1175 6.3825,0 5,0 L2.5,0 C1.1175,0 0,1.1175 0,2.5 C0,3.8825 1.1175,5 2.5,5 Z" id="Shape"></path>
+                        <path d="M5,10 L2.5,10 C1.1175,10 0,11.1175 0,12.5 C0,13.8825 1.1175,15 2.5,15 L5,15 C6.3825,15 7.5,13.8825 7.5,12.5 C7.5,11.1175 6.3825,10 5,10 Z" id="Shape"></path>
+                        <path d="M5,20 L2.5,20 C1.1175,20 0,21.1175 0,22.5 C0,23.8825 1.1175,25 2.5,25 L5,25 C6.3825,25 7.5,23.8825 7.5,22.5 C7.5,21.1175 6.3825,20 5,20 Z" id="Shape"></path>
+                        <path d="M5,30 L2.5,30 C1.1175,30 0,31.1175 0,32.5 C0,33.8825 1.1175,35 2.5,35 L5,35 C6.3825,35 7.5,33.8825 7.5,32.5 C7.5,31.1175 6.3825,30 5,30 Z" id="Shape"></path>
+                        <path d="M5,40 L2.5,40 C1.1175,40 0,41.1175 0,42.5 C0,43.8825 1.1175,45 2.5,45 L5,45 C6.3825,45 7.5,43.8825 7.5,42.5 C7.5,41.1175 6.3825,40 5,40 Z" id="Shape"></path>
+                        <path d="M5,50 L2.5,50 C1.1175,50 0,51.1175 0,52.5 C0,53.8825 1.1175,55 2.5,55 L5,55 C6.3825,55 7.5,53.8825 7.5,52.5 C7.5,51.1175 6.3825,50 5,50 Z" id="Shape"></path>
+                        <path d="M5,60 L2.5,60 C1.1175,60 0,61.1175 0,62.5 C0,63.8825 1.1175,65 2.5,65 L5,65 C6.3825,65 7.5,63.8825 7.5,62.5 C7.5,61.1175 6.3825,60 5,60 Z" id="Shape"></path>
+                        <path d="M5,70 L2.5,70 C1.1175,70 0,71.1175 0,72.5 C0,73.8825 1.1175,75 2.5,75 L5,75 C6.3825,75 7.5,73.8825 7.5,72.5 C7.5,71.1175 6.3825,70 5,70 Z" id="Shape"></path>
+                        <path d="M5,80 L2.5,80 C1.1175,80 0,81.1175 0,82.5 C0,83.8825 1.1175,85 2.5,85 L5,85 C6.3825,85 7.5,83.8825 7.5,82.5 C7.5,81.1175 6.3825,80 5,80 Z" id="Shape"></path>
+                        <path d="M5,90 L2.5,90 C1.1175,90 0,91.1175 0,92.5 C0,93.8825 1.1175,95 2.5,95 L5,95 C6.3825,95 7.5,93.8825 7.5,92.5 C7.5,91.1175 6.3825,90 5,90 Z" id="Shape"></path>
+                    </g>
+                    <path d="M62.5,45 L30,45 C28.6175,45 27.5,43.8825 27.5,42.5 C27.5,41.1175 28.6175,40 30,40 L62.5,40 C63.8825,40 65,41.1175 65,42.5 C65,43.8825 63.8825,45 62.5,45 Z" id="Shape" fill="url(#linearGradient-3)"></path>
+                    <path d="M97.5,45 L72.5,45 C71.1175,45 70,43.8825 70,42.5 C70,41.1175 71.1175,40 72.5,40 L97.5,40 C98.8825,40 100,41.1175 100,42.5 C100,43.8825 98.8825,45 97.5,45 Z" id="Shape" fill="url(#linearGradient-3)"></path>
+                    <path d="M112.5,45 L107.5,45 C106.1175,45 105,43.8825 105,42.5 C105,41.1175 106.1175,40 107.5,40 L112.5,40 C113.8825,40 115,41.1175 115,42.5 C115,43.8825 113.8825,45 112.5,45 Z" id="Shape" fill="url(#linearGradient-3)"></path>
+                    <path d="M125,55 L87.5,55 C86.1175,55 85,53.8825 85,52.5 C85,51.1175 86.1175,50 87.5,50 L125,50 C126.3825,50 127.5,51.1175 127.5,52.5 C127.5,53.8825 126.3825,55 125,55 Z" id="Shape" fill="url(#linearGradient-3)"></path>
+                    <path d="M77.5,55 L42.5,55 C41.1175,55 40,53.8825 40,52.5 C40,51.1175 41.1175,50 42.5,50 L77.5,50 C78.8825,50 80,51.1175 80,52.5 C80,53.8825 78.8825,55 77.5,55 Z" id="Shape" fill="url(#linearGradient-3)"></path>
+                    <path d="M32.5,55 L30,55 C28.6175,55 27.5,53.8825 27.5,52.5 C27.5,51.1175 28.6175,50 30,50 L32.5,50 C33.8825,50 35,51.1175 35,52.5 C35,53.8825 33.8825,55 32.5,55 Z" id="Shape" fill="url(#linearGradient-3)"></path>
+                    <path d="M66.1363636,65 L31.3636364,65 C29.2270455,65 27.5,63.8825 27.5,62.5 C27.5,61.1175 29.2270455,60 31.3636364,60 L66.1363636,60 C68.2729545,60 70,61.1175 70,62.5 C70,63.8825 68.2729545,65 66.1363636,65 Z" id="Shape" fill="url(#linearGradient-3)"></path>
+                    <path d="M112.5,65 L77.5,65 C76.1175,65 75,63.8825 75,62.5 C75,61.1175 76.1175,60 77.5,60 L112.5,60 C113.8825,60 115,61.1175 115,62.5 C115,63.8825 113.8825,65 112.5,65 Z" id="Shape" fill="url(#linearGradient-3)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
