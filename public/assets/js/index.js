@@ -1,5 +1,5 @@
 //Remove Website when page loads
-$('#website').toggle();
+$('#website').remove();
 
 // var oid = document.getElementById("koala-index").getAttribute("u");
   
@@ -196,7 +196,7 @@ $('#email_reg').click(function (e) {
     var password = $('#password').val();
     if (jQuery.trim(email) !== '' && validateEmail(email) && validatePassword(password) && validateWebsite(website) && website.length > 0) {
       loadBeat(true);
-      angular.element($("#authController")).scope().register();
+      angular.element($("#authController")).scope().register(website, email, password);
       loadBeat(false);
       $('#website').val('');
       $('#email').val('');

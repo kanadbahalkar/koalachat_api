@@ -1,18 +1,28 @@
 'use strict';
 
-angular.module('myApp').factory('UserService', function () {
-var user = {
-    isLogged: false,
-    username: '',       
-};
+myApp.service('UserService', function() {
+  this.userData = {
+        isLogged: false,
+        username: '',       
+    };
 
-var reset = function() {
-    user.isLogged = false;
-    user.username = '';
-};
+  this.user = function() {
+        return this.userData;
+  };
 
-return {
-    user: user,
-    reset : reset
+  this.setIsLogged = function(value) {
+        this.userData.isLogged = value;
+  };
+
+  this.getIsLogged = function() {
+        return this.userData.isLogged;
+  };
+
+  this.setUsername = function(uname) {
+        this.userData.username = uname;
+  };
+
+  this.getUsername = function() {
+        return this.userData.username;
   };
 });

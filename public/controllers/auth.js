@@ -23,8 +23,10 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
             if (res.type == false) {
                 $log.error(res);
             } else {
-                UserService.user.isLogged = true;
+                UserService.setIsLogged(true);
                 $window.localStorage.token = res.token;
+                $window.localStorage.userid = res.user.userID;
+                $window.localStorage.useremail = res.user.email;
                 $window.location = '/';
             }
         }, function() {
@@ -32,67 +34,42 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
         });
     };
 
-    //FB Login
-    window.fbAsyncInit = function() {
-        FB.init({
-        appId      : '182119938859848',
-        xfbml      : true,
-        version    : 'v2.8'
-        });
-        FB.AppEvents.logPageView();
-    };
-
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
     $scope.fblogin = function() {
-        FB.login(function(response) {
-            if (response.authResponse) {
-                FB.api('/me', 
-                {fields: "id, picture, birthday, email, first_name, middle_name, last_name, gender, hometown, link, location, timezone, website, work"}, 
-                function(response) {
-                //Get response token
-                var responseToken = FB.getAuthResponse();
-                
-                $window.localStorage.fbuser = response;
-                // $window.localStorage.token = responseToken;
-                UserService.user.isLogged = true;
-                $window.localStorage.isLogged = true;
-                $window.location = '/';
-
-                //TODO: Create a new user
-                //TODO: Save JWT in localStorage
-            });
+        AuthenticationService.fbauth(function(res) {
+            if (res.type == false) {
+                $log.error(res);
             } else {
-                console.log('User cancelled login or did not fully authorize.');
+                UserService.setIsLogged(true);
+                $window.localStorage.token = res.token;
+                $window.localStorage.userid = res.user.userID;
+                $window.localStorage.useremail = res.user.email;
+                $window.location = '/';
             }
-        }, {scope: 'email, user_birthday, pages_show_list', return_scopes: true});
+        }, function() {
+            $rootScope.error = 'Login Failed';
+        });
     };
 
     //Signup a new Owner
-    $scope.register = function() {
+    $scope.register = function(website, email, password) {
 
         var formData = {
-            website : $scope.website,
-            email : $scope.email,
-            password : $scope.password,
+            website : website,
+            email : email,
+            password : password,
             role : 'Owner',
             anonymous : false
         }
-
-        console.log(formData);
 
         AuthenticationService.register(formData, function(res) {
             if (res.type == false) {
                 $log.error(res);
             } else {
+                UserService.setIsLogged(true);
                 $window.localStorage.token = res.token;
-                $window.location = '/';
+                $window.localStorage.userid = res.user.userID;
+                $window.localStorage.useremail = res.user.email;
+                $window.location = '/onboarding/setwelcome';
             }
         }, function() {
             $rootScope.error = 'Signup Failed';

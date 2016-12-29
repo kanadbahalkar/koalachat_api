@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad']);
+var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard']);
 
 myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
 
@@ -263,23 +263,29 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     $locationProvider.html5Mode(true);
 });
 
-myApp.run(function($rootScope, $location, UserService) {  
+myApp.run(function($window, $rootScope, $location, UserService) {  
     $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
         //1. FTU - User is registering / onboarding
-        if (nextRoute.access != undefined && nextRoute.access.isOnboarding && UserService.user.isLogged){
+        if (nextRoute.access != undefined && nextRoute.access.isOnboarding && UserService.getIsLogged){
             $location.path(nextRoute.originalPath);
+        }
+        else {
+            $location.path('/login');
         }
         
         //2. User is logging in his existing account
-        if (nextRoute.access != undefined && nextRoute.access.requiredLogin && !UserService.user.isLogged) {
+        if (nextRoute.access != undefined && nextRoute.access.requiredLogin && UserService.getIsLogged) {
             $location.path(nextRoute.originalPath);
+        }
+        else {
+            $location.path('/login');
+        }
+
+        if(!$window.localStorage.token || $window.localStorage.token == undefined || $window.localStorage.token === 'undefined'){
+            $location.path('/login');
         }
     });
 });
-
-myApp.controller('onboardingController', ['$scope', '$routeParams', function($scope, $routeParams){
-
-}]);
 
 myApp.controller('messagesController', ['$scope', '$routeParams', function($scope, $routeParams){
 

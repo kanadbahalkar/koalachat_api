@@ -28,7 +28,7 @@ angular.module('myApp')
         function getUserFromToken() {
             var token = $window.localStorage.token;
             var user = {};
-            if (typeof token !== 'undefined') {
+            if (token != 'undefined' && token != undefined) {
                 var encoded = token.split('.')[1];
                 user = JSON.parse(urlBase64Decode(encoded));
             }
@@ -58,18 +58,14 @@ angular.module('myApp')
                 .success(success)
                 .error(error);
             },
-            fbauth: function() {
+            fbauth: function(success, error) {
                 $http({
                     method: 'GET',
-                    url: 'http://localhost:4731/auth/facebook',
-                    dataType: 'jsonp',
+                    url: baseUrl + '/auth/facebook',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 })
-                .success(function(data){
-                    console.log('loginWithFacebook success: ', data);
-                }).error(function(data, status, headers, config) {
-                    console.log('loginWithFacebook error: ', data);
-                });
+                .success(success)
+                .error(error);
             },
             me: function(success, error) {
                 $http.get(baseUrl + '/me').success(success).error(error);

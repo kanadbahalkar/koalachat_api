@@ -1,106 +1,67 @@
-myApp.controller('onboardingController', ['$scope', '$log', '$timeout', function($scope, $log, nameService){
+myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http', '$window', 'clipboard', function($scope, $log, $timeout, $http, $window, clipboard){
 
-    $scope.people = [
-        {
-            name : 'John',
-            address : '1137 Comm Ave',
-            city : 'Allston',
-            state : 'MA',
-            zip : '02134'
-        },
-        {
-            name : 'Jane',
-            address : '1137 Comm Ave',
-            city : 'Allston',
-            state : 'MA',
-            zip : '02134'
-        },
-        {
-            name : 'Jake',
-            address : '1137 Comm Ave',
-            city : 'Allston',
-            state : 'MA',
-            zip : '02134'
-        }
-    ];
+    if (!clipboard.supported) {
+        console.log('Sorry, copy to clipboard is not supported');
+    }
 
-    $scope.formattedAddressFunction = function(person){
-        return person.address + ' ' + person.city + ' ' + person.state + ' ' + person.zip
-    };
-    
+    //Set Welcome Message
     $scope.setWelcomeMessage = function () {
         $http({
 			method: 'POST',
-			url: apiUrl+'/onboarding/setwelcome',
-			data: $.param($scope.welcomeMessage),
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			url: '/api/profile/setwelcomemessage',
+			data: $.param({userID: $window.localStorage.userid, newMessage: $scope.welcomeMessage}),
+			headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
 		})
         .success(function (data, status, headers, config) {
-            if(data.token){
-                $window.location.href = '/onboarding/addsocial';
-            }
-            else{
-                console.log('Set Welcome Message Failed');
-            }
+            $window.location.href = '/onboarding/getembedcode';
         })
         .error(function (data, status, headers, config) {
             console.log('Error: Set Welcome Message Failed');
         });
     };
 
-    $scope.setSocialAccounts = function () {
-        
-    };
-
-    $scope.setSitePlatform = function () {
-        $http({
-			method: 'POST',
-			url: apiUrl+'/onboarding/setplatform',
-			data: $.param($scope.platform),
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		})
-        .success(function (data, status, headers, config) {
-            if(data.token){
-                $window.location.href = '/onboarding/getembedcode';
-            }
-            else{
-                console.log('Set Platform Failed');
-            }
-        })
-        .error(function (data, status, headers, config) {
-            console.log('Error: Set Platform Failed');
-        });
-    };
-
     //Get embed code
     $scope.getEmbedCode = function () {
         $http({
-            method: 'GET',
-            url: apiUrl + '/onboarding/getembedcode',
+            method: 'POST',
+            url: 'api/widget/embedcode',
+            data: $.param({userID: $window.localStorage.userid}),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'x-access-token': '*'
+                'Authorization': $window.localStorage.token
             }
         })
         .success(function(response) {
-            console.log('Get Embed Code Failed');
+            $scope.embedcode = response.code;
+            clipboard.copyText(response.code);
         })
         .error(function (data, status, headers, config) {
             console.log('Error: Get Embed Code Failed');
         });
     };
 
+    //Copy embed code to clipboard 
+    $scope.copyEmbedCode = function () {
+        clipboard.copyText($scope.embedcode);
+    }
+
     //Verify Embed Code
     $scope.verifyEmbedCode = function () {
         $http({
 			method: 'POST',
-			url: apiUrl+'/onboarding/verifyembedcode',
-			data: $.param($scope.platform),
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			url: 'api/profile/widget/verifyembedcode',
+			data: $.param({userID: $window.localStorage.userid, website: $window.localStorage.userwebsite}),
+			headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
 		})
         .success(function (data, status, headers, config) {
             if(data.token){
-                $window.location.href = '/onboarding/getembedcode';
+                $window.location.href = '/onboarding/getfaqs';
             }
             else{
                 console.log('Embed Code Verification Failed');
@@ -111,6 +72,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', function
         });
     };
 
+    //TODO:
     //API for searching FAQs
     //API for adding a new FAQ manually
 }]);

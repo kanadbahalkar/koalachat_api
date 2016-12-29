@@ -15,6 +15,15 @@ const localOptions = {
 };
 var configAuth = require('./auth');
 
+module.exports = function(passport){
+    passport.serializeUser(function(user, done) {
+        done(null, user);
+    });
+
+    passport.deserializeUser(function(user, done) {
+        done(null, user);
+    });
+}
 // Setting up local login strategy
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
     User.findOne({
@@ -52,6 +61,7 @@ let facebookLogin = new FacebookStrategy({
     },
     // facebook will send back the token and profile
     function(token, refreshToken, profile, done) {
+        console.log('HERE');
         // asynchronous
         process.nextTick(function() {
             // try to find the user based on their google id
@@ -172,14 +182,6 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
             done(null, false);
         }
     });
-});
-
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-    done(null, user);
 });
 
 passport.use(jwtLogin);

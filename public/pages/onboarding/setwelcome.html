@@ -3,12 +3,12 @@
         <h1 class="onboarding-headline">Setup your welcome message</h1>
         <p class="onboarding-blurb">Your welcome message is a super-easy way to communicate with your website visitors. It says a lot about your brand and about your business. And if you can’t come up with a catchy welcome message, just use our default message... 😉</p>
         
-        <textarea class="onboarding-textarea" ng-model="welcomemessage" placeholder="Hey there! Are you looking for something specific? Let me know, I’m here to answer your questions…  🐨 😊"></textarea>
+        <textarea class="onboarding-textarea" ng-model="welcomeMessage" placeholder="Hey there! Are you looking for something specific? Let me know, I’m here to answer your questions…  🐨 😊"></textarea>
 
         <div class="next_prev">
             <a href="" class="back_left disabled">◀ Back</a>
-            <a href="" class="btn btn_blue">Next: Setup Profile</a>
-            <a href="" class="back_right text-gray">Skip ▶</a>
+            <a href="" class="btn btn_blue" ng-click="setWelcomeMessage()">Next: Setup Profile</a>
+            <a href="/onboarding/getembedcode" class="back_right text-gray">Skip ▶</a>
         </div>
     </div>
 </div>
