@@ -104,8 +104,15 @@ a {
     display: inline !important;
 }
 
+.nav-item > p {
+    height: 60px;
+    line-height: 30px;
+}
+
 .navbar-brand {
     color: #ffffff !important;
+    margin-bottom: 0px;
+    font-size: 14px;
 }
 
 .nav-item > a {
