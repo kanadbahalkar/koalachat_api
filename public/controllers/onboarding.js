@@ -46,13 +46,14 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
     //Copy embed code to clipboard 
     $scope.copyEmbedCode = function () {
         clipboard.copyText($scope.embedcode);
+        angular.element(document.querySelector('.copy_code')).html('Code Copied to Clipboard');
     }
 
     //Verify Embed Code
     $scope.verifyEmbedCode = function () {
         $http({
 			method: 'POST',
-			url: 'api/profile/widget/verifyembedcode',
+			url: 'api/widget/verifyembedcode',
 			data: $.param({userID: $window.localStorage.userid, website: $window.localStorage.userwebsite}),
 			headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -60,7 +61,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
             }
 		})
         .success(function (data, status, headers, config) {
-            if(data.token){
+            if(data.verified){
                 $window.location.href = '/onboarding/getfaqs';
             }
             else{
@@ -73,6 +74,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
     };
 
     //TODO:
-    //API for searching FAQs
-    //API for adding a new FAQ manually
+    //Search FAQs on a users website
+    //Search FAQs on a given URL
+    //Adding a new FAQ manually
 }]);
