@@ -1,12 +1,13 @@
 const AuthenticationController = require('./controllers/authentication'),
     // UserController = require('./controllers/user'),
-    ChatController = require('./controllers/chat'),
+    chatController = require('./controllers/chat'),
     profileController = require('./controllers/profile'),
     express = require('express'),
     passportService = require('./config/passport'),
     passport = require('passport'),
     FacebookStrategy = require('passport-facebook').Strategy,
-    widgetController = require('./controllers/widget_controller');
+    widgetController = require('./controllers/widget_controller'),
+    crawlerController = require('./controllers/crawler');
 
 // Middleware to require login/auth
 var requireAuth = passport.authenticate('jwt', { session: false });
@@ -25,7 +26,8 @@ module.exports = function(app) {
             authRoutes = express.Router(),
             chatRoutes = express.Router(),
             profileRouters = express.Router(),
-            widgetRouters = express.Router();
+            widgetRouters = express.Router()
+            crawlerRouters = express.Router();
 
     // Auth Routes
     // Set auth routes as subgroup/middleware to apiRoutes
@@ -44,24 +46,24 @@ module.exports = function(app) {
     apiRoutes.use('/chat', chatRoutes);
 
     // View Visitors and an authenticated Owner
-    // chatRoutes.get('/visitors', requireAuth, ChatController.getVisitors);
+    // chatRoutes.get('/visitors', requireAuth, chatController.getVisitors);
 
     // Retrieve single conversation by Visitor
-    // chatRoutes.get('/conversations/:visitorId', requireAuth, ChatController.getConversationByVisitor);
+    // chatRoutes.get('/conversations/:visitorId', requireAuth, chatController.getConversationByVisitor);
 
     // Retrieve single conversation by id
-    chatRoutes.get('/conversations/:conversationId', requireAuth, ChatController.getConversation);
+    chatRoutes.get('/conversations/:conversationId', requireAuth, chatController.getConversation);
 
     // Send reply in conversation
-    chatRoutes.post('/conversations/:conversationId', requireAuth, ChatController.sendReply);
+    chatRoutes.post('/conversations/:conversationId', requireAuth, chatController.sendReply);
 
     // Start new conversation
-    chatRoutes.post('/new/:recipient', requireAuth, ChatController.newConversation);
+    chatRoutes.post('/new/:recipient', requireAuth, chatController.newConversation);
 
     // Broadcast message to all clients
-    // chatRoutes.post('/announcement', requireAuth, ChatController.announcement);
+    // chatRoutes.post('/announcement', requireAuth, chatController.announcement);
 
-    // chatRoutes.post('/messages/:clientID/', requireAuth, ChatController.getMessage);
+    // chatRoutes.post('/messages/:clientID/', requireAuth, chatController.getMessage);
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -109,6 +111,15 @@ module.exports = function(app) {
     widgetRouters.post('/embedcode', widgetController.createEmbedCode);
     // Verify widget code
     widgetRouters.post('/verifyembedcode', widgetController.verifyEmbedCode);
+
+    //Crawler Routes
+    apiRoutes.use('/crawler', crawlerRouters);
+    //Crawl Site to find FAQs URL
+    crawlerRouters.post('/findfaqsurl', crawlerController.findFAQsURL);
+    //Get FAQs from a given URL
+    // crawlerRouters.post('/getfaqs', crawlerController.getFAQs);
+    //Add a new FAQ manually
+    // crawlerRouters.post('/addfaq', crawlerController.addFAQ);
 
     // Set url for API group routes
     app.use('/api', apiRoutes);

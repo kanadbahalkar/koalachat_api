@@ -22,6 +22,10 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  faqurl: {
+    type: String,
+    required: false
+  },
   ipAddress: {
     type: String,
     required: false
