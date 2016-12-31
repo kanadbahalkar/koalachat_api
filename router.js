@@ -109,13 +109,13 @@ module.exports = function(app) {
     apiRoutes.use('/widget', widgetRouters);
     // Create widget embed code
     widgetRouters.post('/embedcode', widgetController.createEmbedCode);
-    // Verify widget code
-    widgetRouters.post('/verifyembedcode', widgetController.verifyEmbedCode);
-
+    
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);
     //Crawl Site to find FAQs URL
     crawlerRouters.post('/findfaqsurl', crawlerController.findFAQsURL);
+    // Verify widget embed code
+    crawlerRouters.post('/verifyembedcode', crawlerController.verifyEmbedCode);
     //Get FAQs from a given URL
     // crawlerRouters.post('/getfaqs', crawlerController.getFAQs);
     //Add a new FAQ manually

@@ -22,6 +22,10 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  websiteVerified: {
+     type: Boolean,
+     default: false
+  },
   faqurl: {
     type: String,
     required: false

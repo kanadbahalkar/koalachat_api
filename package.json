@@ -31,6 +31,7 @@
     "passport-twitter": "^1.0.4",
     "sandcrawler": "0.0.1",
     "scraperjs": "^1.2.0",
+    "sentence-tokenizer": "0.0.7",
     "socket.io": "^1.4.8",
     "x-ray": "^2.3.1"
   }

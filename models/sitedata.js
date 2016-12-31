@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'),  
       Schema = mongoose.Schema;
 
-const SiteSchema = new Schema({  
+const SiteSchema = new Schema({
   faqUrl: {
     type: Schema.Types.ObjectId,
     required: true

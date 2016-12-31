@@ -11,15 +11,5 @@ module.exports = {
       //3. Handle CSS for the widget so it doesn't overlap with the host page CSS
       code: '<script id="koala-index" u="' + req.body.userID + '" src="assets/js/index.js"></script>'
     });
-  },
-
-  // Verify if widget code is embedded on owner's website
-  verifyEmbedCode: function(req, res, next) {
-      //TODO
-      //Write method to Verify if the script is live on req.body.website
-      res.status(200).send({
-        verified: true
-        //Replace true with whatever the result of the verfication method is
-      });
   }
 }
