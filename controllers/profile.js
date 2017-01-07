@@ -52,6 +52,25 @@ module.exports = {
               if(!owner) {
                 res.status(422).send({ 'message': 'Owner with given id not found', 'status': 'failure' });
               }
+
+              res.status(200).send({ owner : owner });
+            });
+        },
+
+        // Allow anonymous chats
+        allowAnonymous: function(req, res, next) {
+          
+          User.findOneAndUpdate(
+            { 'userID' : req.body.userID }, 
+            { 'allowAnonymous' : req.body.allowAnonymous }, 
+            function(err, owner) {
+              if (err) return next(err);
+
+              if(!owner) {
+                res.status(422).send({ 'message': 'Owner with given id not found', 'status': 'failure' });
+              }
+
+              res.status(200).send({ allowAnonymous : owner.allowAnonymous });
             });
         }
 }

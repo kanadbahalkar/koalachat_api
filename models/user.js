@@ -56,7 +56,7 @@ const UserSchema = new Schema({
     id: {type: String}
   }],
   // Stores list of social accounts of the user
-  accounts: [{
+  socialAaccounts: [{
     access_token: {type: String},
     channelname: {type: String}
   }],
@@ -70,6 +70,10 @@ const UserSchema = new Schema({
     default: 'local'
   },
   userID: {
+    type: String,
+    required: false
+  },
+  allowAnonymous: {
     type: String,
     required: false
   },

@@ -98,15 +98,16 @@ module.exports = function(app) {
         res.redirect('/login');
     });
 
+    //Profile Routes
     apiRoutes.use('/profile', profileRouters);
-    //Route to update owners' welcome message
+    //Update owners' welcome message
     profileRouters.post('/setwelcomemessage', requireAuth, profileController.updateWelcomeMessage);
-
-    //Route to get owner's info
+    //Get owner's info
     profileRouters.post('/getownerinfo', requireAuth, profileController.getOwnerInfo);
-    
-    //Route to update owner's info
+    //Update owner's info
     profileRouters.post('/updateownerinfo', requireAuth, profileController.updateOwnerInfo);
+    //Allow anonymous / non-anonymous chats
+    profileRouters.post('/allowanonymous', requireAuth, profileController.allowAnonymous);
 
     //Widget Routes
     apiRoutes.use('/widget', widgetRouters);
