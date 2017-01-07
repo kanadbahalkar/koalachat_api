@@ -105,6 +105,9 @@ module.exports = function(app) {
     //Route to get owner's info
     profileRouters.post('/getownerinfo', requireAuth, profileController.getOwnerInfo);
     
+    //Route to update owner's info
+    profileRouters.post('/updateownerinfo', requireAuth, profileController.updateOwnerInfo);
+
     //Widget Routes
     apiRoutes.use('/widget', widgetRouters);
     // Create widget embed code

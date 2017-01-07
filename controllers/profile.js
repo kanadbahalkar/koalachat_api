@@ -33,8 +33,25 @@ module.exports = {
               res.status(422).send({"message": "Owner with given id not found", "status": "failure"});
             }
 
-            console.log("User Found: " + owner);
             res.status(200).send({"owner": owner});
           });
+        },
+
+        // Update owner information
+        updateOwnerInfo: function(req, res, next) {
+          
+          var json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
+          var field = JSON.parse(json);
+
+          User.findOneAndUpdate(
+            { 'userID' : req.body.userID }, 
+            field, 
+            function(err, owner) {
+              if (err) return next(err);
+
+              if(!owner) {
+                res.status(422).send({ 'message': 'Owner with given id not found', 'status': 'failure' });
+              }
+            });
         }
 }

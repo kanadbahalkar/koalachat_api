@@ -13,10 +13,14 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  businessName: {
+    type: String,
+    required: true
+  },
   welcomeMessage:{
     type: String,
     required: false,
-    default: "Hey there! Are you looking for something specific? Let me know, I\'m here to answer your questions ... :)"
+    default: "Hey there! Are you looking for something specific? Let me know, I'm here to answer your questions ... :)"
   },
   website: {
     type: String,
@@ -51,6 +55,11 @@ const UserSchema = new Schema({
     category: {type: String},
     id: {type: String}
   }],
+  // Stores list of social accounts of the user
+  accounts: [{
+    access_token: {type: String},
+    channelname: {type: String}
+  }],
   password: {
     type: String,
     required: false
@@ -65,10 +74,10 @@ const UserSchema = new Schema({
     required: false
   },
   profile: {
-    firstName: { type: String },
-    lastName: { type: String },
-    givenName: {type: String},
-    photo: {type: String},
+    firstName: { type: String, default: 'Anonymous' },
+    lastName: { type: String, default: 'Koala' },
+    givenName: {type: String, default: 'Toby' },
+    photo: { type: String },
     required: false
   },
   role: {
