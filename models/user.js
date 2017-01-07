@@ -5,11 +5,7 @@ const mongoose = require('mongoose'),
 
 // User Schema
 const UserSchema = new Schema({
- 	anonymous: {
-     type: Boolean,
-     default: true
-  },
-  ownerID: {
+ 	ownerID: {
     type: String,
     required: false
   },
@@ -86,8 +82,8 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ['Visitor', 'Owner', 'Admin', 'Agent', 'Bot'],
-    default: 'Visitor'
+    enum: ['Owner', 'Staff', 'Admin', 'Agent', 'Bot'],
+    default: 'Owner'
   },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }
