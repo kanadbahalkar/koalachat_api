@@ -4,31 +4,29 @@ const mongoose = require('mongoose'),
 
 // Visitor Schema
 const VisitorSchema = new Schema({
- 	anonymous: {
-     type: Boolean,
-     default: true
-  },
-  ownerIDs: [{
-    type: String,
-    required: false
-  }],
-  ipAddresses: [{
-    type: String,
-    required: false
-  }],
-  visits : [{
-    type: Date,
-    required: true
-  }],
-  email: {
+ 	email: {
     type: String,
     lowercase: true,
-    unique: true,
-    required: false
+    required: true
+  },
+  ownerID: { 
+    type: String, 
+    required: true 
+  },
+  ipAddress: { 
+    type: String, 
+    required: true 
+  },
+  visitedAt : { 
+    type : Date, 
+    default: Date.now 
+  },
+  nickname : { 
+    type : String
+  },
+  blacklisted : { 
+    type : Boolean 
   }
-},
-{
-	timestamps: true
 });
 
 module.exports = mongoose.model('Visitor', VisitorSchema);

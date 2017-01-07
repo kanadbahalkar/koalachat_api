@@ -1,11 +1,10 @@
-const AuthenticationController = require('./controllers/authentication'),
-    // UserController = require('./controllers/user'),
+const express = require('express'),
+    passport = require('passport'),
+    passportService = require('./config/passport'),
+    authenticationController = require('./controllers/authentication'),
     chatController = require('./controllers/chat'),
     profileController = require('./controllers/profile'),
-    express = require('express'),
-    passportService = require('./config/passport'),
-    passport = require('passport'),
-    FacebookStrategy = require('passport-facebook').Strategy,
+    visitorController = require('./controllers/visitor'),
     widgetController = require('./controllers/widget_controller'),
     crawlerController = require('./controllers/crawler');
 
@@ -26,44 +25,31 @@ module.exports = function(app) {
             authRoutes = express.Router(),
             chatRoutes = express.Router(),
             profileRouters = express.Router(),
-            widgetRouters = express.Router()
+            widgetRouters = express.Router(),
+            visitorRouters = express.Router(),
             crawlerRouters = express.Router();
 
     // Auth Routes
     // Set auth routes as subgroup/middleware to apiRoutes
     apiRoutes.use('/auth', authRoutes);
-
     // Registration route
-    authRoutes.post('/registerowner', AuthenticationController.registerowner);
-
-    // Registration route
-    authRoutes.post('/registervisitor', AuthenticationController.registervisitor);
-
+    authRoutes.post('/registerowner', authenticationController.registerowner);
     // Login route
-    authRoutes.post('/login', requireLogin, AuthenticationController.login);
+    authRoutes.post('/login', requireLogin, authenticationController.login);
 
-    // Set chat routes as a subgroup/middleware to apiRoutes
+    // Chat routes
     apiRoutes.use('/chat', chatRoutes);
-
-    // View Visitors and an authenticated Owner
-    // chatRoutes.get('/visitors', requireAuth, chatController.getVisitors);
-
     // Retrieve single conversation by Visitor
     // chatRoutes.get('/conversations/:visitorId', requireAuth, chatController.getConversationByVisitor);
-
     // Retrieve single conversation by id
     chatRoutes.get('/conversations/:conversationId', requireAuth, chatController.getConversation);
-
     // Send reply in conversation
     chatRoutes.post('/conversations/:conversationId', requireAuth, chatController.sendReply);
-
     // Start new conversation
     chatRoutes.post('/new/:recipient', requireAuth, chatController.newConversation);
-
-    // Broadcast message to all clients
+    // Broadcast message to all visitors
     // chatRoutes.post('/announcement', requireAuth, chatController.announcement);
 
-    // chatRoutes.post('/messages/:clientID/', requireAuth, chatController.getMessage);
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -80,7 +66,7 @@ module.exports = function(app) {
             res.redirect('/');
         });
         
-    app.get('/profile', isLoggedIn, AuthenticationController.login);
+    app.get('/profile', isLoggedIn, authenticationController.login);
 
 
     //Google Auth
@@ -114,6 +100,17 @@ module.exports = function(app) {
     // Create widget embed code
     widgetRouters.post('/embedcode', widgetController.createEmbedCode);
     
+    //Visitor Controllers
+    apiRoutes.use('/visitor', visitorRouters);
+    //Create new visitor
+    visitorRouters.post('/newvisitor', visitorController.registerVisitor);
+    //Set nickname for a visitor
+    visitorRouters.post('/setnickname', requireAuth, visitorController.setNickname);
+    //Blacklist visitor by email / ip address / id
+    visitorRouters.post('/blacklistvisitor', requireAuth, visitorController.blacklistVisitor);
+    //Get a list of all visitors / visitors with email / anonymous visitors
+    visitorRouters.post('/getvisitors/:filter', requireAuth, visitorController.getVisitors);
+
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);
     //Crawl Site to find FAQs URL
