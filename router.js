@@ -94,6 +94,8 @@ module.exports = function(app) {
     profileRouters.post('/updateownerinfo', requireAuth, profileController.updateOwnerInfo);
     //Allow anonymous / non-anonymous chats
     profileRouters.post('/allowanonymous', requireAuth, profileController.allowAnonymous);
+    //Set notification frequency
+    profileRouters.post('/emailfrequency', requireAuth, profileController.emailFrequency);
 
     //Widget Routes
     apiRoutes.use('/widget', widgetRouters);

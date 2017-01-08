@@ -85,6 +85,12 @@ const UserSchema = new Schema({
     enum: ['Owner', 'Staff', 'Admin', 'Agent', 'Bot'],
     default: 'Owner'
   },
+  emailFrequency: {
+    newsletter: { type: Boolean, default: true },
+    billingUpdates: { type: Boolean, default: true },
+    announcements: {type: Boolean, default: true },
+    required: false
+  },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }
 },
