@@ -39,16 +39,16 @@ module.exports = function(app) {
 
     // Chat routes
     apiRoutes.use('/chat', chatRoutes);
-    // Retrieve single conversation by Visitor
-    // chatRoutes.get('/conversations/:visitorId', requireAuth, chatController.getConversationByVisitor);
+    // Retrieve all conversations between owner and visitor
+    chatRoutes.post('/conversations/:visitorid', requireAuth, chatController.getConversations);
     // Retrieve single conversation by id
-    chatRoutes.get('/conversations/:conversationId', requireAuth, chatController.getConversation);
+    chatRoutes.post('/conversation/:conversationId', requireAuth, chatController.getConversation);
     // Send reply in conversation
     chatRoutes.post('/conversations/:conversationId', requireAuth, chatController.sendReply);
     // Start new conversation
     chatRoutes.post('/new/:recipient', requireAuth, chatController.newConversation);
-    // Broadcast message to all visitors
-    // chatRoutes.post('/announcement', requireAuth, chatController.announcement);
+    // Delete a conversation
+    chatRoutes.post('/delete/:conversationId', requireAuth, chatController.deleteConversation);
 
     app.use(passport.initialize());
     app.use(passport.session());
@@ -137,11 +137,3 @@ function isLoggedIn(req, res, next) {
     // if they aren't redirect them to the home page
     res.redirect('/');
 }
-
-//Other routes needed
-//1. Register a Visitor under an Owners account
-//2. Establish connection between a Visitor and Owner
-//3. Disconnect a Visitor from an Owner
-//4. Get a list of all Visitors for an Owner
-//5. Get a list of all Visitors & Owners for Admin
-//6. Search for a Visitor or Owner for Admin
