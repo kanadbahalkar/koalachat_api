@@ -4,11 +4,46 @@ var SiteData = require('../models/sitedata');
 var url = require('url');
 var request = require('request');
 var cheerio = require('cheerio');
+var htmlToText = require('html-to-text');
 var Tokenizer = require('sentence-tokenizer');
 var tokenizer = new Tokenizer('Koala');
 
 function sanitizeUrl(host, link) {
     return url.resolve(host, link);
+}
+
+function generateQuestionID() {
+  var qid = Math.random().toString(36).substring(3,16)+ +new Date;
+  return qid;
+}
+
+function extractQnAs (sentences){
+  var extractedQnAs = [];
+  var question = '';
+  var answer = '';
+  sentences.forEach(function(sentence) {
+    qid = generateQuestionID();
+
+    if(question == '' && sentence.slice(-1) == '?'){
+      question = sentence;
+    }
+
+    if(question != '' && sentence.slice(-1) == '?'){
+      question = sentence;
+      extractedQnAs.push({
+        questionID: qid,
+        question: question,
+        answer: answer
+      });
+      answer = '';
+    }
+
+    if(question != '' && sentence.slice(-1) != '?'){
+      answer += sentence;
+    }
+  });
+
+  return extractedQnAs;
 }
 
 module.exports = {
@@ -77,5 +112,104 @@ module.exports = {
           }
         });
     });
-  }
+  },
+
+  findFAQs : function(req, res, next){
+    
+    var faqurl = req.body.faqurl;
+    var owner = req.body.ownerID;
+
+    request(faqurl, function(err, resp, body) {
+        
+      if (err) throw err;
+      
+      var text = htmlToText.fromString( body, {
+        wordwrap: 130,
+        ignoreImage: true,
+        uppercaseHeadings: false
+      });
+      
+      tokenizer.setEntry(text);
+      var extractedQnAs = extractQnAs(tokenizer.getSentences());
+      
+      var sitedata = new SiteData({ 
+        faqUrl: faqurl,
+        qnaList: extractedQnAs,
+        owner: owner,
+        faqUrl: faqurl
+      });
+      
+      sitedata.save(function(err) {
+        if (err) throw err
+        else {
+          res.status(200).send({
+            sitedata: sitedata,
+            status: "Success!"
+          });
+        }
+      });
+    });
+  },
+
+  //Get individual question
+  findOneFAQ : function(req, res, next){
+    
+    var ownerID = req.body.ownerID;
+    var questionID = req.body.questionID;
+    
+    SiteData.find(
+      { 'qnaList.questionID': questionID }, { 'qnaList': { $elemMatch: { questionID: questionID } } },
+      function(err, sitedata) {
+        if (err) return next(err);
+        
+        res.status(200).send({
+          sitedata: sitedata,
+          status: "Success!"
+        });
+      });
+  },
+  
+  //Add new question
+  addNewFAQ : function(req, res, next){
+    
+    var ownerID = req.body.ownerID;
+    var questionID = generateQuestionID();
+    var question = req.body.question;
+    var answer = req.body.answer;
+    
+    SiteData.findOneAndUpdate(
+      { '_id': ownerID, 'qnaList': { $exists: true } }, 
+      { '$push': { 'qnaList' : { 'questionID': questionID, 'question': question, 'answer': answer } } },
+      { 'new': true }, 
+      function(err, sitedata) {
+        if (err) return next(err);
+        
+        res.status(200).send({
+          sitedata: sitedata,
+          status: "Success!"
+        });
+      });
+  },
+
+  //Update a Question
+  updateFAQ : function(req, res, next){
+    
+    var ownerID = req.body.ownerID;
+    var questionID = req.body.questionID;
+    var question = req.body.question;
+    var answer = req.body.answer;
+    
+    SiteData.findOneAndUpdate(
+      { '_id': ownerID, 'qnaList.questionID': questionID }, 
+      { '$set': { 'qnaList.$.question': question, 'qnaList.$.answer': answer } },
+      { 'new': true }, 
+      function(err, sitedata) {
+        if (err) return next(err);
+        
+        res.status(200).send({
+          sitedata: sitedata,
+          status: "Success!"
+        });
+      });
+  }  
 }

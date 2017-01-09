@@ -1,10 +1,14 @@
 const mongoose = require('mongoose'),  
       Schema = mongoose.Schema;
 
-const SiteSchema = new Schema({
+const SiteData = new Schema({
   faqUrl: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true
+  },
+  qnaList: {
+    type: Array,
+    default: []
   },
   keywordsOnSite: {
     type: Array,
@@ -16,11 +20,12 @@ const SiteSchema = new Schema({
   },
   owner: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    unique: true
   }
 },
 {
   timestamps: true
 });
 
-module.exports = mongoose.model('SiteData', SiteSchema);
+module.exports = mongoose.model('SiteData', SiteData);

@@ -19,6 +19,7 @@
     "crypto": "0.0.3",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
+    "html-to-text": "^3.0.0",
     "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.5.10",
     "morgan": "^1.7.0",

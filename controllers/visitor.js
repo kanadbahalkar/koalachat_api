@@ -26,7 +26,6 @@ module.exports = {
       visitedAt: Date.now()
     });
 
-    console.log('Visitor created: ', visitor);
     visitor.save(function(err) {
       if (err) throw err
       else {

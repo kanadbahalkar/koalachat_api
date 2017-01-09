@@ -116,13 +116,17 @@ module.exports = function(app) {
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);
     //Crawl Site to find FAQs URL
-    crawlerRouters.post('/findfaqsurl', crawlerController.findFAQsURL);
+    crawlerRouters.post('/findfaqsurl', requireAuth, crawlerController.findFAQsURL);
     // Verify widget embed code
-    crawlerRouters.post('/verifyembedcode', crawlerController.verifyEmbedCode);
+    crawlerRouters.post('/verifyembedcode', requireAuth, crawlerController.verifyEmbedCode);
     //Get FAQs from a given URL
-    // crawlerRouters.post('/getfaqs', crawlerController.getFAQs);
+    crawlerRouters.post('/findfaqs', requireAuth, crawlerController.findFAQs);
+    // Find an individual question
+    crawlerRouters.post('/findonequestion', crawlerController.findOneFAQ);
     //Add a new FAQ manually
-    // crawlerRouters.post('/addfaq', crawlerController.addFAQ);
+    crawlerRouters.post('/addnewfaq', crawlerController.addNewFAQ);
+    // Update an FAQ
+    crawlerRouters.post('/updatequestion', crawlerController.updateFAQ);
 
     // Set url for API group routes
     app.use('/api', apiRoutes);
