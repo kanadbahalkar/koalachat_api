@@ -61,7 +61,6 @@ let facebookLogin = new FacebookStrategy({
     },
     // facebook will send back the token and profile
     function(token, refreshToken, profile, done) {
-        console.log('HERE');
         // asynchronous
         process.nextTick(function() {
             // try to find the user based on their google id
@@ -122,6 +121,7 @@ let googleLogin = new GoogleStrategy({
         callbackURL: configAuth.googleAuth.callbackURL,
     },
     function(token, refreshToken, profile, done) {
+        console.log('google authenticated..');
         process.nextTick(function() {
           User.findOne({
               'id': profile.id

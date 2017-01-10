@@ -263,27 +263,27 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     $locationProvider.html5Mode(true);
 });
 
-myApp.run(function($window, $rootScope, $location, UserService) {  
+myApp.run(function($window, $rootScope, $location, UserService) {
     $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
         //1. FTU - User is registering / onboarding
-        if (nextRoute.access != undefined && nextRoute.access.isOnboarding && UserService.getIsLogged){
-            $location.path(nextRoute.originalPath);
-        }
-        else {
-            $location.path('/login');
-        }
-        
-        //2. User is logging in his existing account
-        if (nextRoute.access != undefined && nextRoute.access.requiredLogin && UserService.getIsLogged) {
-            $location.path(nextRoute.originalPath);
-        }
-        else {
-            $location.path('/login');
-        }
-
-        if(!$window.localStorage.token || $window.localStorage.token == undefined || $window.localStorage.token === 'undefined'){
-            $location.path('/login');
-        }
+        // if (nextRoute.access != undefined && nextRoute.access.isOnboarding && UserService.getIsLogged){
+        //     $location.path(nextRoute.originalPath);
+        // }
+        // else {
+        //     $location.path('/login');
+        // }
+        //
+        // //2. User is logging in his existing account
+        // if (nextRoute.access != undefined && nextRoute.access.requiredLogin && UserService.getIsLogged) {
+        //     $location.path(nextRoute.originalPath);
+        // }
+        // else {
+        //     $location.path('/login');
+        // }
+        //
+        // if(!$window.localStorage.token || $window.localStorage.token == undefined || $window.localStorage.token === 'undefined'){
+        //     $location.path('/login');
+        // }
     });
 });
 
