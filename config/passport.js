@@ -65,13 +65,12 @@ let facebookLogin = new FacebookStrategy({
         process.nextTick(function() {
             // try to find the user based on their google id
             User.findOne({
-                'id': profile.id
+                'email': profile.emails[0]['value']
             }, function(err, user) {
                 if (err)
                     return done(err);
 
                 let str = JSON.stringify(profile, null, '\t');
-                console.log(str);
 
                 if (user) {
                     // if a user is found, log them in
