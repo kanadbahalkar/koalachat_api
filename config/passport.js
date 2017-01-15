@@ -121,9 +121,10 @@ let googleLogin = new GoogleStrategy({
     },
     function(token, refreshToken, profile, done) {
         console.log('google authenticated..');
+        console.log(profile);
         process.nextTick(function() {
           User.findOne({
-              'id': profile.id
+              'email': profile.emails[0].value
           }, function(err, user) {
               if (err)
                   return done(err);

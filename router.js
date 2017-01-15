@@ -90,9 +90,9 @@ module.exports = function(app) {
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-                successRedirect : '/',
-                failureRedirect : '/login'
-        }));
+                failureRedirect : '/login',
+                session: false
+        }), AuthenticationController.returnTempToken);
     
     // route for logging out
     app.get('/logout', function(req, res) {
