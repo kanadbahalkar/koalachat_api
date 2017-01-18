@@ -22,12 +22,12 @@ const REQUIRE_ADMIN = "Admin",
 module.exports = function(app) {
     // Initializing route groups
     const apiRoutes = express.Router(),
-            authRoutes = express.Router(),
-            chatRoutes = express.Router(),
-            profileRouters = express.Router(),
-            widgetRouters = express.Router(),
-            visitorRouters = express.Router(),
-            crawlerRouters = express.Router();
+    authRoutes = express.Router(),
+    chatRoutes = express.Router(),
+    profileRouters = express.Router(),
+    widgetRouters = express.Router(),
+    visitorRouters = express.Router(),
+    crawlerRouters = express.Router();
 
     // Auth Routes
     // Set auth routes as subgroup/middleware to apiRoutes
@@ -77,7 +77,7 @@ module.exports = function(app) {
                 successRedirect : '/',
                 failureRedirect : '/login'
         }));
-    
+
     // route for logging out
     app.get('/logout', function(req, res) {
         req.logout();
@@ -101,7 +101,7 @@ module.exports = function(app) {
     apiRoutes.use('/widget', widgetRouters);
     // Create widget embed code
     widgetRouters.post('/embedcode', widgetController.createEmbedCode);
-    
+
     //Visitor Controllers
     apiRoutes.use('/visitor', visitorRouters);
     //Create new visitor

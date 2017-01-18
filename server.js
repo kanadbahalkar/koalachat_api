@@ -10,13 +10,25 @@ const express = require('express'),
       router = require('./router'),
       session = require('express-session');
 
+//Setup HTTPS
+var fs = require('fs');
+var https = require('https');
+
+var options = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.crt'),
+    requestCert: false,
+    rejectUnauthorized: false
+};
+
 // Database Connection
 mongoose.connect(config.database);
 
-const server = app.listen(config.port);
-console.log('Server is running on port: ' + config.port);
+var server = https.createServer(options, app).listen(config.port, function(){
+    console.log('Server is running on port: ' + config.port);
+});
 
-const io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server);
 socketEvents(io);
 
 // Setting up basic middleware for all Express requests

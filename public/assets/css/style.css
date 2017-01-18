@@ -17,6 +17,14 @@ body {
     background: #FDFDFD;
 }
 
+input:focus {
+    outline:none;
+}
+
+textarea:focus {
+    outline:none;
+}
+
 a {
     font-size: 16px;
     line-height: 20px;
@@ -34,6 +42,10 @@ a {
     border: none;
     border-radius: 0px;
     height: 60px;
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    top: 0;
 }
 
 .topnav {
@@ -130,17 +142,23 @@ a {
     line-height: 60px;
     padding: 0px;
     background-color: rgba(11, 97, 255, 0.1) !important;
-    border-bottom: solid rgb(11, 97, 255) 4px;
+    /*border-bottom: solid rgb(11, 97, 255) 4px;*/
     font-size: 14px;
+}
+
+.nav-item-active {
+    background-color: rgba(11, 97, 255, 0.1) !important;
+    border-bottom: solid rgb(11, 97, 255) 4px;
 }
 
 /*Left Nav Shit*/
 .sidebar {
-    position: absolute;
+    position: fixed;
+    overflow-y: hidden;
     top: 60px;
     left: 0;
     width: 240px;
-    height: 100%;
+    height: calc(100% - 60px);
 }
 
 .navigation {
@@ -163,11 +181,19 @@ a {
 }
 
 .navigation-items > a > img {
-    padding-right: 30px;
+    width: 20px;
+    max-height: 20px;
+    margin-right: 20px;
 }
 
 .navigation-items{
     height: 40px;
+}
+
+.navigation-items:last-of-type {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
 }
 
 .navigation-items a {
@@ -182,6 +208,11 @@ a {
 }
 
 .navigation-items a:hover {
+    background-color: rgba(11, 97, 255, 0.1) !important;
+    /*border-right: solid rgb(11, 97, 255) 4px;*/
+}
+
+.navigation-items-active {
     background-color: rgba(11, 97, 255, 0.1) !important;
     border-right: solid rgb(11, 97, 255) 4px;
 }
@@ -538,7 +569,7 @@ p.explainer-blurb {
 /*Dashboard Shit*/
 .analytics_snapshot {
     width: 960px;
-    margin: 40px auto 20px auto;
+    margin: 80px auto 20px auto;
     height: 140px;
     padding: 30px;
     color: #FFF;
@@ -711,14 +742,14 @@ td:nth-child(3) {
     float: left;
     width: 100%;
     background: #fff;
-    height: 100vh;
+    height: calc(100% - 60px);
     position: absolute;
     top: 60px;
     left: 240px;   
 }
 
 .list_user {
-    width: 340px;
+    width: 360px;
     box-shadow: 2px 0px 24px rgba(0, 0, 0, 0.3);
     float: left;
     height: 100%;
@@ -808,7 +839,7 @@ img.small_icon {
 
 .chat_box {
     width: 43%; /*Fallback if necessary*/
-    width: calc(100% - 820px);
+    width: calc(100% - 840px);
     float: left;
     padding-left: 20px;
     padding-right: 20px;
@@ -828,7 +859,7 @@ img.small_icon {
 
 .message_sender {
     display: inline-block;
-    width: calc(60% - 50px);
+    width: calc(100% - 80px);
     text-align: right;
     float: right;
 }
@@ -853,6 +884,14 @@ img.small_icon {
     float: right;
 }
 
+.sender_pic_avatar {
+    width: 40px;
+}
+
+.pic_avatar {
+    width: 40px;
+}
+
 .receiver {
     width: 100%;
     display: block;
@@ -861,7 +900,7 @@ img.small_icon {
 
 .message_receiver {
     display: inline-block;
-    width: calc(60% - 50px);
+    width: calc(100% - 80px);
     text-align: left;
 }
 
@@ -891,10 +930,10 @@ img.small_icon {
     bottom: 0px;
     background-color: #FFF;
     padding-top: 20px;
-    width: 620px;
+    width: 470px;
     z-index: 99;
-    border-top: solid 1px #D8D8D8;
-    left: 340px;
+    border: solid 1px #D8D8D8;
+    left: 359px;
 }
 
 input.attachfile {
@@ -935,15 +974,13 @@ textarea.message_input {
 a.send {
     text-decoration: none;
     color: #0B61FF;
-    float: right;
-    margin-right: 30px;
 }
 
 .visitor_profile {
     width: 240px;
     text-align: center;
     background: #222;
-    height: 100vh;
+    height: 100%;
     position: absolute;
     display: inline-block;
 }
@@ -1003,10 +1040,11 @@ p.profile_title {
 .search_contacts {
     position: absolute;
     left: 260px;
+    padding-top: 80px;
 }
 
 .contacts_table {
-    margin-top: 40px;
+    margin-top: 120px;
     width: 100%;
     text-align: left;
 }
@@ -1050,7 +1088,8 @@ td.contact_pic, td.contact_first_seen, td.contact_last_seen, td.contact_visits, 
 }
 
 td.contact_pic {
-    padding-left: 20px; 
+    padding-left: 40px; 
+    padding-right: 20px; 
 }
 
 /*FAQs Shit*/
@@ -1279,6 +1318,10 @@ textarea.koalabot_textarea {
 	-webkit-border-radius: 60px;
 	border-radius: 60px;
     box-shadow: 0px 1px 15px #FDFDFD;
+}
+
+.visitor_profile_pic {
+    width: 30px;
 }
 
 .user_fullname {
