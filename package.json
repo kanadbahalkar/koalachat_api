@@ -29,10 +29,11 @@
     "passport-google-oauth": "^1.0.0",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "pathfinder-ui": "^1.0.3",
     "sandcrawler": "0.0.1",
     "scraperjs": "^1.2.0",
     "sentence-tokenizer": "0.0.7",
-    "passport-twitter": "^1.0.4",
     "socket.io": "^1.4.8"
   },
   "devDependencies": {
