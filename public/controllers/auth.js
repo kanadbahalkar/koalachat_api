@@ -40,9 +40,10 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 $log.error(res);
             } else {
                 UserService.setIsLogged(true);
-                $window.localStorage.token = res.token;
-                $window.localStorage.userid = res.user.userID;
-                $window.localStorage.useremail = res.user.email;
+                console.log(res)
+                // $window.localStorage.token = res.token;
+                // $window.localStorage.userid = res.user.userID;
+                // $window.localStorage.useremail = res.user.email;
                 $window.location = '/';
             }
         }, function() {

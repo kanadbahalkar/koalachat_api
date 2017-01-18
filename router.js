@@ -14,6 +14,7 @@ var requireAuth = passport.authenticate('jwt', { session: false });
 var requireLogin = passport.authenticate('local', { session: false });
 var facebookAuth = passport.authenticate('facebook', { scope: ['email', 'user_birthday', 'pages_show_list']});
 var googleAuth = passport.authenticate('google', { scope : ['profile', 'email'] });
+var pathfinderUI = require('pathfinder-ui');
 
 // Constants for role types
 const REQUIRE_ADMIN = "Admin",
@@ -41,6 +42,9 @@ module.exports = function(app) {
 
     // Login route
     authRoutes.post('/login', requireLogin, AuthenticationController.login);
+
+    // Get JWT token
+    authRoutes.post('/get_token', AuthenticationController.getToken);
 
     // Set chat routes as a subgroup/middleware to apiRoutes
     apiRoutes.use('/chat', chatRoutes);
@@ -73,12 +77,12 @@ module.exports = function(app) {
 
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { failureRedirect: '/login' }),
-        function(req, res) {
-            // Successful authentication, redirect home. 
-            console.log("SADSAD");
-            res.redirect('/');
-        });
+        passport.authenticate('facebook', { failureRedirect: '/Messages/Inbox', session: false }), AuthenticationController.returnTempToken);
+        // function(req, res) {
+        //     // Successful authentication, redirect home.
+        //     console.log("SADSAD");
+        //     res.redirect('/');
+        // });
         
     app.get('/profile', isLoggedIn, AuthenticationController.login);
 
@@ -88,9 +92,9 @@ module.exports = function(app) {
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-                successRedirect : '/',
-                failureRedirect : '/login'
-        }));
+                failureRedirect : '/login',
+                session: false
+        }), AuthenticationController.returnTempToken);
     
     // route for logging out
     app.get('/logout', function(req, res) {
@@ -121,8 +125,19 @@ module.exports = function(app) {
     //Add a new FAQ manually
     // crawlerRouters.post('/addfaq', crawlerController.addFAQ);
 
+    // pathfinder route -
+    app.use('/pathfinder', function(req, res, next){
+      pathfinderUI(app);
+      next();
+    }, pathfinderUI.router);
+
     // Set url for API group routes
     app.use('/api', apiRoutes);
+
+    app.use('/', express.static(__dirname + '/public'));
+    app.route('/*').get(function(req, res) {
+      return res.sendFile(__dirname + '/public/index.html');
+    });
 };
 
 // route middleware to make sure a user is logged in

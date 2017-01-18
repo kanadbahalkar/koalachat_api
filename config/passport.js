@@ -61,18 +61,16 @@ let facebookLogin = new FacebookStrategy({
     },
     // facebook will send back the token and profile
     function(token, refreshToken, profile, done) {
-        console.log('HERE');
         // asynchronous
         process.nextTick(function() {
             // try to find the user based on their google id
             User.findOne({
-                'id': profile.id
+                'email': profile.emails[0]['value']
             }, function(err, user) {
                 if (err)
                     return done(err);
 
                 let str = JSON.stringify(profile, null, '\t');
-                console.log(str);
 
                 if (user) {
                     // if a user is found, log them in
@@ -122,9 +120,11 @@ let googleLogin = new GoogleStrategy({
         callbackURL: configAuth.googleAuth.callbackURL,
     },
     function(token, refreshToken, profile, done) {
+        console.log('google authenticated..');
+        console.log(profile);
         process.nextTick(function() {
           User.findOne({
-              'id': profile.id
+              'email': profile.emails[0].value
           }, function(err, user) {
               if (err)
                   return done(err);

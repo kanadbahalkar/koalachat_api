@@ -2,7 +2,7 @@
  
 angular.module('myApp')
     .factory('AuthenticationService', ['$http', '$window', function($http, $window){
-        var baseUrl = "http://localhost:4731/api";
+        var baseUrl = "http://localhost:4731";
         
         function changeUser(user) {
             angular.extend(currentUser, user);
@@ -59,6 +59,7 @@ angular.module('myApp')
                 .error(error);
             },
             fbauth: function(success, error) {
+                // window.location.replace(baseUrl + '/auth/facebook');
                 $http({
                     method: 'GET',
                     url: baseUrl + '/auth/facebook',

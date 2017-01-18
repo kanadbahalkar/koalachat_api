@@ -11,6 +11,11 @@ function generateToken(user) {
   });
 }
 
+function generateTempToken() {
+  let tempToken = crypto.randomBytes(48).toString('hex');
+  return tempToken;
+}
+
 // Set user info from request
 let setUserInfo = (user) => {
   return {
@@ -29,13 +34,40 @@ let setUserInfo = (user) => {
 // Login Route
 exports.login = function(req, res, next) {
   let userInfo = setUserInfo(req.user);
-  console.log(req.user);
 
   res.status(200).json({
     token: 'JWT ' + generateToken(userInfo),
     user: userInfo
   });
-}
+};
+
+// Return with temp authentication -
+exports.returnTempToken = function(req, res, next) {
+  let tempToken = generateTempToken();
+  req.user.update({ tempToken: tempToken }, function(err, user) {
+    if(err) throw err;
+    res.redirect('/loggingin?tmp_token=' + tempToken)
+  });
+};
+
+// Return JWT token in exchange of temp token
+exports.getToken = function(req, res, next) {
+  User.findOne({tempToken: req.body.temp_token}, function(err, user){
+    if(err || !user){
+      res.json({ success: false, message: 'Invalid temp token.'})
+    }
+    console.log(user);
+    user.update({tempToken: null}, function(err, user){
+      if(err){
+        res.json(({ success: false, message: 'Something went wrong, please try again.' }))
+      }
+      res.status(200).json({
+        success: true,
+        token: generateToken({email: user.email, id: user._id})
+      });
+    })
+  })
+};
 
 // Registration for Website Owners Route
 exports.registerowner = function(req, res, next) {

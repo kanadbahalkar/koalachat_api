@@ -76,6 +76,9 @@ const UserSchema = new Schema({
     enum: ['Visitor', 'Owner', 'Admin', 'Agent', 'Bot'],
     default: 'Visitor'
   },
+  tempToken: {
+ 	  type: String
+  },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }
 },
