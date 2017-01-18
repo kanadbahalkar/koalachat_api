@@ -29,22 +29,13 @@
     "passport-google-oauth": "^1.0.0",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
-<<<<<<< HEAD
-    "passport-twitter": "^1.0.4",
     "sandcrawler": "0.0.1",
     "scraperjs": "^1.2.0",
     "sentence-tokenizer": "0.0.7",
-    "socket.io": "^1.4.8",
-    "x-ray": "^2.3.1"
-=======
-    "passport-facebook": "^2.1.1",
-    "passport-google-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "express-session": "^1.14.2",
     "socket.io": "^1.4.8"
   },
   "devDependencies": {
     "pathfinder-ui": "^1.0.3"
->>>>>>> 3ed1fe6b32ecbd44c8aa92da6cc0292f11cb64f7
   }
 }
