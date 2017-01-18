@@ -35,7 +35,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
       })
 
     //Dashboard Router
-    .when('/', {
+    .when('/Overview', {
         templateUrl : 'pages/dashboard.html',
         controller : 'dashboardController',
         access: { 

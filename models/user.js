@@ -5,18 +5,18 @@ const mongoose = require('mongoose'),
 
 // User Schema
 const UserSchema = new Schema({
- 	anonymous: {
-     type: Boolean,
-     default: true
-  },
-  ownerID: {
+ 	ownerID: {
     type: String,
     required: false
+  },
+  businessName: {
+    type: String,
+    required: true
   },
   welcomeMessage:{
     type: String,
     required: false,
-    default: "Hey there! Are you looking for something specific? Let me know, I\'m here to answer your questions ... :)"
+    default: "Hey there! Are you looking for something specific? Let me know, I'm here to answer your questions ... :)"
   },
   website: {
     type: String,
@@ -51,6 +51,11 @@ const UserSchema = new Schema({
     category: {type: String},
     id: {type: String}
   }],
+  // Stores list of social accounts of the user
+  socialAaccounts: [{
+    access_token: {type: String},
+    channelname: {type: String}
+  }],
   password: {
     type: String,
     required: false
@@ -64,17 +69,27 @@ const UserSchema = new Schema({
     type: String,
     required: false
   },
+  allowAnonymous: {
+    type: String,
+    required: false
+  },
   profile: {
-    firstName: { type: String },
-    lastName: { type: String },
-    givenName: {type: String},
-    photo: {type: String},
+    firstName: { type: String, default: 'Anonymous' },
+    lastName: { type: String, default: 'Koala' },
+    givenName: {type: String, default: 'Toby' },
+    photo: { type: String },
     required: false
   },
   role: {
     type: String,
-    enum: ['Visitor', 'Owner', 'Admin', 'Agent', 'Bot'],
-    default: 'Visitor'
+    enum: ['Owner', 'Staff', 'Admin', 'Agent', 'Bot'],
+    default: 'Owner'
+  },
+  emailFrequency: {
+    newsletter: { type: Boolean, default: true },
+    billingUpdates: { type: Boolean, default: true },
+    announcements: {type: Boolean, default: true },
+    required: false
   },
   tempToken: {
  	  type: String

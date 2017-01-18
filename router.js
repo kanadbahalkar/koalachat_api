@@ -1,11 +1,10 @@
-const AuthenticationController = require('./controllers/authentication'),
-    // UserController = require('./controllers/user'),
+const express = require('express'),
+    passport = require('passport'),
+    passportService = require('./config/passport'),
+    authenticationController = require('./controllers/authentication'),
     chatController = require('./controllers/chat'),
     profileController = require('./controllers/profile'),
-    express = require('express'),
-    passportService = require('./config/passport'),
-    passport = require('passport'),
-    FacebookStrategy = require('passport-facebook').Strategy,
+    visitorController = require('./controllers/visitor'),
     widgetController = require('./controllers/widget_controller'),
     crawlerController = require('./controllers/crawler');
 
@@ -24,50 +23,38 @@ const REQUIRE_ADMIN = "Admin",
 module.exports = function(app) {
     // Initializing route groups
     const apiRoutes = express.Router(),
-            authRoutes = express.Router(),
-            chatRoutes = express.Router(),
-            profileRouters = express.Router(),
-            widgetRouters = express.Router()
-            crawlerRouters = express.Router();
+    authRoutes = express.Router(),
+    chatRoutes = express.Router(),
+    profileRouters = express.Router(),
+    widgetRouters = express.Router(),
+    visitorRouters = express.Router(),
+    crawlerRouters = express.Router();
 
     // Auth Routes
     // Set auth routes as subgroup/middleware to apiRoutes
     apiRoutes.use('/auth', authRoutes);
-
     // Registration route
-    authRoutes.post('/registerowner', AuthenticationController.registerowner);
-
-    // Registration route
-    authRoutes.post('/registervisitor', AuthenticationController.registervisitor);
-
+    authRoutes.post('/registerowner', authenticationController.registerowner);
     // Login route
-    authRoutes.post('/login', requireLogin, AuthenticationController.login);
+    authRoutes.post('/login', requireLogin, authenticationController.login);
 
     // Get JWT token
     authRoutes.post('/get_token', AuthenticationController.getToken);
 
-    // Set chat routes as a subgroup/middleware to apiRoutes
+    // TODO: Set chat routes as a subgroup/middleware to apiRoutes
+    // Chat routes
     apiRoutes.use('/chat', chatRoutes);
-
-    // View Visitors and an authenticated Owner
-    // chatRoutes.get('/visitors', requireAuth, chatController.getVisitors);
-
-    // Retrieve single conversation by Visitor
-    // chatRoutes.get('/conversations/:visitorId', requireAuth, chatController.getConversationByVisitor);
-
+    // Retrieve all conversations between owner and visitor
+    chatRoutes.post('/conversations/:visitorid', requireAuth, chatController.getConversations);
     // Retrieve single conversation by id
-    chatRoutes.get('/conversations/:conversationId', requireAuth, chatController.getConversation);
-
+    chatRoutes.post('/conversation/:conversationId', requireAuth, chatController.getConversation);
     // Send reply in conversation
     chatRoutes.post('/conversations/:conversationId', requireAuth, chatController.sendReply);
-
     // Start new conversation
     chatRoutes.post('/new/:recipient', requireAuth, chatController.newConversation);
+    // Delete a conversation
+    chatRoutes.post('/delete/:conversationId', requireAuth, chatController.deleteConversation);
 
-    // Broadcast message to all clients
-    // chatRoutes.post('/announcement', requireAuth, chatController.announcement);
-
-    // chatRoutes.post('/messages/:clientID/', requireAuth, chatController.getMessage);
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -84,7 +71,7 @@ module.exports = function(app) {
         //     res.redirect('/');
         // });
         
-    app.get('/profile', isLoggedIn, AuthenticationController.login);
+    app.get('/profile', isLoggedIn, authenticationController.login);
 
 
     //Google Auth
@@ -95,35 +82,56 @@ module.exports = function(app) {
                 failureRedirect : '/login',
                 session: false
         }), AuthenticationController.returnTempToken);
-    
+
     // route for logging out
     app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/login');
     });
 
+    //Profile Routes
     apiRoutes.use('/profile', profileRouters);
-    //Route to update owners' welcome message
+    //Update owners' welcome message
     profileRouters.post('/setwelcomemessage', requireAuth, profileController.updateWelcomeMessage);
-
-    //Route to get owner's info
+    //Get owner's info
     profileRouters.post('/getownerinfo', requireAuth, profileController.getOwnerInfo);
-    
+    //Update owner's info
+    profileRouters.post('/updateownerinfo', requireAuth, profileController.updateOwnerInfo);
+    //Allow anonymous / non-anonymous chats
+    profileRouters.post('/allowanonymous', requireAuth, profileController.allowAnonymous);
+    //Set notification frequency
+    profileRouters.post('/emailfrequency', requireAuth, profileController.emailFrequency);
+
     //Widget Routes
     apiRoutes.use('/widget', widgetRouters);
     // Create widget embed code
     widgetRouters.post('/embedcode', widgetController.createEmbedCode);
-    
+
+    //Visitor Controllers
+    apiRoutes.use('/visitor', visitorRouters);
+    //Create new visitor
+    visitorRouters.post('/newvisitor', visitorController.registerVisitor);
+    //Set nickname for a visitor
+    visitorRouters.post('/setnickname', requireAuth, visitorController.setNickname);
+    //Blacklist visitor by email / ip address / id
+    visitorRouters.post('/blacklistvisitor', requireAuth, visitorController.blacklistVisitor);
+    //Get a list of all visitors / visitors with email / anonymous visitors
+    visitorRouters.post('/getvisitors/:filter', requireAuth, visitorController.getVisitors);
+
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);
     //Crawl Site to find FAQs URL
-    crawlerRouters.post('/findfaqsurl', crawlerController.findFAQsURL);
+    crawlerRouters.post('/findfaqsurl', requireAuth, crawlerController.findFAQsURL);
     // Verify widget embed code
-    crawlerRouters.post('/verifyembedcode', crawlerController.verifyEmbedCode);
+    crawlerRouters.post('/verifyembedcode', requireAuth, crawlerController.verifyEmbedCode);
     //Get FAQs from a given URL
-    // crawlerRouters.post('/getfaqs', crawlerController.getFAQs);
+    crawlerRouters.post('/findfaqs', requireAuth, crawlerController.findFAQs);
+    // Find an individual question
+    crawlerRouters.post('/findonequestion', crawlerController.findOneFAQ);
     //Add a new FAQ manually
-    // crawlerRouters.post('/addfaq', crawlerController.addFAQ);
+    crawlerRouters.post('/addnewfaq', crawlerController.addNewFAQ);
+    // Update an FAQ
+    crawlerRouters.post('/updatequestion', crawlerController.updateFAQ);
 
     // pathfinder route -
     app.use('/pathfinder', function(req, res, next){
@@ -151,11 +159,3 @@ function isLoggedIn(req, res, next) {
     // if they aren't redirect them to the home page
     res.redirect('/');
 }
-
-//Other routes needed
-//1. Register a Visitor under an Owners account
-//2. Establish connection between a Visitor and Owner
-//3. Disconnect a Visitor from an Owner
-//4. Get a list of all Visitors for an Owner
-//5. Get a list of all Visitors & Owners for Admin
-//6. Search for a Visitor or Owner for Admin

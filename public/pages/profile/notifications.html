@@ -1,12 +1,15 @@
+<topnav></topnav>
+
 <div ng-controller="navbarController">
     <div class="sidebar" sidebar-directive="state">
-        <p>Contacts</p>
         <ul class="navigation">
-            <li class="navigation-items"> <a href="/Profile">Overview</a> </li>
-            <li class="navigation-items"> <a href="/Profile/Billing">Billing</a> </li>
-            <li class="navigation-items"> <a href="/Profile/Team">Team</a> </li>
-            <li class="navigation-items"> <a href="/Profile/EmnedCodes">Embed Codes</a> </li>
-            <li class="navigation-items"> <a href="/Profile/Notifications">Notifications</a> </li>
+            <li class="navigation-items list-header"> Profile </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Profile')};"> <a href="/Profile">Overview</a> </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Profile/Billing')};"> <a href="/Profile/Billing">Billing</a> </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Profile/Team')};"> <a href="/Profile/Team">Team</a> </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Profile/EmbedCodes')};"> <a href="/Profile/EmbedCodes">Embed Codes</a> </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Profile/Notifications')};"> <a href="/Profile/Notifications">Notifications</a> </li>
+            <li class="navigation-items"> <a href=""> <img src="/assets/images/help.svg"/>Help Me Pweez!</a> </li>
         </ul>
     </div>
 </div>

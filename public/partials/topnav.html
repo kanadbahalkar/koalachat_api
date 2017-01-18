@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav ng-controller="topnavController" class="navbar navbar-default">
     <div class="container topnav">
         <div class="navbar-header">
             <a class="navbar-brand logo" href="/"> <img src="/assets/images/logo.svg"/> </a>
@@ -9,32 +9,32 @@
         </div>
 
         <div class="navbar-header nav-item">
-            <a class="navbar-brand" href="/">Measure</a>
+            <a class="navbar-brand ng-class:{'nav-item-active':isActive('/Overview')};" href="/Overview">Overview</a>
         </div>
 
         <div class="navbar-header nav-item">
-            <a class="navbar-brand" href="/Messages/Inbox">Inbox</a>
+            <a class="navbar-brand ng-class:{'nav-item-active':isActive('/Messages/Inbox')};" href="/Messages/Inbox">Inbox</a>
         </div>
 
         <div class="navbar-header nav-item">
-            <a class="navbar-brand" href="/Contacts">Contacts</a>
+            <a class="navbar-brand ng-class:{'nav-item-active':isActive('/Contacts')};" href="/Contacts">Leads</a>
         </div>
 
         <div class="navbar-header nav-item">
-            <a class="navbar-brand" href="/KoalaBot/FAQs">KoalaBot</a>
+            <a class="navbar-brand ng-class:{'nav-item-active':isActive('/KoalaBot/FAQs')};" href="/KoalaBot/FAQs">KoalaBot</a>
         </div>
 
         <div class="navbar-header nav-item">
-            <a class="navbar-brand" href="/Apps">Apps</a>
+            <a class="navbar-brand ng-class:{'nav-item-active':isActive('/Apps')};" href="/Apps">Apps</a>
         </div>
 
         <div class="navbar-header nav-item">
-            <a class="navbar-brand" href="/GrowthHacks">Growth Hacks</a>
+            <a class="navbar-brand ng-class:{'nav-item-active':isActive('/GrowthHacks')};" href="/GrowthHacks">Growth Hacks</a>
         </div>
 
         <div class="navbar-header profile">
-            <a class="navbar-brand name" href="/Profile"> Christina Smith 
-                <img class="image" src="/assets/images/avatar.png"/>
+            <a class="navbar-brand name ng-class:{'nav-item-active':isActive('/Profile')};" href="/Profile"> Christina Smith 
+                <img class="image pic_avatar" src="/assets/images/avatar.png"/>
                 <img class="down-arrow" src="/assets/images/down-triangle.svg"/>
             </a>
         </div>

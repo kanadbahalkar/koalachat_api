@@ -27,7 +27,7 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 $window.localStorage.token = res.token;
                 $window.localStorage.userid = res.user.userID;
                 $window.localStorage.useremail = res.user.email;
-                $window.location = '/';
+                $window.location = '/Overview';
             }
         }, function() {
             $rootScope.error = 'Login Failed';
@@ -40,11 +40,18 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 $log.error(res);
             } else {
                 UserService.setIsLogged(true);
+<<<<<<< HEAD
                 console.log(res)
                 // $window.localStorage.token = res.token;
                 // $window.localStorage.userid = res.user.userID;
                 // $window.localStorage.useremail = res.user.email;
                 $window.location = '/';
+=======
+                $window.localStorage.token = res.token;
+                $window.localStorage.userid = res.user.userID;
+                $window.localStorage.useremail = res.user.email;
+                $window.location = '/Overview';
+>>>>>>> frontend
             }
         }, function() {
             $rootScope.error = 'Login Failed';
