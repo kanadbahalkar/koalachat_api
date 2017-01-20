@@ -39,7 +39,7 @@ module.exports = function(app) {
     authRoutes.post('/login', requireLogin, authenticationController.login);
 
     // Get JWT token
-    authRoutes.post('/get_token', AuthenticationController.getToken);
+    authRoutes.post('/get_token', authenticationController.getToken);
 
     // TODO: Set chat routes as a subgroup/middleware to apiRoutes
     // Chat routes
@@ -64,7 +64,7 @@ module.exports = function(app) {
 
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { failureRedirect: '/Messages/Inbox', session: false }), AuthenticationController.returnTempToken);
+        passport.authenticate('facebook', { failureRedirect: '/Messages/Inbox', session: false }), authenticationController.returnTempToken);
         // function(req, res) {
         //     // Successful authentication, redirect home.
         //     console.log("SADSAD");
@@ -81,7 +81,7 @@ module.exports = function(app) {
         passport.authenticate('google', {
                 failureRedirect : '/login',
                 session: false
-        }), AuthenticationController.returnTempToken);
+        }), authenticationController.returnTempToken);
 
     // route for logging out
     app.get('/logout', function(req, res) {
