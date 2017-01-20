@@ -9,7 +9,8 @@
   "author": "Kanad Bahalkar",
   "license": "ISC",
   "engines": {
-    "node": "6.9.2"
+    "node": "4.3.x",
+    "npm": "3.10.x"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
