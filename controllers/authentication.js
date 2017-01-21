@@ -22,7 +22,6 @@ let setUserInfo = (user) => {
     _id: user._id,
     email: user.email,
     role: user.role,
-    anonymous: user.anonymous,
     ownerID: user.ownerID,
     userID: user.userID,
     website: user.website,

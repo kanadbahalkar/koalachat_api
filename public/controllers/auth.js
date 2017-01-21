@@ -24,8 +24,9 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 $log.error(res);
             } else {
                 UserService.setIsLogged(true);
+                console.log(res);
                 $window.localStorage.token = res.token;
-                $window.localStorage.userid = res.user.userID;
+                $window.localStorage.userid = res.user._id;
                 $window.localStorage.useremail = res.user.email;
                 $window.location = '/Overview';
             }

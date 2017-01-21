@@ -6,43 +6,34 @@ const mongoose = require('mongoose'),
 // User Schema
 const UserSchema = new Schema({
  	ownerID: {
-    type: String,
-    required: false
+    type: String
   },
   businessName: {
-    type: String,
-    required: true
+    type: String
   },
   welcomeMessage:{
     type: String,
-    required: false,
     default: "Hey there! Are you looking for something specific? Let me know, I'm here to answer your questions ... :)"
   },
   website: {
-    type: String,
-    required: false
+    type: String
   },
   websiteVerified: {
-     type: Boolean,
-     default: false
+     type: Boolean
   },
   faqurl: {
-    type: String,
-    required: false
+    type: String
   },
   ipAddress: {
-    type: String,
-    required: false
+    type: String
   },
   userAgent: {
-    type: String,
-    required: false
+    type: String
   },
   email: {
     type: String,
     lowercase: true,
-    unique: true,
-    required: false
+    unique: true
   },
   // Stores list of pages manage by user on facebook
   accounts: [{
@@ -57,8 +48,7 @@ const UserSchema = new Schema({
     channelname: {type: String}
   }],
   password: {
-    type: String,
-    required: false
+    type: String
   },
   autherticationType: {
     type: String,
@@ -66,19 +56,16 @@ const UserSchema = new Schema({
     default: 'local'
   },
   userID: {
-    type: String,
-    required: false
+    type: String
   },
   allowAnonymous: {
-    type: String,
-    required: false
+    type: String
   },
   profile: {
     firstName: { type: String, default: 'Anonymous' },
     lastName: { type: String, default: 'Koala' },
     givenName: {type: String, default: 'Toby' },
-    photo: { type: String },
-    required: false
+    photo: { type: String }
   },
   role: {
     type: String,
@@ -88,8 +75,7 @@ const UserSchema = new Schema({
   emailFrequency: {
     newsletter: { type: Boolean, default: true },
     billingUpdates: { type: Boolean, default: true },
-    announcements: {type: Boolean, default: true },
-    required: false
+    announcements: {type: Boolean, default: true }
   },
   tempToken: {
  	  type: String

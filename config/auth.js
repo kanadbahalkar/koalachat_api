@@ -1,14 +1,13 @@
 module.exports = {
-
     'facebookAuth' : {
         'clientID'      : '182119938859848', // your App ID
         'clientSecret'  : '9fbdfc509d7b6d14cf5f9954855e5ee5', // your App Secret
-        'callbackURL'   : 'http://localhost:4731/auth/facebook/callback'
+        'callbackURL'   : 'https://localhost:4731/auth/facebook/callback'
     },
 
     'googleAuth' : {
-        'clientID'      : '128931725263-6mof4j68lqvds8n6adjt5ft3b8vabtb3.apps.googleusercontent.com',
-        'clientSecret'  : 'npkrrCUWstpBNG7jXEJWP1v7',
-        'callbackURL'   : 'http://localhost:4731/auth/google/callback'
+        'clientID'      : '352313595407-8oarqe1mun8g3u6jvf9nfp2c8qkk3eac.apps.googleusercontent.com',
+        'clientSecret'  : 's7fREHIVewKrR8ecnl4WVWYq',
+        'callbackURL'   : 'https://localhost:4731/auth/google/callback'
     }
   };

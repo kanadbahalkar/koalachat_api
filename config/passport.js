@@ -140,7 +140,6 @@ let googleLogin = new GoogleStrategy({
                   // if the user isnt in our database, create a new user
                   var newUser = new User();
                   newUser.autherticationType = 'google';
-                  newUser.id = profile.id;
                   // Only owner can login using facebook/google
                   newUser.ownerID = profile.id;
                   newUser.email = profile.emails ? profile.emails[0].value : '';
@@ -148,8 +147,7 @@ let googleLogin = new GoogleStrategy({
                     'givenName': profile.displayName,
                     'photo': profile.photos ? profile.photos[0].value : ''
                   };
-                  newUser.role = "Owner";
-                  newUser.anonymous = false;
+                  newUser.role = 'Owner';
                   newUser.save(function(err) {
                     console.log('Saving user');
                       if (err)

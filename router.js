@@ -21,6 +21,7 @@ const REQUIRE_ADMIN = "Admin",
     REQUIRE_VISITOR = "Visitor";
 
 module.exports = function(app) {
+
     // Initializing route groups
     const apiRoutes = express.Router(),
     authRoutes = express.Router(),
@@ -30,13 +31,17 @@ module.exports = function(app) {
     visitorRouters = express.Router(),
     crawlerRouters = express.Router();
 
+    // apiRoutes.use("*", function (req, res, next) {
+    //     res.redirect("https://" + req.headers.host + "/" + req.path);
+    // });
+
     // Auth Routes
     // Set auth routes as subgroup/middleware to apiRoutes
     apiRoutes.use('/auth', authRoutes);
     // Registration route
     authRoutes.post('/registerowner', authenticationController.registerowner);
     // Login route
-    authRoutes.post('/login', requireLogin, authenticationController.login);
+    authRoutes.use('/login', requireLogin, authenticationController.login);
 
     // Get JWT token
     authRoutes.post('/get_token', authenticationController.getToken);

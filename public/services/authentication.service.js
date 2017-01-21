@@ -2,7 +2,7 @@
  
 angular.module('myApp')
     .factory('AuthenticationService', ['$http', '$window', function($http, $window){
-        var baseUrl = "http://localhost:4731";
+        var baseUrl = "https://localhost:4731/api";
         
         function changeUser(user) {
             angular.extend(currentUser, user);
