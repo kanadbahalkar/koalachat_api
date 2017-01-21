@@ -63,29 +63,24 @@ module.exports = function(app) {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    //for facebook authentication
-    // route for facebook authentication and login
+    //Facebook authentication
     app.get('/auth/facebook', facebookAuth);
-
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { failureRedirect: '/Messages/Inbox', session: false }), authenticationController.returnTempToken);
-        // function(req, res) {
-        //     // Successful authentication, redirect home.
-        //     console.log("SADSAD");
-        //     res.redirect('/');
-        // });
+        passport.authenticate('facebook', { 
+            successRedirect : '/Overview',
+            failureRedirect: '/login', 
+            session: false 
+        }), authenticationController.returnTempToken);
         
-    app.get('/profile', isLoggedIn, authenticationController.login);
-
-
     //Google Auth
     app.get('/auth/google', googleAuth);
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-                failureRedirect : '/login',
-                session: false
+            successRedirect : '/Overview',
+            failureRedirect : '/login',
+            session: false
         }), authenticationController.returnTempToken);
 
     // route for logging out
@@ -152,15 +147,3 @@ module.exports = function(app) {
       return res.sendFile(__dirname + '/public/index.html');
     });
 };
-
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on
-    if (req.isAuthenticated())
-        return next();
-
-    console.log("User not authenticated");
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-}

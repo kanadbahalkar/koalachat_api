@@ -129,9 +129,6 @@ let googleLogin = new GoogleStrategy({
               if (err)
                   return done(err);
 
-              //let str = JSON.stringify(profile, null, '\t');
-              //console.log(str);
-
               if (user) {
                   // if a user is found, log them in
                   console.log('User Found');
@@ -142,6 +139,7 @@ let googleLogin = new GoogleStrategy({
                   newUser.autherticationType = 'google';
                   // Only owner can login using facebook/google
                   newUser.ownerID = profile.id;
+                  newUser.userID = profile.id;
                   newUser.email = profile.emails ? profile.emails[0].value : '';
                   newUser.profile = {
                     'givenName': profile.displayName,

@@ -6,7 +6,7 @@
 
 myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$scope', '$location', '$window', '$ocLazyLoad', '$http', 'UserService', 'AuthenticationService', 
     function($route, $routeParams, $rootScope, $scope, $location, $window, $ocLazyLoad, $http, UserService, AuthenticationService){
-    
+
     //Lazy load the pluin UI
     $ocLazyLoad.load(['jqueryUI', 'pluginUI'], {cache: true, serie: true});
 

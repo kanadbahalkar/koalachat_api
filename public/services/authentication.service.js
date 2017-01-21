@@ -58,8 +58,7 @@ angular.module('myApp')
                 .success(success)
                 .error(error);
             },
-            fbauth: function(success, error) {
-                // window.location.replace(baseUrl + '/auth/facebook');
+            fblogin: function(success, error) {
                 $http({
                     method: 'GET',
                     url: baseUrl + '/auth/facebook',
