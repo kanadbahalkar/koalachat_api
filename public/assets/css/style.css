@@ -106,7 +106,7 @@ a {
 
 .profile > a > .image {
     padding: 15px 0px 15px 10px;
-    line-height: 60px;
+    width: 40px;
     display: inline !important;
 }
 
@@ -310,11 +310,12 @@ a:hover {
     margin: 0 15%;
 }
 
-a.btn.btn_blue {
+a.btn.btn_blue, a.btn.btn_blue:active {
     text-align: center;
     margin: 0 auto !important;
     font-size: 16px;
     line-height: 20px;
+    color: white;
 }
 
 .business_info {
@@ -1334,22 +1335,12 @@ textarea.koalabot_textarea {
     margin-bottom: 0px; 
 }
 
-.user_city {
+.user_profile_completion {
     font-size: 14px;
     line-height: 20px;
     position: absolute;
     left: 240px;
     top: 130px;
-    color: #80878F;
-    margin-bottom: 0px; 
-}
-
-.user_profile_completion {
-    font-size: 14px;
-    line-height: 30px;
-    position: absolute;
-    left: 400px;
-    top: 100px;
     color: #80878F;
     margin-bottom: 0px; 
 }

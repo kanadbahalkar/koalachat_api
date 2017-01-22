@@ -120,10 +120,10 @@ module.exports = function(app) {
 
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);
-    //Crawl Site to find FAQs URL
-    crawlerRouters.post('/findfaqsurl', requireAuth, crawlerController.findFAQsURL);
     // Verify widget embed code
     crawlerRouters.post('/verifyembedcode', requireAuth, crawlerController.verifyEmbedCode);
+    //Crawl Site to find FAQs URL
+    crawlerRouters.post('/findfaqsurl', requireAuth, crawlerController.findFAQsURL);
     //Get FAQs from a given URL
     crawlerRouters.post('/findfaqs', requireAuth, crawlerController.findFAQs);
     // Find an individual question

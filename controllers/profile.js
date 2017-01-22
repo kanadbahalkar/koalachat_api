@@ -26,7 +26,9 @@ module.exports = {
 
         // Get's owner information
         getOwnerInfo: function(req, res, next) {
+          console.log('Here');
           User.findOne({'userID': req.body.userID}, function(err, owner) {
+            console.log('Req fired');
             if (err) return next(err);
 
             if(!owner) {

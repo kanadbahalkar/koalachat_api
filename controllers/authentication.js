@@ -86,6 +86,10 @@ exports.registerowner = function(req, res, next) {
   let lastName = req.body.lastName;
   let givenName = req.body.givenName;
 
+  if (!/^https?:\/\//i.test(website)) {
+      website = 'http://' + website;
+  }
+
   // Return error if no email provided
   if (!email) {
     console.log('You must enter an email address.');

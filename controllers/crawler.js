@@ -105,6 +105,7 @@ module.exports = {
               if (err) return next(err);
               
               res.status(200).send({
+                websiteVerified: true,
                 message: "Site Has KoalaChat Correctly Installed!",
                 status: "success"
               });

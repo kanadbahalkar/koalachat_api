@@ -53,7 +53,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
     $scope.verifyEmbedCode = function () {
         $http({
 			method: 'POST',
-			url: 'api/widget/verifyembedcode',
+			url: 'api/crawler/verifyembedcode',
 			data: $.param({userID: $window.localStorage.userid, website: $window.localStorage.userwebsite}),
 			headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -61,7 +61,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
             }
 		})
         .success(function (data, status, headers, config) {
-            if(data.verified){
+            if(data.websiteVerified){
                 $window.location.href = '/onboarding/getfaqs';
             }
             else{

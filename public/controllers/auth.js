@@ -1,7 +1,3 @@
-//TODO: 
-//1. Display login failure message in chat bubble
-//2. Display registration failure message in chat bubble
-
 'use strict';
 
 myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$scope', '$location', '$window', '$ocLazyLoad', '$http', 'UserService', 'AuthenticationService', 
@@ -24,8 +20,8 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 $log.error(res);
             } else {
                 UserService.setIsLogged(true);
-                console.log(res);
                 $window.localStorage.token = res.token;
+                $window.localStorage.userfullname = res.user.profile.firstName + ' ' + res.user.profile.lastName;
                 $window.localStorage.userid = res.user._id;
                 $window.localStorage.useremail = res.user.email;
                 $window.location = '/Overview';
@@ -42,6 +38,7 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
             } else {
                 UserService.setIsLogged(true);
                 $window.localStorage.token = res.token;
+                $window.localStorage.user = res.user;
                 $window.localStorage.userid = res.user.userID;
                 $window.localStorage.useremail = res.user.email;
                 $window.location = '/Overview';
@@ -68,8 +65,10 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
             } else {
                 UserService.setIsLogged(true);
                 $window.localStorage.token = res.token;
+                $window.localStorage.user = res.user;
                 $window.localStorage.userid = res.user.userID;
                 $window.localStorage.useremail = res.user.email;
+                $window.localStorage.userwebsite = res.user.website;
                 $window.location = '/onboarding/setwelcome';
             }
         }, function() {

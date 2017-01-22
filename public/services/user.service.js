@@ -4,7 +4,7 @@ myApp.service('UserService', function() {
   this.userData = {
         isLogged: false,
         username: '',       
-    };
+  };
 
   this.user = function() {
         return this.userData;
