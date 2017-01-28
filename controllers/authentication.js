@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken'),
 
 function generateToken(user) {
   return jwt.sign(user, config.secret, {
-    expiresIn: 10080 // in seconds
+    expiresIn: 604800 // in seconds
   });
 }
 
@@ -42,6 +42,7 @@ exports.login = function(req, res, next) {
 
 // Return with temp authentication -
 exports.returnTempToken = function(req, res, next) {
+  console.log('here....');
   let tempToken = generateTempToken();
   req.user.update({ tempToken: tempToken }, function(err, user) {
     if(err) throw err;
@@ -67,7 +68,6 @@ exports.returnTempToken = function(req, res, next) {
 // Return JWT token in exchange of temp token
 exports.getToken = function(req, res, next) {
   console.log('HERE');
-  
 };
 
 // Registration for Website Owners Route

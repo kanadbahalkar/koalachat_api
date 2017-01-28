@@ -62,6 +62,8 @@ let facebookLogin = new FacebookStrategy({
     // facebook will send back the token and profile
     function(token, refreshToken, profile, done) {
         // asynchronous
+        console.log('facebook authenticated..');
+        console.log(profile);
         process.nextTick(function() {
             // try to find the user based on their google id
             User.findOne({
@@ -71,37 +73,77 @@ let facebookLogin = new FacebookStrategy({
                     return done(err);
 
                 let str = JSON.stringify(profile, null, '\t');
+                
+                //Create object for managed pages aka accounts
+                var accounts = [];
+                if (profile._json.accounts) {
+                    profile._json.accounts.data.forEach(function(manage_page) {
+                        var page = {};
+                        page.id = manage_page.id;
+                        page.access_token = manage_page.access_token;
+                        page.name = manage_page.name;
+                        page.category = manage_page.category;
+                        accounts.push(page);
+                    });
+                }
 
                 if (user) {
                     // if a user is found, log them in
-                    console.log('User Found');
+                    console.log('User Found: ', user);
+                    
+                    var socialAccounts = [];
+                    if(user.socialAccounts != null && user.socialAccounts.length == 1 && user.socialAccounts[0].provider == "Google"){
+                        socialAccounts = user.socialAccounts;
+                    }
+                    
+                    socialAccounts.push({
+                        provider_id: profile.id,
+                        provider: 'Facebook'
+                    });
+
+                    //Update the user data
+                    User.findOneAndUpdate(
+                        { 'email' : user.email }, 
+                        { 
+                            'profile.photo' : profile.picture,
+                            'profile.gender' : profile.gender,
+                            'profile.firstName' : profile.first_name,
+                            'profile.birthday' : profile.birthday,
+                            'accounts': accounts,
+                            'socialAccounts': socialAccounts
+                        }, 
+                        { upsert : true },
+                        function(err, doc){
+                            if (err) console.log(err);
+                            console.log('Succesfully saved: ', doc);
+                        });
+
                     return done(null, user);
                 } else {
                     // if the user isnt in our database, create a new user
                     var newUser = new User();
-                    newUser.autherticationType = 'facebook';
+                    newUser.authenticationType = 'facebook';
                     newUser.id = profile.id;
                     // Only owner can login using facebook/google
                     newUser.ownerID = profile.id;
                     newUser.email = profile.emails ? profile.emails[0].value : '';
                     newUser.profile = {
-                      'givenName': profile.displayName,
-                      'photo': profile.photos ? profile.photos[0].value : ''
+                        'firstName': profile.first_name,
+                        'givenName': profile.displayName,
+                        'photo': profile.photos ? profile.photos[0].value : '',
+                        'gender': profile.gender,
+                        'birthday': profile.birthday
                     };
                     newUser.role = "Owner";
-                    newUser.anonymous = false;
-                    var accounts = [];
-                    if (profile._json.accounts) {
-                        profile._json.accounts.data.forEach(function(manage_page) {
-                          var page = {};
-                          page.id = manage_page.id;
-                          page.access_token = manage_page.access_token;
-                          page.name = manage_page.name;
-                          page.category = manage_page.category;
-                          accounts.push(page)
-                      });
-                    }
                     newUser.accounts = accounts;
+                    
+                    var socialAccounts = [];
+                    socialAccounts.push({
+                        provider_id: profile.id,
+                        provider: 'Facebook'
+                    });
+                    newUser.socialAccounts = socialAccounts;
+
                     // save the user
                     newUser.save(function(err) {
                         if (err)
@@ -126,34 +168,70 @@ let googleLogin = new GoogleStrategy({
           User.findOne({
               'email': profile.emails[0].value
           }, function(err, user) {
-              if (err)
-                  return done(err);
+                if (err)
+                    return done(err);
 
-              if (user) {
-                  // if a user is found, log them in
-                  console.log('User Found');
-                  return done(null, user);
+                if (user) {
+                    // if a user is found, log them in
+                    console.log('User Found');
+
+                    //Create social accounts array to be save in person
+                    var socialAccounts = [];
+                    if(user.socialAccounts != null && user.socialAccounts.length == 1 && user.socialAccounts[0].provider == "Facebook"){
+                        socialAccounts = user.socialAccounts;
+                    }
+                    
+                    socialAccounts.push({
+                        provider_id: profile.id,
+                        provider: 'Google'
+                    });
+
+                    //Update the user data
+                    User.findOneAndUpdate(
+                        { 'email' : user.email }, 
+                        { 
+                            'profile.photo' : profile.picture,
+                            'profile.gender' : profile.gender,
+                            'profile.firstName' : profile.name.givenName,
+                            'profile.lastName' : profile.name.familyName,
+                            'socialAccounts': socialAccounts
+                        }, 
+                        { upsert : true },
+                        function(err, doc){
+                            if (err) console.log(err);
+                            console.log('Succesfully saved: ', doc);
+                        });
+                        
+                    return done(null, user);
               } else {
-                  // if the user isnt in our database, create a new user
-                  var newUser = new User();
-                  newUser.autherticationType = 'google';
-                  // Only owner can login using facebook/google
-                  newUser.ownerID = profile.id;
-                  newUser.userID = profile.id;
-                  newUser.email = profile.emails ? profile.emails[0].value : '';
-                  newUser.profile = {
-                    'givenName': profile.displayName,
-                    'photo': profile.photos ? profile.photos[0].value : ''
-                  };
-                  newUser.role = 'Owner';
-                  newUser.save(function(err) {
-                    console.log('Saving user');
-                      if (err)
-                          throw err;
-                      return done(null, newUser)
-                  });
+                    // if the user isnt in our database, create a new user
+                    var newUser = new User();
+                    newUser.authenticationType = 'google';
+                    // Only owner can login using facebook/google
+                    newUser.ownerID = profile.id;
+                    newUser.userID = profile.id;
+                    newUser.email = profile.emails ? profile.emails[0].value : '';
+                    newUser.profile = {
+                        'givenName': profile.displayName,
+                        'photo': profile.photos ? profile.photos[0].value : ''
+                    };
+
+                    var socialAccounts = [];
+                    socialAccounts.push({
+                        provider_id: profile.id,
+                        provider: 'Google'
+                    });
+                    newUser.socialAccounts = socialAccounts;
+
+                    newUser.role = 'Owner';
+                    newUser.save(function(err) {
+                        console.log('Saving user');
+                        if (err)
+                            throw err;
+                        return done(null, newUser)
+                    });
                 }
-              });
+            });
         });
     });
 

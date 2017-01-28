@@ -3,6 +3,7 @@ module.exports = {
     'secret': 'koalaftw',
     // Database connection information
     'database': 'mongodb://kandyrox:kandyrox2017@ds049104.mlab.com:49104/heroku_7pv27c4s',
+    // 'database': 'localhost:27017',
     // Setting port for server
     'port': process.env.PORT || 4731,
     'default_email': 'anonymous@koala.com',

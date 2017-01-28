@@ -31,10 +31,6 @@ module.exports = function(app) {
     visitorRouters = express.Router(),
     crawlerRouters = express.Router();
 
-    // apiRoutes.use("*", function (req, res, next) {
-    //     res.redirect("https://" + req.headers.host + "/" + req.path);
-    // });
-
     // Auth Routes
     // Set auth routes as subgroup/middleware to apiRoutes
     apiRoutes.use('/auth', authRoutes);
@@ -45,23 +41,6 @@ module.exports = function(app) {
 
     // Get JWT token
     authRoutes.post('/get_token', authenticationController.getToken);
-
-    // TODO: Set chat routes as a subgroup/middleware to apiRoutes
-    // Chat routes
-    apiRoutes.use('/chat', chatRoutes);
-    // Retrieve all conversations between owner and visitor
-    chatRoutes.post('/conversations/:visitorid', requireAuth, chatController.getConversations);
-    // Retrieve single conversation by id
-    chatRoutes.post('/conversation/:conversationId', requireAuth, chatController.getConversation);
-    // Send reply in conversation
-    chatRoutes.post('/conversations/:conversationId', requireAuth, chatController.sendReply);
-    // Start new conversation
-    chatRoutes.post('/new/:recipient', requireAuth, chatController.newConversation);
-    // Delete a conversation
-    chatRoutes.post('/delete/:conversationId', requireAuth, chatController.deleteConversation);
-
-    app.use(passport.initialize());
-    app.use(passport.session());
 
     //Facebook authentication
     app.get('/auth/facebook', facebookAuth);
@@ -88,6 +67,22 @@ module.exports = function(app) {
         req.logout();
         res.redirect('/login');
     });
+    
+    // Chat routes
+    apiRoutes.use('/chat', chatRoutes);
+    // Retrieve all conversations between owner and visitor
+    chatRoutes.post('/conversations/:visitorid', requireAuth, chatController.getConversations);
+    // Retrieve single conversation by id
+    chatRoutes.post('/conversation/:conversationId', requireAuth, chatController.getConversation);
+    // Send reply in conversation
+    chatRoutes.post('/conversations/:conversationId', requireAuth, chatController.sendReply);
+    // Start new conversation
+    chatRoutes.post('/new/:recipient', requireAuth, chatController.newConversation);
+    // Delete a conversation
+    chatRoutes.post('/delete/:conversationId', requireAuth, chatController.deleteConversation);
+
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     //Profile Routes
     apiRoutes.use('/profile', profileRouters);
@@ -131,7 +126,9 @@ module.exports = function(app) {
     //Add a new FAQ manually
     crawlerRouters.post('/addnewfaq', crawlerController.addNewFAQ);
     // Update an FAQ
-    crawlerRouters.post('/updatequestion', crawlerController.updateFAQ);
+    crawlerRouters.post('/updatefaq', crawlerController.updateFAQ);
+    // Update all FAQs
+    crawlerRouters.post('/updateallfaqs', crawlerController.updateAllFAQs);
 
     // pathfinder route -
     app.use('/pathfinder', function(req, res, next){
@@ -145,5 +142,15 @@ module.exports = function(app) {
     app.use('/', express.static(__dirname + '/public'));
     app.route('/*').get(function(req, res) {
       return res.sendFile(__dirname + '/public/index.html');
+    });
+
+    // production error handler
+    // no stacktraces leaked to user
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: {}
+        });
     });
 };

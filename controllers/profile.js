@@ -5,7 +5,7 @@ module.exports = {
             //find owner in database
             //expects ownerID field in req body
             User.findOne({
-                'userID': req.body.userID
+                'userID': req.body._id
             }, function(err, owner) {
                 if (err) return next(err);
                 if(!owner || owner == undefined || owner == null) {

@@ -7,6 +7,7 @@ var cheerio = require('cheerio');
 var htmlToText = require('html-to-text');
 var Tokenizer = require('sentence-tokenizer');
 var tokenizer = new Tokenizer('Koala');
+var origin = require('original');
 
 function sanitizeUrl(host, link) {
     return url.resolve(host, link);
@@ -85,7 +86,7 @@ module.exports = {
   verifyEmbedCode : function(req, res, next){
     
     var website = req.body.website;
-    var userid = req.body.userID;
+    var ownerid = req.body.userID;
 
     request(website, function(err, resp, body) {
         
@@ -95,18 +96,18 @@ module.exports = {
       $("script").each(function(index, script){
         if(script.attribs.id && 
           script.attribs.id.indexOf('koala-index') > -1 && 
-          script.attribs.u === req.body.userID && 
+          script.attribs.u === ownerid && 
           script.attribs.src === 'https://s3.amazonaws.com/koalachat/index.js'){
 
           User.findOneAndUpdate(
-            { 'userID': userid  }, 
+            { 'userID': ownerid  }, 
             { 'websiteVerified': true  },
             function(err, owner) {
               if (err) return next(err);
               
               res.status(200).send({
                 websiteVerified: true,
-                message: "Site Has KoalaChat Correctly Installed!",
+                message: "KoalaChat is Correctly Installed on Your Site!",
                 status: "success"
               });
             });
@@ -118,38 +119,48 @@ module.exports = {
   findFAQs : function(req, res, next){
     
     var faqurl = req.body.faqurl;
-    var owner = req.body.ownerID;
+    var owner = req.body.userID;
+    var website = req.body.website;
 
-    request(faqurl, function(err, resp, body) {
+    // if (origin.same(faqurl, website)) {
+
+      request(faqurl, function(err, resp, body) {
+        if (err) throw err;
         
-      if (err) throw err;
-      
-      var text = htmlToText.fromString( body, {
-        wordwrap: 130,
-        ignoreImage: true,
-        uppercaseHeadings: false
+        var text = htmlToText.fromString( body, {
+          wordwrap: 130,
+          ignoreImage: true,
+          uppercaseHeadings: false
+        });
+        
+        tokenizer.setEntry(text);
+        var extractedQnAs = extractQnAs(tokenizer.getSentences());
+        
+        var sitedata = new SiteData({ 
+          website: website,
+          faqUrl: faqurl,
+          qnaList: extractedQnAs,
+          owner: owner
+        });
+
+        sitedata.save(function(err) {
+          if (err) {
+            res.status(200).send({
+              err: err,
+              status: "Failed!!"
+            });
+          }
+          else {
+            res.status(200).send({
+              sitedata: sitedata,
+              status: "Success!"
+            });
+          }
+        });
       });
-      
-      tokenizer.setEntry(text);
-      var extractedQnAs = extractQnAs(tokenizer.getSentences());
-      
-      var sitedata = new SiteData({ 
-        faqUrl: faqurl,
-        qnaList: extractedQnAs,
-        owner: owner,
-        faqUrl: faqurl
-      });
-      
-      sitedata.save(function(err) {
-        if (err) throw err
-        else {
-          res.status(200).send({
-            sitedata: sitedata,
-            status: "Success!"
-          });
-        }
-      });
-    });
+    // } else {
+    //   console.log('Derp! ' + faqurl + ' and ' + website + ' are not the same origin');
+    // }
   },
 
   //Get individual question
@@ -184,7 +195,8 @@ module.exports = {
       { 'new': true }, 
       function(err, sitedata) {
         if (err) return next(err);
-        
+        console.log(sitedata);
+
         res.status(200).send({
           sitedata: sitedata,
           status: "Success!"
@@ -195,17 +207,37 @@ module.exports = {
   //Update a Question
   updateFAQ : function(req, res, next){
     
-    var ownerID = req.body.ownerID;
     var questionID = req.body.questionID;
     var question = req.body.question;
     var answer = req.body.answer;
+    var ownerID = req.body.ownerID;
     
     SiteData.findOneAndUpdate(
-      { '_id': ownerID, 'qnaList.questionID': questionID }, 
+      { 'qnaList.questionID': questionID }, 
       { '$set': { 'qnaList.$.question': question, 'qnaList.$.answer': answer } },
-      { 'new': true }, 
       function(err, sitedata) {
         if (err) return next(err);
+        
+        console.log('Sitedata: ', sitedata);
+
+        res.status(200).send({
+          sitedata: sitedata,
+          status: "Success!"
+        });
+      });
+  },
+
+  //Update entire FAQ list
+  updateAllFAQs : function(req, res, next){
+    
+    var ownerID = req.body.ownerID;
+    var qnaList = req.body;
+    
+    SiteData.findOneAndUpdate(
+      { 'owner': ownerID }, 
+      { 'qnaList': qnaList }, 
+      function(err, sitedata){
+        if (err) return res.send(500, { error: err });
         
         res.status(200).send({
           sitedata: sitedata,

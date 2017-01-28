@@ -32,14 +32,14 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
     };
 
     $scope.fblogin = function() {
-        AuthenticationService.fbauth(function(res) {
+        AuthenticationService.fblogin(function(res) {
             if (res.type == false) {
                 $log.error(res);
             } else {
                 UserService.setIsLogged(true);
                 $window.localStorage.token = res.token;
                 $window.localStorage.user = res.user;
-                $window.localStorage.userid = res.user.userID;
+                $window.localStorage.userid = res.user._id;
                 $window.localStorage.useremail = res.user.email;
                 $window.location = '/Overview';
             }
@@ -66,7 +66,7 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 UserService.setIsLogged(true);
                 $window.localStorage.token = res.token;
                 $window.localStorage.user = res.user;
-                $window.localStorage.userid = res.user.userID;
+                $window.localStorage.userid = res.user._id;
                 $window.localStorage.useremail = res.user.email;
                 $window.localStorage.userwebsite = res.user.website;
                 $window.location = '/onboarding/setwelcome';

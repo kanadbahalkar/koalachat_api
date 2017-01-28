@@ -2,6 +2,10 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
 const SiteData = new Schema({
+  website: {
+    type: String,
+    required: true
+  },
   faqUrl: {
     type: String,
     required: true

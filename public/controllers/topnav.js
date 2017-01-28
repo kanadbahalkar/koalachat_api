@@ -4,6 +4,6 @@ myApp.controller('topnavController', ['$scope', '$location', '$window', function
         return destination === $location.path();
     }
     
-    $scope.ownerName = $window.localStorage.userfullname;
+    $scope.ownerID = $window.localStorage.userid;
 
 }]);

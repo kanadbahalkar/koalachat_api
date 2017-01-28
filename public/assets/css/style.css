@@ -870,12 +870,13 @@ img.small_icon {
     padding: 15px 20px 15px 20px;
     margin-bottom: 2px;
     border-radius: 20px;
-    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
+    /*box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);*/
     background: #0B61FF; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+    
+    /* background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
+    /* background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
+    /* background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
+    /* background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
 }
 
 .sender_pic {
@@ -910,8 +911,8 @@ img.small_icon {
     padding: 15px 20px 15px 20px;
     margin-bottom: 2px;
     border-radius: 20px;
-    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
-    background: #FFF;
+    /*box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);*/
+    background: #F9F9F9;
 }
 
 .receiver_pic {
@@ -931,7 +932,7 @@ img.small_icon {
     bottom: 0px;
     background-color: #FFF;
     padding-top: 20px;
-    width: 470px;
+    width: 600px;
     z-index: 99;
     border: solid 1px #D8D8D8;
     left: 359px;

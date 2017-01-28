@@ -1,9 +1,55 @@
-myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http', '$window', 'clipboard', function($scope, $log, $timeout, $http, $window, clipboard){
+myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http', '$window', '$timeout', 'clipboard', function($scope, $log, $timeout, $http, $window, $timeout, clipboard){
 
     if (!clipboard.supported) {
         console.log('Sorry, copy to clipboard is not supported');
     }
 
+    var timeout;
+  
+    // Save changes to the copy of the person back to the original,
+    // including in the parent array
+    var saveFAQs = function(updatedFAQ) {
+        
+        $http({
+            method: 'POST',
+            url: 'api/crawler/updatefaq',
+            data: $.param({
+                questionID: updatedFAQ.questionID,
+                question: updatedFAQ.question,
+                answer: updatedFAQ.answer,
+                ownerID: $window.localStorage.userid
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .success(function (data, status, headers, config) {
+            if(data.sitedata){
+                //Populate the FAQs in the view
+                console.log('FAQ List Updated!');
+            }
+            else{
+                console.log('No Owner-FAQ pair found! :(');
+            }
+        })
+        .error(function (data, status, headers, config) {
+            console.log('Error: ' + status);
+        });
+    };
+
+    // Watch for changes
+    $scope.$watch('faqlist', function(newVal, oldVal) {
+        if (newVal && oldVal && newVal != oldVal) {
+            for (var val in $scope.faqlist) {
+                if(JSON.stringify(newVal[val]) !== JSON.stringify(oldVal[val])) {
+                    if (timeout) $timeout.cancel(timeout);
+                    timeout = $timeout(saveFAQs(newVal[val]), 3000);
+                }
+            }
+        }
+    }, true);
+  
     //Set Welcome Message
     $scope.setWelcomeMessage = function () {
         $http({
@@ -54,7 +100,10 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         $http({
 			method: 'POST',
 			url: 'api/crawler/verifyembedcode',
-			data: $.param({userID: $window.localStorage.userid, website: $window.localStorage.userwebsite}),
+			data: $.param({
+                ownerID: $window.localStorage.userid, 
+                website: $window.localStorage.userwebsite
+            }),
 			headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': $window.localStorage.token
@@ -73,8 +122,97 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         });
     };
 
-    //TODO:
     //Search FAQs on a users website
+    $scope.setupFAQPage = function () {
+        
+        $http({
+			method: 'POST',
+			url: 'api/crawler/findfaqsurl',
+			data: $.param({
+                userID: $window.localStorage.userid, 
+                website: $window.localStorage.userwebsite
+            }),
+			headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+		})
+        .success(function (data, status, headers, config) {
+            if(data.faqurl){
+                $scope.faqurl = data.faqurl;
+
+                //Find FAQs fromt he FAQ URL
+                //And populate it on the screen
+                $http({
+                    method: 'POST',
+                    url: 'api/crawler/findfaqs',
+                    data: $.param({ 
+                        userID: $window.localStorage.userid, 
+                        website: $window.localStorage.userwebsite, 
+                        faqurl: $scope.faqurl 
+                    }),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': $window.localStorage.token
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    if(data.sitedata){
+                        //Populate the FAQs in the view
+                        $scope.faqlist = data.sitedata.qnaList;
+                    }
+                    else{
+                        console.log('No FAQs found!');
+                    }
+                })
+                .error(function (data, status, headers, config) {
+                    console.log('Error: ' + status);
+                });
+
+            }
+            else{
+                console.log('No FAQ URL found on site');
+            }
+        })
+        .error(function (data, status, headers, config) {
+            console.log('Error: Setting Up FAQs Page Failed');
+        });
+    }
+
     //Search FAQs on a given URL
+    $scope.findFAQs = function () {
+        if($scope.faqurl){
+            $http({
+                method: 'POST',
+                url: 'api/crawler/findfaqs',
+                data: $.param({ 
+                    userID: $window.localStorage.userid, 
+                    website: $window.localStorage.userwebsite, 
+                    faqurl: $scope.faqurl 
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': $window.localStorage.token
+                }
+            })
+            .success(function (data, status, headers, config) {
+                if(data.sitedata){
+                    //Populate the FAQs in the view
+                    $scope.faqlist = data.sitedata.qnaList;
+                    $scope.faqlistCopy = data.sitedata.qnaList;
+                }
+                else{
+                    console.log('No FAQs found');
+                }
+            })
+            .error(function (data, status, headers, config) {
+                console.log('Error: ' + status);
+            });
+        }
+        else {
+            console.log('Hey, your FAQ URL is empty! Copy-paste or Type in your FAQ URL...');
+        }
+    }
+
     //Adding a new FAQ manually
 }]);

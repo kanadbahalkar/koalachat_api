@@ -43,14 +43,14 @@ const UserSchema = new Schema({
     id: {type: String}
   }],
   // Stores list of social accounts of the user
-  socialAaccounts: [{
-    access_token: {type: String},
-    channelname: {type: String}
+  socialAccounts: [{
+    provider_id: {type: String},
+    provider: {type: String}
   }],
   password: {
     type: String
   },
-  autherticationType: {
+  authenticationType: {
     type: String,
     enum: ['local', 'google', 'facebook', 'twitter'],
     default: 'local'
@@ -65,7 +65,9 @@ const UserSchema = new Schema({
     firstName: { type: String, default: 'Anonymous' },
     lastName: { type: String, default: 'Koala' },
     givenName: {type: String, default: 'Toby' },
-    photo: { type: String }
+    photo: { type: String },
+    gender: { type: String },
+    birthday: { type: Date }
   },
   role: {
     type: String,
