@@ -86,7 +86,7 @@ module.exports = {
   verifyEmbedCode : function(req, res, next){
     
     var website = req.body.website;
-    var ownerid = req.body.userID;
+    var ownerid = req.body.ownerID;
 
     request(website, function(err, resp, body) {
         
@@ -94,10 +94,11 @@ module.exports = {
       
       $ = cheerio.load(body);
       $("script").each(function(index, script){
+        
         if(script.attribs.id && 
-          script.attribs.id.indexOf('koala-index') > -1 && 
-          script.attribs.u === ownerid && 
-          script.attribs.src === 'https://s3.amazonaws.com/koalachat/index.js'){
+          script.attribs.id.indexOf('koala-index') != -1 && 
+          script.attribs.u == ownerid && 
+          script.attribs.src == 'https://s3.amazonaws.com/koalachat/index.js'){
 
           User.findOneAndUpdate(
             { 'userID': ownerid  }, 
