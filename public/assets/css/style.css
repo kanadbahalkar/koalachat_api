@@ -395,7 +395,7 @@ business_info:-moz-placeholder { /* Firefox 4 - 18 */
     -webkit-transition:color .2s ease-in, background .2s ease-in;
     /* ...and now override with proper CSS property */
     transition:color .2s ease-in, background .2s ease-in;
-    
+
     background: #0B61FF; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
@@ -433,7 +433,7 @@ business_info:-moz-placeholder { /* Firefox 4 - 18 */
     line-height: 40px;
     margin-bottom: 80px;
     width: 60%;
-    float: left; 
+    float: left;
 }
 
 .faqs_textarea {
@@ -441,7 +441,7 @@ business_info:-moz-placeholder { /* Firefox 4 - 18 */
     line-height: 30px;
     margin-bottom: 20px;
     font-size: 16px;
-    width: 100%; 
+    width: 100%;
     border: none;
     border-bottom: 1px solid #B6B6B6;
     background: none;
@@ -450,8 +450,8 @@ business_info:-moz-placeholder { /* Firefox 4 - 18 */
 }
 
 .add_faq_url_btn {
-    padding: 10px 15px; 
-    float: right; 
+    padding: 10px 15px;
+    float: right;
     vertical-align: top;
     margin-bottom: 40px;
     text-align: center;
@@ -466,12 +466,12 @@ business_info:-moz-placeholder { /* Firefox 4 - 18 */
 }
 
 .date_text {
-    color: #B6B6B6; 
-    font-size: 14px; 
+    color: #B6B6B6;
+    font-size: 14px;
     float: right;
     width: auto;
     text-align: right;
-    line-height: 40px; 
+    line-height: 40px;
     margin-bottom: 20px;
 }
 
@@ -712,7 +712,7 @@ td:nth-child(3) {
     font-size: 16px;
     line-height: 20px;
     color: #0B61FF;
-    width: 75%; 
+    width: 75%;
 }
 
 .growthhack_blurb {
@@ -721,7 +721,7 @@ td:nth-child(3) {
     font-size: 14px;
     line-height: 20px;
     color: #4A4A4A;
-    width: 75%; 
+    width: 75%;
 }
 
 .more_growthhacks {
@@ -746,7 +746,7 @@ td:nth-child(3) {
     height: calc(100% - 60px);
     position: absolute;
     top: 60px;
-    left: 240px;   
+    left: 240px;
 }
 
 .list_user {
@@ -761,7 +761,7 @@ td:nth-child(3) {
     width: 15px;
     height: 15px;
     background-color:#26C74C;
-    border: 2px solid #FFF;    
+    border: 2px solid #FFF;
     border-radius:50%;
     -moz-border-radius:50%;
     -webkit-border-radius:50%;
@@ -781,8 +781,8 @@ ul.list {
 .main_box_search {
     margin-left: 10px;
     color: #767B7B;
-    text-transform: uppercase;
     vertical-align: middle;
+    border: none;
 }
 
 ul.list li.search_chat:hover {
@@ -872,7 +872,7 @@ img.small_icon {
     border-radius: 20px;
     /*box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);*/
     background: #0B61FF; /* For browsers that do not support gradients */
-    
+
     /* background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
     /* background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
     /* background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
@@ -1090,8 +1090,8 @@ td.contact_pic, td.contact_first_seen, td.contact_last_seen, td.contact_visits, 
 }
 
 td.contact_pic {
-    padding-left: 40px; 
-    padding-right: 20px; 
+    padding-left: 40px;
+    padding-right: 20px;
 }
 
 /*FAQs Shit*/
@@ -1170,7 +1170,7 @@ textarea.koalabot_textarea {
     -webkit-transition:color .2s ease-in, background .2s ease-in;
     /* ...and now override with proper CSS property */
     transition:color .2s ease-in, background .2s ease-in;
-    
+
     background: #0B61FF; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
@@ -1333,7 +1333,7 @@ textarea.koalabot_textarea {
     left: 240px;
     top: 100px;
     color: #FDFDFD;
-    margin-bottom: 0px; 
+    margin-bottom: 0px;
 }
 
 .user_profile_completion {
@@ -1343,7 +1343,7 @@ textarea.koalabot_textarea {
     left: 240px;
     top: 130px;
     color: #80878F;
-    margin-bottom: 0px; 
+    margin-bottom: 0px;
 }
 
 .profile_info {
@@ -1362,7 +1362,7 @@ textarea.koalabot_textarea {
     font-size: 14px;
     line-height: 30px;
     color: #80878F;
-    margin-bottom: 0px; 
+    margin-bottom: 0px;
     width: 100%;
 }
 
@@ -1375,7 +1375,7 @@ textarea.koalabot_textarea {
     font-size: 16px;
     color: #4A4A4A;
     line-height: 30px;
-    margin-bottom: 40px; 
+    margin-bottom: 40px;
     font-style: initial;
 }
 
@@ -1429,7 +1429,7 @@ input[type=checkbox] {
     color: #4A4A4A;
     line-height: 20px;
     margin-bottom: 40px;
-    margin-left: 10px; 
+    margin-left: 10px;
     font-style: initial;
     float: left;
 }
@@ -1459,7 +1459,7 @@ input[type=checkbox] {
     -webkit-transition:color .2s ease-in, background .2s ease-in;
     /* ...and now override with proper CSS property */
     transition:color .2s ease-in, background .2s ease-in;
-    
+
     background: #0B61FF; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
