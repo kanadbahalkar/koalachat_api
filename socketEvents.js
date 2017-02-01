@@ -16,38 +16,25 @@ function findRooms(rooms) {
   return availableRooms;
 }
 
-function test(socket, data){
-  socket.emit('dashboard:testing', data);
-}
-
 exports = module.exports = (io) => {
 
   // Set socket.io listeners.
   io.sockets.on('connection', (socket) => {
     
     var connectedVisitors = {};
-    var liveVisitorsCount = {};
     var vid = null;
     
     //New Visitor Connected Event
     var vid = Math.random().toString(36).substring(3,16)+ +new Date;
     socket.emit('newConnection', { vid: vid });
 
-    //testing
-    socket.on('client:testing', function(data){
-      console.log(data);
-      test(socket, data);
-    });
-
     // Register a new Visitor with an Owner
     socket.on('subscribe to owner', function (visitor) {
         socket.join(visitor.oid);
         connectedVisitors[visitor.vid] = socket;
-        liveVisitorsCount[visitor.oid] = Object.keys(connectedVisitors).length;
         console.log('New visitor connected: ' + visitor.vid + ' to Owner: ' + visitor.oid);
-        console.log('Total number of visitors: ' + liveVisitorsCount);
         
-        socket.emit('testing', 'HEY after new subscriber...' );
+        connectedVisitors[visitor.vid].emit('testing', 'HEY after new subscriber...' );
 
         vid = visitor.vid;
         
@@ -65,15 +52,9 @@ exports = module.exports = (io) => {
 
     //Visitor sends a messge to the Owner
     socket.on('message from visitor', function (data) {
-      console.log(conversationsCounter);
       console.log('Message from Visitor: ', data);
-      
-      //Get the number of conversations (When a visitor sends a message himself)
-      if(data.firstMessage)
-        conversationsCounter++;
-
       //Respond with an echo of the same message
-      // connectedVisitors[data.vid].emit('reply from owner', { message: data.message });
+      connectedVisitors[data.vid].emit('reply from owner', { message: data.message });
     });
 
     // Disconnect a Visitor

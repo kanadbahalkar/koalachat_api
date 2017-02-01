@@ -1,13 +1,13 @@
 'use strict';
 
-myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', 'VisitorsService', 'socket', function($http, $scope, $log, $window, VisitorsService, socket){
+myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', 'VisitorsService', function($http, $scope, $log, $window, VisitorsService){
 
     //Get number of current visitors on the site
     var baseUrl = "https://localhost:4731/api";
-    var socket = io.connect();
+    var socket = io.connect("https://localhost:4731");
 
     //Get number of live visitors
-    socket.on('dashboard:testing', function (data) {
+    socket.on('testing', function (data) {
         console.log(data);
     });
 
