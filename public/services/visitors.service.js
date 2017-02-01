@@ -17,6 +17,10 @@ angular.module('myApp')
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'Authorization': $window.localStorage.token
                     }
+                })
+                .then(function(data, response){
+                    console.log('Visitors: ', data);
+                    response.status(200).send(data);
                 });
            },
 

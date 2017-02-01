@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="main_box" ng-controller="inboxController">
+<div class="main_box" ng-controller="messagesController">
     <div class="list_user">
         <ul class="list">
             <li class="search_chat">
@@ -29,12 +29,12 @@
                 <input type="text" class="main_box_search" placeholder="Search Inbox" ng-model="searchBox"/>
             </li>
 
-            <li ng-repeat= "name in names | filter:searchBox">
+            <li ng-repeat= "visitor in visitors | filter:searchBox">
                 <a href="">
                     <img src="assets/images/avatar.png" alt="" class="profile_icon">
                     <div class="details">
-                        <span class="name"> {{name.name}} <span class="name_time">14:20pm</span> </span>
-                        <span class="name_details">{{ name.name_details }}</span>
+                        <span class="name"> {{ visitor.email }} <span class="name_time"> {{ visitor.visitedAt | date:'MMM dd' }} </span> </span>
+                        <span class="name_details">{{ visitor.tags }}</span>
                     </div>
                 </a>
             </li>

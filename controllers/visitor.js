@@ -117,9 +117,7 @@ module.exports = {
 
   //Get visitors last week
   getVisitorsLastWeek: function(req, res, next) {
-    
-    console.log('BODY: ', req.body);
-    Visitor.count(
+    Visitor.find(
       { ownerID : req.body.ownerID }, 
       function(err, result) {
         if (err) return next(err);
@@ -129,7 +127,7 @@ module.exports = {
         }
         else {
           res.status(200).send({ 
-            count : result 
+            visitors : result 
           });
         }
       });
