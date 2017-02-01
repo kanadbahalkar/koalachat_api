@@ -1,31 +1,41 @@
-myApp.controller('dashboardController', ['$scope', '$log', '$timeout', function($scope, $log, nameService){
+'use strict';
 
-    $scope.people = [
-        {
-            name : 'John',
-            address : '1137 Comm Ave',
-            city : 'Allston',
-            state : 'MA',
-            zip : '02134'
-        },
-        {
-            name : 'Jane',
-            address : '1137 Comm Ave',
-            city : 'Allston',
-            state : 'MA',
-            zip : '02134'
-        },
-        {
-            name : 'Jake',
-            address : '1137 Comm Ave',
-            city : 'Allston',
-            state : 'MA',
-            zip : '02134'
-        }
-    ];
+myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', 'VisitorsService', 'socket', function($http, $scope, $log, $window, VisitorsService, socket){
 
-    $scope.formattedAddressFunction = function(person){
-        return person.address + ' ' + person.city + ' ' + person.state + ' ' + person.zip
-    };
+    //Get number of current visitors on the site
+    var baseUrl = "https://localhost:4731/api";
+    var socket = io.connect();
+
+    //Get number of live visitors
+    socket.on('dashboard:testing', function (data) {
+        console.log(data);
+    });
+
+    //Get number of unique visitors last week
+    $scope.initDashboard = function() {
+        
+        //Get number of unique visitors last week
+        $http({
+            method: 'POST',
+            url: baseUrl + '/visitor/visitorslastweek',
+            data: $.param({
+                ownerID: $window.localStorage.userid
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .then(function (response) {
+            $scope.visitorsLastWeek = response.data.count;
+            return response;
+        });
+    }
+    
+    //Get number of current conversations
+
+    //Blacklist a visitor
+
+    //Profanity filter
     
 }]);

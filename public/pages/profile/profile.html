@@ -17,7 +17,7 @@
 <div ng-controller="profileController" class="koalabot_content">
     <div class="profile_header">
         <img src="assets/images/profile_header.png" />
-        <img src="assets/images/profile_pic.png" class="profile_pic"/>
+        <img src="{{ profilepic }}" class="profile_pic"/>
         <p class="user_fullname"> {{ ownerName }} </p>
         <p class="user_profile_completion">(Profile 80% complete)</p>
     </div>
@@ -33,7 +33,7 @@
             <input type="text" class="profile_info_textbox" placeholder="Type in your Business Website here..." value="{{ businessWebsite }}" />
 
             <label class="profile_info_label">Notifications</label>
-            <input type="checkbox"/> <label class="checkbox_label">Send me email when Chief Koala has any cool updates</label>
+            <input type="checkbox"> <label class="checkbox_label" checked>Send me email when Chief Koala has any cool updates</label> </input>
 
             <!--<label class="profile_info_label">Location</label>
             <input type="text" class="profile_info_textbox" value="Boston, MA" />            
@@ -50,9 +50,9 @@
             <input type="text" class="profile_info_textbox" value="{{ userName }}" />
 
             <label class="profile_info_label">Password</label>
-            <input type="password" class="profile_info_textbox" placeholder="•••••••••••••••••••••" />
+            <input type="password" class="profile_info_textbox" placeholder="•••••••••••••••••••••" ng-model="updatedPassword" />
 
-            <a class="text_button" href="/">Change Password</a>
+            <a class="text_button" href="/" ng-click="changePassword()">Change Password</a>
 
         </div>
 

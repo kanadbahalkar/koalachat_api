@@ -1,4 +1,5 @@
 var User = require('../models/user');
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = {
         updateWelcomeMessage: function(req, res, next) {
@@ -26,8 +27,7 @@ module.exports = {
 
         // Get's owner information
         getOwnerInfo: function(req, res, next) {
-          console.log('Here');
-          User.findOne({'userID': req.body.userID}, function(err, owner) {
+          User.findOne({'_id': req.body.ownerID}, function(err, owner) {
             console.log('Req fired');
             if (err) return next(err);
 
@@ -42,11 +42,17 @@ module.exports = {
         // Update owner information
         updateOwnerInfo: function(req, res, next) {
           
+          if(req.body.fieldname == 'password'){
+            // update it with hash
+            var password = req.body.fieldvalue;
+            req.body.fieldvalue = bcrypt.hashSync(password);
+          }
+
           var json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
           var field = JSON.parse(json);
 
           User.findOneAndUpdate(
-            { 'userID' : req.body.userID }, 
+            { '_id' : req.body.ownerID }, 
             field, 
             function(err, owner) {
               if (err) return next(err);

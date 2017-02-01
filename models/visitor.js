@@ -9,9 +9,14 @@ const VisitorSchema = new Schema({
     lowercase: true,
     required: true
   },
+  visitorID: { 
+    type: String,
+    required: true,
+    unique: true
+  },
   ownerID: { 
-    type: String, 
-    required: true 
+    type: String,
+    required: true
   },
   ipAddress: { 
     type: String, 

@@ -1,24 +1,31 @@
-myApp.controller('dashboardController', ['$scope', '$log', '$timeout', function($scope, $log, nameService){
+myApp.controller('visitorsController', ['$scope', '$log', '$timeout', function($scope, $log){
 
-    //Set Welcome Message
-    $scope.setWelcomeMessage = function () {
-        $http({
-			method: 'POST',
-			url: '/api/visitor/getvisitors/all',
-			data: $.param({
-                ownerID: $window.localStorage.userid
-            }),
-			headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': $window.localStorage.token
-            }
-		})
-        .success(function (data, status, headers, config) {
-            console.log(data);
-        })
-        .error(function (data, status, headers, config) {
-            console.log('Error while finding visitors');
-        });
+    $scope.people = [
+        {
+            name : 'John',
+            address : '1137 Comm Ave',
+            city : 'Allston',
+            state : 'MA',
+            zip : '02134'
+        },
+        {
+            name : 'Jane',
+            address : '1137 Comm Ave',
+            city : 'Allston',
+            state : 'MA',
+            zip : '02134'
+        },
+        {
+            name : 'Jake',
+            address : '1137 Comm Ave',
+            city : 'Allston',
+            state : 'MA',
+            zip : '02134'
+        }
+    ];
+
+    $scope.formattedAddressFunction = function(person){
+        return person.address + ' ' + person.city + ' ' + person.state + ' ' + person.zip
     };
     
 }]);

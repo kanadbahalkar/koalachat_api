@@ -214,5 +214,10 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         }
     }
 
-    //Adding a new FAQ manually
+    //TODO: Adding a new FAQ manually
+
+    //Go to dashboard after saving FAQs
+    $scope.goHomeYoureDrunk = function () {
+        $window.location.href = '/Overview';
+    }
 }]);

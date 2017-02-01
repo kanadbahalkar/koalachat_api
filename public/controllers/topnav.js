@@ -1,9 +1,6 @@
-myApp.controller('topnavController', ['$scope', '$location', '$window', function($scope, $location, $window){
+myApp.controller('topnavController', ['$scope', '$location', '$window', '$http',  function($scope, $location, $window, $http){
 
-    $scope.isActive = function(destination){
-        return destination === $location.path();
-    }
-    
-    $scope.ownerID = $window.localStorage.userid;
+    $scope.ownername = $window.localStorage.ownerName || 'Anon Koala'; 
+    $scope.profilepic = $window.localStorage.profilepic || '/assets/images/avatar.png'; 
 
 }]);

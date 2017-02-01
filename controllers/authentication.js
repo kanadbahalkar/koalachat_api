@@ -42,7 +42,7 @@ exports.login = function(req, res, next) {
 
 // Return with temp authentication -
 exports.returnTempToken = function(req, res, next) {
-  console.log('here....');
+  
   let tempToken = generateTempToken();
   req.user.update({ tempToken: tempToken }, function(err, user) {
     if(err) throw err;

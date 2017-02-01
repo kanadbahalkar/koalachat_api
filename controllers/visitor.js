@@ -4,8 +4,12 @@ var config = require('../config/main');
 
 module.exports = {
   registerVisitor: function(req, res, next) {
-    let ownerID = req.body.ownerID;
-    let email = req.body.email || config.default_email;
+    
+    var reqData = JSON.parse(Object.keys(req.body)[0]);
+
+    let ownerID = reqData.ownerID;
+    let visitorID = reqData.visitorID;
+    let email = reqData.email || config.default_email;
     
     //Get ip address of the visitor
     var visitorip =  req.headers['x-forwarded-for'] || 
@@ -21,14 +25,16 @@ module.exports = {
     
     let visitor = new Visitor({
       email: email,
+      visitorID: visitorID,
       ownerID: ownerID,
       ipAddress: visitorip,
       visitedAt: Date.now()
     });
 
     visitor.save(function(err) {
-      if (err) throw err
+      if (err) return next(err);
       else {
+        console.log("Visitor successfully registered!");
         res.status(200).send({
           visitor: visitor
         });
@@ -44,6 +50,31 @@ module.exports = {
     Visitor.update(
       field, 
       { nickname : req.body.nickname }, 
+      { multi: true }, 
+      function(err, result) {
+        if (err) return next(err);
+
+        if(!result) {
+          res.status(422).send({ message : 'Visitor with given email not found' });
+        }
+        else {
+          if( req.body.email != config.default_email ){
+            res.status(200).send({ 
+              visitor : result 
+            });
+          }
+        }
+      });
+  },
+
+  //Set email of a visitor by email / id
+  setEmail: function(req, res, next) {
+    var json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
+    var field = JSON.parse(json);
+
+    Visitor.update(
+      field, 
+      { email : req.body.email }, 
       { multi: true }, 
       function(err, result) {
         if (err) return next(err);
@@ -79,6 +110,26 @@ module.exports = {
         else {
           res.status(200).send({ 
             visitor : result 
+          });
+        }
+      });
+  },
+
+  //Get visitors last week
+  getVisitorsLastWeek: function(req, res, next) {
+    
+    console.log('BODY: ', req.body);
+    Visitor.count(
+      { ownerID : req.body.ownerID }, 
+      function(err, result) {
+        if (err) return next(err);
+
+        if(!result) {
+          res.status(422).send({ message : 'OwnerID not found' });
+        }
+        else {
+          res.status(200).send({ 
+            count : result 
           });
         }
       });

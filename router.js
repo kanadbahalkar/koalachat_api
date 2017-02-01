@@ -20,6 +20,11 @@ const REQUIRE_ADMIN = "Admin",
     REQUIRE_OWNER = "Owner",
     REQUIRE_VISITOR = "Visitor";
 
+///////////////////////////////FOR TESTING ONLY
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+//////////////////////////////////////////////
+
+
 module.exports = function(app) {
 
     // Initializing route groups
@@ -108,10 +113,14 @@ module.exports = function(app) {
     visitorRouters.post('/newvisitor', visitorController.registerVisitor);
     //Set nickname for a visitor
     visitorRouters.post('/setnickname', requireAuth, visitorController.setNickname);
+    //Set email for a visitor
+    visitorRouters.post('/setemail', requireAuth, visitorController.setEmail);
     //Blacklist visitor by email / ip address / id
     visitorRouters.post('/blacklistvisitor', requireAuth, visitorController.blacklistVisitor);
     //Get a list of all visitors / visitors with email / anonymous visitors
     visitorRouters.post('/getvisitors/:filter', requireAuth, visitorController.getVisitors);
+    //Get a number of unique visitors last week
+    visitorRouters.post('/visitorslastweek', requireAuth, visitorController.getVisitorsLastWeek);
 
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);

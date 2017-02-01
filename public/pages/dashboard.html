@@ -1,13 +1,14 @@
 <topnav></topnav>
 
-<div class="analytics_snapshot">
+<div class="analytics_snapshot" ng-init="initDashboard()">
         <div class="analytics">
                 <p class="analytics_datapoint">213</p>
                 <img class="tooltip_explainer" src="assets/images/tooltip.png" />
-                <p class="analytics_explainer">Currently Engaged Visitors</p>
+                <p class="analytics_explainer">Ongoing Conversations</p>
         </div>
         <div class="analytics">
-                <p class="analytics_datapoint">181,239</p>
+                <p class="analytics_datapoint">{{ visitorsLastWeek }}</p>
+                <!--<p class="analytics_datapoint">181,239</p>-->
                 <img class="tooltip_explainer" src="assets/images/tooltip.png" />
                 <p class="analytics_explainer">Website Visitors Last Week</p>                
         </div>
