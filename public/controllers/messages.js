@@ -1,5 +1,6 @@
 myApp.controller('messagesController', ['$scope', '$location', '$http', '$window', function($scope, $location, $http, $window){
 
+    //Get a list of website visitors
     $http({
         method: 'POST',
         url: 'https://localhost:4731/api/visitor/visitorslastweek',
@@ -13,31 +14,7 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
     })
     .then(function(data){
         $scope.visitors = data.data.visitors;
-        console.log($scope.visitors);
     });
-
-    // $scope.names = [
-    //     {
-    //     'name':'Rachel Curtis',
-    //     'name_details': 'Nothing'
-    //     },
-    //     {
-    //     'name': 'John Wayne',
-    //     'name_details': 'Nothing'
-    //     },
-    //     {
-    //     'name':'Joshua Weildman',
-    //     'name_details':'Nothing'
-    //     },
-    //     {
-    //     'name':'Joshua Weildman',
-    //     'name_details':'Nothing'
-    //     },
-    //     {
-    //     'name':'Shaun Chindhi',
-    //     'name_details':'Nothing'
-    //     }
-    // ]
 
     $scope.$watch('searchBox', function updateSearchText(newVal, oldVal) {
         if (newVal !== oldVal) {

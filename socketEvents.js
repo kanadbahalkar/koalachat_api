@@ -1,60 +1,44 @@
 var request = require('request');
+
 request.defaults({
     strictSSL: false, // allow us to use our self-signed cert for testing
     rejectUnauthorized: false
 });
 
-function findRooms(rooms) {
-  var availableRooms = [];
-  if (rooms) {
-      for (var room in rooms) {
-          if (!rooms[room].hasOwnProperty(room)) {
-              availableRooms.push(room);
-          }
-      }
-  }
-  return availableRooms;
-}
-
-exports = module.exports = (io) => {
+exports = module.exports = function (io) {
+  
+  //Create array of live sockets
+  var sockets = {};
 
   // Set socket.io listeners.
-  io.sockets.on('connection', (socket) => {
+  io.sockets.on('connection', function (socket) {
     
-    var connectedVisitors = {};
-    var vid = null;
-    
-    //New Visitor Connected Event
-    var vid = Math.random().toString(36).substring(3,16)+ +new Date;
-    socket.emit('newConnection', { vid: vid });
+    //1. Emit a starter event when a new connection (Owner or Visitor) occurs 
+    socket.emit('serve', 'New Connection!');
 
-    // Register a new Visitor with an Owner
-    socket.on('subscribe to owner', function (visitor) {
-        socket.join(visitor.oid);
-        connectedVisitors[visitor.vid] = socket;
-        console.log('New visitor connected: ' + visitor.vid + ' to Owner: ' + visitor.oid);
+    //2. On receiving a reply from the connection, check who is connected (owner or visitor)
+    socket.on('return', function (data) {
         
-        connectedVisitors[visitor.vid].emit('testing', 'HEY after new subscriber...' );
-
-        vid = visitor.vid;
+        //3. Create list of open sockets
+        //TODO: USE NAMESPACES AND ROOMS FOR THIS LATER
+        sockets[data.userID] = socket;
         
-        var requestData = { 'visitorID' : visitor.vid, 'ownerID' : visitor.oid };
-
-        request({
-          url: 'https://localhost:4731/api/visitor/newvisitor',
-          method: "POST",
-          json: requestData,
-          headers: {'content-type' : 'application/x-www-form-urlencoded'},
-        }, function(error, response, body){
-          if(error) console.log('ERROR: ', error);
-        });
+        //4. If the visitor is new, Register the visitor
+        if(data.visitorID) {
+          var requestData = { 'visitorID' : data.visitorID, 'ownerID' : visitor.ownerID };
+          request({
+            url: 'https://localhost:4731/api/visitor/newvisitor',
+            method: "POST",
+            json: requestData,
+            headers: {'content-type' : 'application/x-www-form-urlencoded'},
+          }, function(error, response, body){
+            if(error) console.log('ERROR: ', error);
+          });
+        }  
     });
 
-    //Visitor sends a messge to the Owner
-    socket.on('message from visitor', function (data) {
-      console.log('Message from Visitor: ', data);
-      //Respond with an echo of the same message
-      connectedVisitors[data.vid].emit('reply from owner', { message: data.message });
+    socket.on('send message', function (data) {
+        sockets[data.to].emit('message from visitor', data);
     });
 
     // Disconnect a Visitor

@@ -4,10 +4,15 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
 
     //Get number of current visitors on the site
     var baseUrl = "https://localhost:4731/api";
-    var socket = io.connect("https://localhost:4731");
+    var socket = io.connect("https://localhost:4731/");
 
-    //Get number of live visitors
-    socket.on('testing', function (data) {
+    //1. Get a ping-pong serve from the socket server
+    socket.on('serve', function (data) {
+        //2. Send OwenrID back in the return
+        socket.emit('return', { userID: $window.localStorage.userid, owner: true });
+    });
+
+    socket.on('message from visitor', function (data) {
         console.log(data);
     });
 
