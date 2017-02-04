@@ -72,7 +72,7 @@ module.exports = {
           var field = JSON.parse(json);
 
           User.findOneAndUpdate(
-            { 'userID' : req.body.userID }, 
+            { '_id' : req.body.ownerID }, 
             { emailFrequency: 
               {
                 newsletter: req.body.newsletter,
@@ -95,8 +95,9 @@ module.exports = {
         allowAnonymous: function(req, res, next) {
           
           User.findOneAndUpdate(
-            { 'userID' : req.body.userID }, 
+            { '_id' : req.body.ownerID }, 
             { 'allowAnonymous' : req.body.allowAnonymous }, 
+            { upsert: true },
             function(err, owner) {
               if (err) return next(err);
 
@@ -105,6 +106,25 @@ module.exports = {
               }
 
               res.status(200).send({ allowAnonymous : owner.allowAnonymous });
+            });
+        },
+
+        // Enable / Diable chatbot on the website
+        togglePlugin: function(req, res, next) {
+          
+          console.log(req.body);
+          User.findOneAndUpdate(
+            { '_id' : req.body.ownerID }, 
+            { 'enablePlugin' : req.body.enablePlugin }, 
+            { upsert: true },
+            function(err, owner) {
+              if (err) return next(err);
+
+              if(!owner) {
+                res.status(422).send({ 'message': 'Owner with given id not found', 'status': 'failure' });
+              }
+
+              res.status(200).send({ enablePlugin : owner.enablePlugin });
             });
         }
 }

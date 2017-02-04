@@ -33,7 +33,9 @@
             <input type="text" class="profile_info_textbox" placeholder="Type in your Business Website here..." value="{{ businessWebsite }}" />
 
             <label class="profile_info_label">Notifications</label>
-            <input type="checkbox"> <label class="checkbox_label" checked>Send me email when Chief Koala has any cool updates</label> </input>
+            <input type="checkbox" ng-model="emailNotifications" ng-change="subscribe()"> 
+                <label class="checkbox_label" checked>Send me email when Chief Koala has any cool updates</label> 
+            </input>
 
             <!--<label class="profile_info_label">Location</label>
             <input type="text" class="profile_info_textbox" value="Boston, MA" />            
@@ -54,6 +56,14 @@
 
             <a class="text_button" href="/" ng-click="changePassword()">Change Password</a>
 
+            <label class="profile_info_label"></label><label class="profile_info_label"></label>
+            <input type="text" class="profile_info_textbox" value="" disabled="disabled"/>            
+
+            <label class="profile_info_label">Allow Anonymous Messages</label>
+            <input type="checkbox" ng-model="allowAnonMessages" ng-change="allowAnonymous()"> 
+                <label class="checkbox_label">Your site visitors to message you without giving their email</label> 
+            </input>
+
         </div>
 
         <div class="profile_info_col">
@@ -62,6 +72,12 @@
             <a class="btn_social_profile" href="/"> <img class="social_button_icon" src="assets/images/google_plus_colored.svg" /> Google</a>
             <a class="btn_social_profile" href="/"> <img class="social_button_icon" src="assets/images/twitter_white.svg" /> Twitter</a>
             <a class="btn_social_profile" href="/"> <img class="social_button_icon" src="assets/images/instagram_white.svg" /> Instagram</a>
+
+            <br>
+            <label class="profile_info_label">Enable / Diable Plugin</label>
+            <input type="checkbox" ng-model="enablePlugin" ng-change="togglePlugin()"> 
+                <label class="checkbox_label">Enable or Diable KoalaChat plugin on your site</label> 
+            </input>
         </div>
     </div>
 </div>

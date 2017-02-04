@@ -21,11 +21,12 @@ exports = module.exports = function (io) {
         
         //3. Create list of open sockets
         //TODO: USE NAMESPACES AND ROOMS FOR THIS LATER
-        sockets[data.userID] = socket;
-        
         //4. If the visitor is new, Register the visitor
+        console.log(data);
+        console.log(Object.keys(sockets));
         if(data.visitorID) {
-          var requestData = { 'visitorID' : data.visitorID, 'ownerID' : visitor.ownerID };
+          sockets[data.visitorID] = socket;
+          var requestData = { 'visitorID' : data.visitorID, 'ownerID' : data.ownerID };
           request({
             url: 'https://localhost:4731/api/visitor/newvisitor',
             method: "POST",
@@ -35,10 +36,14 @@ exports = module.exports = function (io) {
             if(error) console.log('ERROR: ', error);
           });
         }  
+        else {
+          sockets[data.ownerID] = socket;
+        }
     });
 
     socket.on('send message', function (data) {
-        sockets[data.to].emit('message from visitor', data);
+      console.log(data);
+      sockets[data.to].emit('sent message', data);
     });
 
     // Disconnect a Visitor

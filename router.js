@@ -101,6 +101,8 @@ module.exports = function(app) {
     profileRouters.post('/allowanonymous', requireAuth, profileController.allowAnonymous);
     //Set notification frequency
     profileRouters.post('/emailfrequency', requireAuth, profileController.emailFrequency);
+    //Enable or Disable the site plugin
+    profileRouters.post('/toggleplugin', requireAuth, profileController.togglePlugin);
 
     //Widget Routes
     apiRoutes.use('/widget', widgetRouters);

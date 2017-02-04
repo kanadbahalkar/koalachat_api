@@ -29,7 +29,7 @@
                 <input type="text" class="main_box_search" placeholder="Search Inbox" ng-model="searchBox"/>
             </li>
 
-            <li ng-repeat= "visitor in visitors | filter:searchBox">
+            <li ng-repeat= "visitor in visitors | filter:searchBox" style="cursor: pointer; cursor: hand;" ng-click="loadMessages(visitor)">
                 <a href="">
                     <img src="assets/images/avatar.png" alt="" class="profile_icon">
                     <div class="details">
@@ -43,6 +43,17 @@
 
     <div class="chat_box">
         <h4 class="conversation_header">Conversation with Rachel on Website...</h4>
+
+        <div class="message-container">
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="message in messages track by $index">
+                    {{ message.from }} says: {{ message.message }}
+                </li>
+            </ul>
+            <div class="alert alert-warning" ng-show='messages.length == 0'>
+                No messages for you.
+            </div>
+        </div>
 
         <div class="sender">
             <div class="sender_pic"><img class="sender_pic_avatar" src="assets/images/avatar.png" alt=""></div>
@@ -69,9 +80,9 @@
                 <input type="file" class="attachfile">
             </div>
             <div class="input">
-                <textarea name="" class="message_input" id="" cols="30" rows="10" placeholder="Type in your message...."></textarea>
+                <textarea name="" class="message_input" id="" cols="30" rows="10" placeholder="Type in your message...." ng-model="messageText"></textarea>
             </div>
-            <a href="" class="send">Send</a>
+            <a href="" class="send" ng-click="sendMessage()">Send</a>
         </div>
     </div>
 

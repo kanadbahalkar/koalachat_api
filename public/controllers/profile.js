@@ -57,9 +57,84 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
         });
     }
 
-    //Update business name
+    //Allow Anonymous messages
+    $scope.allowAnonMessages = true;
+    $scope.allowAnonymous = function(){
+        console.log($scope.allowAnonMessages);
 
+        $http({
+            method: 'POST',
+            url: baseUrl + '/profile/allowanonymous',
+            data: $.param({
+                ownerID : $scope.ownerID,
+                allowAnonymous : $scope.allowAnonMessages
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $scope.token
+            }
+        })
+        .success(function(response) {
+            console.log('Allow Anon Messages: ', response);
+        })
+        .error(function(err) {
+            console.log(err);
+        });
+    }
+    
     //Update email preferences
+    $scope.emailNotifications = true;
+    $scope.subscribe = function(){
+        console.log($scope.emailNotifications);
+
+        $http({
+            method: 'POST',
+            url: baseUrl + '/profile/emailFrequency',
+            data: $.param({
+                ownerID : $scope.ownerID,
+                newsletter: $scope.emailNotifications,
+                billingUpdates: $scope.emailNotifications,
+                announcements: $scope.emailNotifications
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $scope.token
+            }
+        })
+        .success(function(response) {
+            console.log('Updated Email Notifications: ', response);
+        })
+        .error(function(err) {
+            console.log(err);
+        });
+    }
+
+    // Enable / Diable chatbot on the website
+    $scope.enablePlugin = true;
+    $scope.togglePlugin = function(){
+        console.log($scope.enablePlugin);
+
+        $http({
+            method: 'POST',
+            url: baseUrl + '/profile/toggleplugin',
+            data: $.param({
+                ownerID : $scope.ownerID,
+                enablePlugin : $scope.enablePlugin
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $scope.token
+            }
+        })
+        .success(function(response) {
+            console.log('Enable Plugin: ', response);
+        })
+        .error(function(err) {
+            console.log(err);
+        });
+    }
+
+    //Update business name
 
     //Connect Facebook
 

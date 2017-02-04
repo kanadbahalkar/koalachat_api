@@ -12,10 +12,6 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
         socket.emit('return', { userID: $window.localStorage.userid, owner: true });
     });
 
-    socket.on('message from visitor', function (data) {
-        console.log(data);
-    });
-
     //Get number of unique visitors last week
     $scope.initDashboard = function() {
         
