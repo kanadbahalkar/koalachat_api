@@ -1,13 +1,13 @@
-var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate']);
+var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook']);
 
-myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
+myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, FacebookProvider){
 
     $ocLazyLoadProvider.config({
         modules: [
             {
                 name: 'pluginUI',
                 files: ['assets/js/index.js']
-            }, 
+            },
             {
                 name: 'jqueryUI',
                 files: ['assets/js/jquery.min.js']
@@ -15,11 +15,13 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
         ]
     });
 
+    FacebookProvider.init('182119938859848');
+
     $routeProvider
-    //Login Reg Router 
+    //Login Reg Router
     .when('/login', {
         templateUrl : 'pages/loginreg.html',
-        access: { 
+        access: {
             requiredLogin: false,
             isOnboarding: false
         }
@@ -38,7 +40,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Overview', {
         templateUrl : 'pages/dashboard.html',
         controller : 'dashboardController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -48,7 +50,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/onboarding/setwelcome', {
         templateUrl : 'pages/onboarding/setwelcome.html',
         controller : 'onboardingController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: true
         }
@@ -57,7 +59,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/onboarding/chooseplatform', {
         templateUrl : 'pages/onboarding/chooseplatform.html',
         controller : 'onboardingController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: true
         }
@@ -66,7 +68,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/onboarding/addsocial', {
         templateUrl : 'pages/onboarding/addsocial.html',
         controller : 'onboardingController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: true
         }
@@ -75,7 +77,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/onboarding/getembedcode', {
         templateUrl : 'pages/onboarding/getembedcode.html',
         controller : 'onboardingController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: true
         }
@@ -84,7 +86,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/onboarding/getfaqs', {
         templateUrl : 'pages/onboarding/getfaqs.html',
         controller : 'onboardingController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: true
         }
@@ -94,7 +96,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Messages/Inbox', {
         templateUrl : 'pages/messages/inbox.html',
         controller : 'messagesController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -103,7 +105,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Messages/Sent', {
         templateUrl : 'pages/messages/Sent.html',
         controller : 'messagesController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -112,7 +114,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Messages/Drafts', {
         templateUrl : 'pages/messages/drafts.html',
         controller : 'messagesController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -121,7 +123,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Messages/Trash', {
         templateUrl : 'pages/messages/trash.html',
         controller : 'messagesController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -131,7 +133,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Contacts', {
         templateUrl : 'pages/contacts/contacts.html',
         controller : 'contactsController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -140,7 +142,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Contacts/Blacklisted', {
         templateUrl : 'pages/contacts/blacklisted.html',
         controller : 'contactsController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -150,7 +152,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/KoalaBot', {
         templateUrl : 'pages/koalabot/koalabot.html',
         controller : 'koalabotController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -159,7 +161,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/KoalaBot/FAQs', {
         templateUrl : 'pages/koalabot/faqs.html',
         controller : 'koalabotController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -168,7 +170,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/KoalaBot/Stylize', {
         templateUrl : 'pages/koalabot/stylize.html',
         controller : 'koalabotController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -177,7 +179,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/KoalaBot/Announcements', {
         templateUrl : 'pages/koalabot/announcements.html',
         controller : 'koalabotController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -187,7 +189,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Apps', {
         templateUrl : 'pages/apps/apps.html',
         controller : 'appsController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -196,7 +198,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Apps/BotIntegrations', {
         templateUrl : 'pages/apps/botintegrations.html',
         controller : 'appsController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -205,7 +207,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Apps/HelpIntegrations', {
         templateUrl : 'pages/apps/helpintegrations.html',
         controller : 'appsController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -215,7 +217,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/GrowthHacks', {
         templateUrl : 'pages/growthhacks/growthhacks.html',
         controller : 'growthhacksController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -225,7 +227,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Profile', {
         templateUrl : 'pages/profile/profile.html',
         controller : 'profileController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -234,7 +236,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Profile/Billing', {
         templateUrl : 'pages/profile/billing.html',
         controller : 'profileController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -243,16 +245,16 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Profile/EmbedCodes', {
         templateUrl : 'pages/profile/embedcodes.html',
         controller : 'profileController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
     })
-    
+
     .when('/Profile/Notifications', {
         templateUrl : 'pages/profile/notifications.html',
         controller : 'profileController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
@@ -261,25 +263,25 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
     .when('/Profile/Team', {
         templateUrl : 'pages/profile/team.html',
         controller : 'profileController',
-        access: { 
+        access: {
             requiredLogin: true,
             isOnboarding: false
         }
     })
-    
+
     .otherwise({ redirectTo: '/login' });
 
     $locationProvider.html5Mode(true);
 });
 
 myApp.service('socket', ['$rootScope', function ($rootScope) {
-  
-  //Establish socket connection 
+
+  //Establish socket connection
   var socket = io.connect("https://localhost:4731");
-    
+
   return {
     on: function (eventName, callback) {
-      socket.on(eventName, function () {  
+      socket.on(eventName, function () {
         console.log('ON....', eventName);
         var args = arguments;
         $rootScope.$apply(function () {
@@ -327,37 +329,37 @@ myApp.run(function($window, $rootScope, $location, UserService) {
 
 myApp.controller('messagesController', ['$scope', '$routeParams', function($scope, $routeParams){
 
-    
+
 }]);
 
 myApp.controller('contactsController', ['$scope', '$routeParams', function($scope, $routeParams){
 
-    
+
 }]);
 
 myApp.controller('koalabotController', ['$scope', '$routeParams', function($scope, $routeParams){
 
-    
+
 }]);
 
 myApp.controller('appsController', ['$scope', '$routeParams', function($scope, $routeParams){
 
-    
+
 }]);
 
 myApp.controller('growthhacksController', ['$scope', '$routeParams', function($scope, $routeParams){
 
-    
+
 }]);
 
 myApp.controller('profileController', ['$scope', '$routeParams', function($scope, $routeParams){
 
-    
+
 }]);
 
 myApp.controller('secondController', ['$scope', '$routeParams', function($scope, $routeParams){
 
-    
+
 }]);
 
 myApp.controller('navbarController', ['$scope', function($scope){

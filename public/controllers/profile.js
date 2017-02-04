@@ -1,13 +1,14 @@
-myApp.controller('profileController', ['$scope', '$location', '$http', '$window', function($scope, $location, $http, $window){
+myApp.controller('profileController', ['$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook',
+                  function($scope, $location, $http, $window, AuthenticationService, Facebook){
 
     var baseUrl = "https://localhost:4731/api";
     $scope.isActive = function(destination){
         return destination === $location.path();
     }
-    
+
     $scope.token = $window.localStorage.token;
     $scope.ownerID = $window.localStorage.userid;
-    
+
     //Get client info
     $http({
         method: 'POST',
@@ -26,7 +27,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
         $scope.businessWebsite = response.owner.website;
         $scope.accountCreationDate = response.owner.createdAt;
         $scope.userName = response.owner.email;
-        $scope.profilepic = response.owner.profile.profilepic || '/assets/images/avatar.png'; 
+        $scope.profilepic = response.owner.profile.profilepic || '/assets/images/avatar.png';
     })
     .error(function(err) {
         console.log(err);
@@ -81,7 +82,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             console.log(err);
         });
     }
-    
+
     //Update email preferences
     $scope.emailNotifications = true;
     $scope.subscribe = function(){
@@ -137,6 +138,43 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     //Update business name
 
     //Connect Facebook
+    $scope.connectFacebook = function () {
+      Facebook.login(function(response) {
+        if (response.status == 'connected') {
+          $scope.logged = true;
+          $scope.me();
+        }
+      });
+
+      $scope.me = function() {
+        Facebook.api('/me?fields=email,name,id,accounts,photos,website', function(response) {
+          console.log(response);
+          $scope.$apply(function() {
+            $scope.user = response;
+            console.log($scope.user);
+          });
+
+        });
+      };
+
+      //
+      // $http({
+      //   method: 'POST',
+      //   url: baseUrl + '/profile/fbconnect',
+      //   data: $.param({
+      //     ownerID: $scope.ownerID,
+      //   }),
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded',
+      //     'Authorization': $scope.token
+      //   }
+      // }).success(function(response) {
+      //   console.log('Connected to facebook page');
+      // }).error(function(err) {
+      //   console.log("Error in conncecting", err);
+      // });
+
+    }
 
     //Connect Twitter
 

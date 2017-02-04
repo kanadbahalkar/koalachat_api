@@ -65,7 +65,7 @@ let facebookLogin = new FacebookStrategy({
         console.log('facebook authenticated..');
         console.log(profile);
         process.nextTick(function() {
-            // try to find the user based on their google id
+            // try to find the user based on their facebook id
             User.findOne({
                 'email': profile.emails[0]['value']
             }, function(err, user) {
@@ -73,7 +73,7 @@ let facebookLogin = new FacebookStrategy({
                     return done(err);
 
                 let str = JSON.stringify(profile, null, '\t');
-                
+
                 //Create object for managed pages aka accounts
                 var accounts = [];
                 if (profile._json.accounts) {
@@ -90,12 +90,12 @@ let facebookLogin = new FacebookStrategy({
                 if (user) {
                     // if a user is found, log them in
                     console.log('User Found: ', user);
-                    
+
                     var socialAccounts = [];
                     if(user.socialAccounts != null && user.socialAccounts.length == 1 && user.socialAccounts[0].provider == "Google"){
                         socialAccounts = user.socialAccounts;
                     }
-                    
+
                     socialAccounts.push({
                         provider_id: profile.id,
                         provider: 'Facebook'
@@ -103,15 +103,15 @@ let facebookLogin = new FacebookStrategy({
 
                     //Update the user data
                     User.findOneAndUpdate(
-                        { 'email' : user.email }, 
-                        { 
+                        { 'email' : user.email },
+                        {
                             'profile.photo' : profile.picture,
                             'profile.gender' : profile.gender,
                             'profile.firstName' : profile.first_name,
                             'profile.birthday' : profile.birthday,
                             'accounts': accounts,
                             'socialAccounts': socialAccounts
-                        }, 
+                        },
                         { upsert : true },
                         function(err, doc){
                             if (err) console.log(err);
@@ -136,7 +136,7 @@ let facebookLogin = new FacebookStrategy({
                     };
                     newUser.role = "Owner";
                     newUser.accounts = accounts;
-                    
+
                     var socialAccounts = [];
                     socialAccounts.push({
                         provider_id: profile.id,
@@ -180,7 +180,7 @@ let googleLogin = new GoogleStrategy({
                     if(user.socialAccounts != null && user.socialAccounts.length == 1 && user.socialAccounts[0].provider == "Facebook"){
                         socialAccounts = user.socialAccounts;
                     }
-                    
+
                     socialAccounts.push({
                         provider_id: profile.id,
                         provider: 'Google'
@@ -188,20 +188,20 @@ let googleLogin = new GoogleStrategy({
 
                     //Update the user data
                     User.findOneAndUpdate(
-                        { 'email' : user.email }, 
-                        { 
+                        { 'email' : user.email },
+                        {
                             'profile.photo' : profile.picture,
                             'profile.gender' : profile.gender,
                             'profile.firstName' : profile.name.givenName,
                             'profile.lastName' : profile.name.familyName,
                             'socialAccounts': socialAccounts
-                        }, 
+                        },
                         { upsert : true },
                         function(err, doc){
                             if (err) console.log(err);
                             console.log('Succesfully saved: ', doc);
                         });
-                        
+
                     return done(null, user);
               } else {
                     // if the user isnt in our database, create a new user
@@ -258,7 +258,10 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
     });
 });
 
+let fbConnect = facebookLogin;
+
 passport.use(jwtLogin);
 passport.use(localLogin);
 passport.use(facebookLogin);
 passport.use(googleLogin);
+passport.use(fbConnect);
