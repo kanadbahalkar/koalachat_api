@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard']);
+var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate']);
 
 myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider){
 

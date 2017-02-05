@@ -5,7 +5,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
     }
 
     var timeout;
-  
+    
     // Save changes to the copy of the person back to the original,
     // including in the parent array
     var saveFAQs = function(updatedFAQ) {
@@ -124,7 +124,6 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
 
     //Search FAQs on a users website
     $scope.setupFAQPage = function () {
-        
         $http({
 			method: 'POST',
 			url: 'api/crawler/findfaqsurl',

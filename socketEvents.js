@@ -1,3 +1,19 @@
+//////USE CASES//////
+//1. A new Owner signs up
+//2. Owner is online and joins the socket
+//3. Owner is offline
+//4. A new anonymous visitor joins the socket chat
+//5. Anon visitor leaves the socket chat
+//6. Anon visitor gives out their email
+//7. Anon visitor connects to an owner
+//8. Anon visitor sends a message to the owner
+//9. Owner sends a message to a visitor
+//10. Owner sends an announcement to all visitors
+//11. Anon visitor goes offline
+//12. Anon visitor comes online again
+
+
+
 var request = require('request');
 
 request.defaults({
@@ -21,24 +37,29 @@ exports = module.exports = function (io) {
         
         //3. Create list of open sockets
         //TODO: USE NAMESPACES AND ROOMS FOR THIS LATER
+
         //4. If the visitor is new, Register the visitor
-        console.log(data);
-        console.log(Object.keys(sockets));
         if(data.visitorID) {
           sockets[data.visitorID] = socket;
-          var requestData = { 'visitorID' : data.visitorID, 'ownerID' : data.ownerID };
-          request({
-            url: 'https://localhost:4731/api/visitor/newvisitor',
-            method: "POST",
-            json: requestData,
-            headers: {'content-type' : 'application/x-www-form-urlencoded'},
-          }, function(error, response, body){
-            if(error) console.log('ERROR: ', error);
-          });
-        }  
+          //Save a new user
+          if(data.newVisitor){
+            var requestData = { 'visitorID' : data.visitorID, 'ownerID' : data.ownerID };
+            request({
+              url: 'https://localhost:4731/api/visitor/newvisitor',
+              method: "POST",
+              json: requestData,
+              headers: {'content-type' : 'application/x-www-form-urlencoded'},
+            }, function(error, response, body){
+              if(error) console.log('ERROR: ', error);
+            });
+          }
+        }
         else {
           sockets[data.ownerID] = socket;
         }
+
+        console.log(data);
+        console.log(Object.keys(sockets));
     });
 
     socket.on('send message', function (data) {

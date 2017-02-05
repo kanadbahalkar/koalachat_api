@@ -5,7 +5,7 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
     var selectedVisitorID = null;
     //Connect to server Socket
     var socket = io.connect("https://localhost:4731/");
-
+    
     //1. Get a ping-pong serve from the socket server
     socket.on('serve', function (data) {
         //2. Send OwenrID back in the return
