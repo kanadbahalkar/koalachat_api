@@ -1,3 +1,17 @@
+<!--TODO-->
+<!-- √ 1. Sort visitors list by recent message first-->
+<!-- √ 2. Highlight selected visitor-->
+<!-- √ 3. Select the first visitor in the list by default-->
+<!-- √ 4. Show channel below the visitor email-->
+<!--5. User sees messages from a visitor when they select that visitor from the list-->
+<!--5. Owner can edit the visitor profile shown on the right-->
+<!--6. User can see the 'Channel' of the visitor (Website, Fb, etc.)-->
+<!--7. Create directives for message bubbles-->
+<!-- √ 8. Send messge after pressing enter-->
+<!--9. User can delete a message thread-->
+<!--10. User can blacklist a Visitor-->
+<!--11. User can 'Like or Star' a Visitor-->
+
 <topnav></topnav>
 
 <div ng-controller="navbarController">
@@ -29,60 +43,55 @@
                 <input type="text" class="main_box_search" placeholder="Search Inbox" ng-model="searchBox"/>
             </li>
 
-            <li ng-repeat= "visitor in visitors | filter:searchBox" style="cursor: pointer; cursor: hand;" ng-click="loadMessages(visitor)">
+            <li ng-repeat= "visitor in visitors | filter:searchBox | orderBy: '-visitedAt'" 
+                style="cursor: pointer; cursor: hand;" 
+                ng-click="loadMessages(visitor)" 
+                ng-class="{ visitor_selected: selectedVisitorID == null ? $first : visitor.visitorID === selectedVisitorID }">
                 <a href="">
                     <img src="assets/images/avatar.png" alt="" class="profile_icon">
                     <div class="details">
                         <span class="name"> {{ visitor.email }} <span class="name_time"> {{ visitor.visitedAt | date:'MMM dd' }} </span> </span>
-                        <span class="name_details">{{ visitor.tags }}</span>
+                        <span class="name_details">{{ visitor.channel }}</span>
                     </div>
                 </a>
             </li>
         </ul>
     </div>
 
-    <div class="chat_box">
+    <!--Messaging textarea-->
+    <div class="message_textbox">
+        <div class="attach">
+            <img src="assets/images/clip.svg" class="clip" alt="">
+            <input type="file" class="attachfile">
+        </div>
+        <div class="input">
+            <textarea name="" class="message_input" id="" cols="30" rows="10" placeholder="Type in your message...." ng-model="messageText" ng-keyup="$event.keyCode == 13 ? sendMessage() : null"></textarea>
+        </div>
+        <a href="" class="send" ng-click="sendMessage()">Send</a>
+    </div>
+    
+    <!--Messaging thread-->
+    <div class="chat_box" scroll-bottom="messages">
         <h4 class="conversation_header">Conversation with Rachel on Website...</h4>
 
-        <div class="message-container">
-            <ul class="list-group">
-                <li class="list-group-item" ng-repeat="message in messages track by $index">
-                    {{ message.from }} says: {{ message.message }}
-                </li>
-            </ul>
-            <div class="alert alert-warning" ng-show='messages.length == 0'>
-                No messages for you.
-            </div>
-        </div>
-
-        <div class="sender">
-            <div class="sender_pic"><img class="sender_pic_avatar" src="assets/images/avatar.png" alt=""></div>
-            <div class="message_sender">
-                <p class="sent_message">Sending you links to those now...</p>
-                <p class="sent_message">Oh sure! We have a very similar pair. We have those available in 10.5 size too! They go for $59.</p>
+        <div class="message_receiver">
+            <p class="received_message">Sending you links to those now...</p>
+            <p class="received_message">Oh sure! We have a very similar pair. We have those available in 10.5 size too! They go for $59.</p>
+            <p class="received_message message_image">Oh sure! We have a very similar pair. We have those available in 10.5 size too! They go for $59.</p>
+            <div class="receiver_pic">
+                <img class="sender_pic_avatar" src="assets/images/avatar.png" alt="">
                 <p class="message_timestamp">2:20pm</p>
             </div>
         </div>
 
-        <div class="receiver">
-            <div class="message_receiver">
-                <p class="received_message">Sending you links to those now...</p>
-                <p class="received_message">Oh sure! We have a very similar pair. We have those available in 10.5 size too! They go for $59.</p>
-                <p class="received_message message_image">Oh sure! We have a very similar pair. We have those available in 10.5 size too! They go for $59.</p>
+        <div class="message_sender">
+            <div ng-repeat="message in messages track by $index">
+                <p class="sent_message" ng-class='{sent_message_first:$first, sent_message_last:$last}'>{{ message.message }}</p>
+            </div>
+            <div class="sender_pic">
                 <p class="message_timestamp">2:20pm</p>
+                <img class="sender_pic_avatar" src="assets/images/avatar.png" alt="">
             </div>
-            <div class="receiver_pic"><img class="sender_pic_avatar" src="assets/images/avatar.png" alt=""></div>
-        </div>
-
-        <div class="message_textbox">
-            <div class="attach">
-                <img src="assets/images/clip.svg" class="clip" alt="">
-                <input type="file" class="attachfile">
-            </div>
-            <div class="input">
-                <textarea name="" class="message_input" id="" cols="30" rows="10" placeholder="Type in your message...." ng-model="messageText"></textarea>
-            </div>
-            <a href="" class="send" ng-click="sendMessage()">Send</a>
         </div>
     </div>
 

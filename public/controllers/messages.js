@@ -2,7 +2,8 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
 
     $scope.messages = [];
     var ownerID = $window.localStorage.userid;
-    var selectedVisitorID = null;
+    $scope.selectedVisitorID = null;
+    
     //Connect to server Socket
     var socket = io.connect("https://localhost:4731/");
     
@@ -17,11 +18,10 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
         $scope.messages = $scope.messages.concat(data);
         $scope.$apply();
     });
-
+    
     //Load messages of a visitor
     $scope.loadMessages = function(visitor) {
-        console.log(visitor);
-        selectedVisitorID = visitor.visitorID;
+        $scope.selectedVisitorID = visitor.visitorID;
     };
 
     //Send message to the visitor
@@ -29,11 +29,11 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
         var data = {
             message: $scope.messageText, 
             from: ownerID, 
-            to: selectedVisitorID
+            to: $scope.selectedVisitorID
         }
         socket.emit('send message', data);
         $scope.messages = $scope.messages.concat(data);
-        console.log($scope.messages);
+        $scope.messageText = null;
     };
 
     //Get a list of website visitors

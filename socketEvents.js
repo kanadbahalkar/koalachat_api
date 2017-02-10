@@ -64,7 +64,9 @@ exports = module.exports = function (io) {
 
     socket.on('send message', function (data) {
       console.log(data);
-      sockets[data.to].emit('sent message', data);
+      if(data.to && sockets[data.to]){
+        sockets[data.to].emit('sent message', data);
+      }
     });
 
     // Disconnect a Visitor

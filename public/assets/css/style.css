@@ -16,6 +16,7 @@ src:
 body {
     font-family: 'Avenir Book';
     background: #FDFDFD;
+    overflow-y: hidden;
 }
 
 input:focus {
@@ -751,6 +752,7 @@ td:nth-child(3) {
 }
 
 .list_user {
+    overflow-y: scroll !important;
     width: 360px;
     box-shadow: 2px 0px 24px rgba(0, 0, 0, 0.3);
     float: left;
@@ -803,6 +805,11 @@ ul.list li:hover {
  border-right: 4px solid #0B61FF;
 }
 
+ul.list li.visitor_selected {
+ background-color: rgba(11, 97, 255, 0.1);
+ border-right: 4px solid #0B61FF;
+}
+
 img.profile_icon {
     width: 60px;
     float: left;
@@ -842,6 +849,8 @@ img.small_icon {
 .chat_box {
     width: 43%; /*Fallback if necessary*/
     width: calc(100% - 840px);
+    height: calc(100% - 110px);
+    overflow-y: scroll;
     float: left;
     padding-left: 20px;
     padding-right: 20px;
@@ -864,31 +873,34 @@ img.small_icon {
     width: calc(100% - 80px);
     text-align: right;
     float: right;
+    margin-bottom: 10px;
 }
 
-.message_sender p.sent_message {
+p.sent_message {
     color: #FFF;
     padding: 15px 20px 15px 20px;
     margin-bottom: 2px;
-    border-radius: 20px;
-    /*box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);*/
+    display: inline-block;
+    border-radius: 25px 5px 5px 25px;
     background: #0B61FF; /* For browsers that do not support gradients */
+}
 
-    /* background: -webkit-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Safari 5.1 to 6.0 */
-    /* background: -o-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Opera 11.1 to 12.0 */
-    /* background: -moz-linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* For Firefox 3.6 to 15 */
-    /* background: linear-gradient(rgb(26, 154, 255), rgb(11, 97, 255)); /* Standard syntax */
+.sent_message_first {
+    border-radius: 25px 25px 5px 25px !important;
+}
+
+.sent_message_last {
+    border-radius: 25px 5px 25px 25px !important;
 }
 
 .sender_pic {
     display: inline-block;
     vertical-align: top;
-    margin-left: 10px;
-    float: right;
+    margin-top: 5px;
 }
 
 .sender_pic_avatar {
-    width: 40px;
+    width: 25px;
 }
 
 .pic_avatar {
@@ -905,27 +917,43 @@ img.small_icon {
     display: inline-block;
     width: calc(100% - 80px);
     text-align: left;
+    margin-bottom: 10px;
 }
 
 .message_receiver p.received_message {
     color: #4A4A4A;
     padding: 15px 20px 15px 20px;
+    display: inline-block;
     margin-bottom: 2px;
-    border-radius: 20px;
+    border-radius: 5px 25px 25px 5px;
     /*box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);*/
     background: #F9F9F9;
+}
+
+p.received_message:first-of-type {
+    border-radius: 25px 25px 25px 5px !important;
+}
+
+p.received_message:last-of-type {
+    border-radius: 5px 25px 25px 25px !important;
 }
 
 .receiver_pic {
     display: inline-block;
     vertical-align: top;
     margin-right: 10px;
+    margin-top: 5px;
     float: left;
 }
 
 .message_timestamp {
     color: #767B7B;
     font-size: 12px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .message_textbox {
