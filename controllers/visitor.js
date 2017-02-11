@@ -130,7 +130,7 @@ module.exports = {
             visitors : result 
           });
         }
-      });
+      }).sort({date: -1});
   },
 
   //Get a list of all visitors / visitors with email / anonymous visitors

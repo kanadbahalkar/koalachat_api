@@ -3,7 +3,7 @@
 <!-- √ 2. Highlight selected visitor-->
 <!-- √ 3. Select the first visitor in the list by default-->
 <!-- √ 4. Show channel below the visitor email-->
-<!--5. User sees messages from a visitor when they select that visitor from the list-->
+<!-- √ 5. User sees messages from a visitor when they select that visitor from the list-->
 <!--5. Owner can edit the visitor profile shown on the right-->
 <!--6. User can see the 'Channel' of the visitor (Website, Fb, etc.)-->
 <!--7. Create directives for message bubbles-->
@@ -11,6 +11,12 @@
 <!--9. User can delete a message thread-->
 <!--10. User can blacklist a Visitor-->
 <!--11. User can 'Like or Star' a Visitor-->
+<!-- √ 12. If the visitor is new, Print on screen "New Conversation Started: <timestamp>"-->
+<!-- √ 13. Select the first visitor from the list by default-->
+<!--14. Automatically add a visitor to the list when a new connection occurs-->
+<!--15. Show relative timestamp wherever applicable (tute: https://scotch.io/tutorials/display-time-relatively-in-angular)-->
+<!--16. Add a green dot when a new message is sent by a visitor-->
+<!--17. Validation for empty message-->
 
 <topnav></topnav>
 
@@ -46,7 +52,7 @@
             <li ng-repeat= "visitor in visitors | filter:searchBox | orderBy: '-visitedAt'" 
                 style="cursor: pointer; cursor: hand;" 
                 ng-click="loadMessages(visitor)" 
-                ng-class="{ visitor_selected: selectedVisitorID == null ? $first : visitor.visitorID === selectedVisitorID }">
+                ng-class="{ visitor_selected: visitor._id === selectedVisitorID }">
                 <a href="">
                     <img src="assets/images/avatar.png" alt="" class="profile_icon">
                     <div class="details">
@@ -72,9 +78,9 @@
     
     <!--Messaging thread-->
     <div class="chat_box" scroll-bottom="messages">
-        <h4 class="conversation_header">Conversation with Rachel on Website...</h4>
+        <h4 class="conversation_header">New conversation started on {{ selectedConversationStartDate | date:'MMM dd, h:mm a' }}</h4>
 
-        <div class="message_receiver">
+        <!--<div class="message_receiver">
             <p class="received_message">Sending you links to those now...</p>
             <p class="received_message">Oh sure! We have a very similar pair. We have those available in 10.5 size too! They go for $59.</p>
             <p class="received_message message_image">Oh sure! We have a very similar pair. We have those available in 10.5 size too! They go for $59.</p>
@@ -82,15 +88,14 @@
                 <img class="sender_pic_avatar" src="assets/images/avatar.png" alt="">
                 <p class="message_timestamp">2:20pm</p>
             </div>
-        </div>
+        </div>-->
 
         <div class="message_sender">
-            <div ng-repeat="message in messages track by $index">
-                <p class="sent_message" ng-class='{sent_message_first:$first, sent_message_last:$last}'>{{ message.message }}</p>
-            </div>
-            <div class="sender_pic">
-                <p class="message_timestamp">2:20pm</p>
-                <img class="sender_pic_avatar" src="assets/images/avatar.png" alt="">
+            <div ng-repeat="message in messages">
+                <p class="sent_message" ng-class="{sent_message_first:$first, sent_message_last:$last}">{{ message.message }}</p>
+                <div class="sender_pic" ng-if="$last" ng-init="setConversationID(message)">
+                    <p class="message_timestamp">{{ message.createdAt | date:'MMM dd, h:mm a' }}</p>
+                </div>
             </div>
         </div>
     </div>

@@ -1,16 +1,7 @@
-//////USE CASES//////
-//1. A new Owner signs up
-//2. Owner is online and joins the socket
-//3. Owner is offline
-//4. A new anonymous visitor joins the socket chat
-//5. Anon visitor leaves the socket chat
-//6. Anon visitor gives out their email
-//7. Anon visitor connects to an owner
-//8. Anon visitor sends a message to the owner
-//9. Owner sends a message to a visitor
-//10. Owner sends an announcement to all visitors
-//11. Anon visitor goes offline
-//12. Anon visitor comes online again
+////// TODO //////
+//1. Change Visitor status to Offline when they disconnect
+//2. Change it back to Live when they reconnect
+//3. Add a timestamp to the message sent by Visitor
 
 
 
@@ -44,22 +35,23 @@ exports = module.exports = function (io) {
           //Save a new user
           if(data.newVisitor){
             var requestData = { 'visitorID' : data.visitorID, 'ownerID' : data.ownerID };
+            var newVisitor = { message: 'NewVisitor', ownerID: data.ownerID };
+
             request({
               url: 'https://localhost:4731/api/visitor/newvisitor',
               method: "POST",
               json: requestData,
-              headers: {'content-type' : 'application/x-www-form-urlencoded'},
+              headers: {'content-type' : 'application/x-www-form-urlencoded'}
             }, function(error, response, body){
-              if(error) console.log('ERROR: ', error);
+              if(error) {
+                console.log('ERROR: ', error);
+              }
             });
           }
         }
         else {
           sockets[data.ownerID] = socket;
         }
-
-        console.log(data);
-        console.log(Object.keys(sockets));
     });
 
     socket.on('send message', function (data) {

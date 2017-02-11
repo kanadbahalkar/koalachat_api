@@ -894,9 +894,8 @@ p.sent_message {
 }
 
 .sender_pic {
-    display: inline-block;
-    vertical-align: top;
-    margin-top: 5px;
+    display: block;
+    margin-top: 10px;
 }
 
 .sender_pic_avatar {

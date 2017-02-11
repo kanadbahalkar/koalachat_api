@@ -9,6 +9,7 @@ module.exports = {
     
     Conversation.find({ participants: req.params.visitorid })
     .select('_id')
+    .sort('-createdAt')
     .exec(function(err, conversations) {
       if (err) {
         res.send({ error: err });
@@ -16,25 +17,28 @@ module.exports = {
       }
 
       let fullConversations = [];
-      conversations.forEach(function(conversation) {
-        Message.find({ 'conversationId': conversation._id })
-          .sort('-createdAt')
-          .limit(1)
-          .populate({
-            path: 'sender',
-            select: 'profile.firstName profile.lastName'
-          })
-          .exec(function(err, message) {
-            if (err) {
-              res.send({ error: err });
-              return next(err);
-            }
-            fullConversations.push(message);
-            if(fullConversations.length === conversations.length) {
-              return res.status(200).json({ conversations: fullConversations });
-            }
-          });
-      });
+      if(conversations.length == 0) {
+        return res.status(200).json({ conversations: conversations });
+      }
+      else {
+        conversations.forEach(function(conversation) {
+          Message.find({ 'conversationId': conversation._id })
+            .populate({
+              path: 'sender',
+              select: 'profile.firstName profile.lastName'
+            })
+            .exec(function(err, message) {
+              if (err) {
+                res.send({ error: err });
+                return next(err);
+              }
+              fullConversations.push(message);
+              if(fullConversations.length === conversations.length) {
+                return res.status(200).json({ conversations: fullConversations });
+              }
+            });
+        });
+      }
     });
   },
 
@@ -52,18 +56,26 @@ module.exports = {
   },
 
   newConversation: function(req, res, next) {
+    
+    var reqData;
+    try {
+        reqData = JSON.parse(Object.keys(req.body)[0]);
+    } catch (e) {
+        reqData = req.body;
+    }
+
     if(!req.params.recipient) {
       res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
       return next();
     }
 
-    if(!req.body.message) {
+    if(!reqData.message) {
       res.status(422).send({ error: 'Please enter a message.' });
       return next();
     }
 
     const conversation = new Conversation({
-      participants: [req.body._id, req.params.recipient]
+      participants: [reqData.ownerID, req.params.recipient]
     });
 
     conversation.save(function(err, newConversation) {
@@ -74,8 +86,8 @@ module.exports = {
 
       const message = new Message({
         conversationId: newConversation._id,
-        body: req.body.message,
-        sender: req.body._id
+        body: reqData.message,
+        sender: reqData.ownerID
       });
 
       message.save(function(err, newMessage) {
@@ -90,11 +102,12 @@ module.exports = {
     });
   },
 
-  sendReply: function(req, res, next) {  
+  sendReply: function(req, res, next) {
+
     const reply = new Message({
       conversationId: req.params.conversationId,
-      body: req.body.composedMessage,
-      sender: req.user._id
+      body: req.body.message,
+      sender: req.body.ownerID
     });
 
     reply.save(function(err, sentReply) {
