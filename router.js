@@ -51,12 +51,12 @@ module.exports = function(app) {
     app.get('/auth/facebook', facebookAuth);
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { 
+        passport.authenticate('facebook', {
             successRedirect : '/Overview',
-            failureRedirect: '/login', 
-            session: false 
+            failureRedirect: '/login',
+            session: false
         }), authenticationController.returnTempToken);
-        
+
     //Google Auth
     app.get('/auth/google', googleAuth);
     // the callback after google has authenticated the user
@@ -72,7 +72,7 @@ module.exports = function(app) {
         req.logout();
         res.redirect('/login');
     });
-    
+
     // Chat routes
     apiRoutes.use('/chat', chatRoutes);
     // Retrieve all conversations between owner and visitor
@@ -103,6 +103,13 @@ module.exports = function(app) {
     profileRouters.post('/emailfrequency', requireAuth, profileController.emailFrequency);
     //Enable or Disable the site plugin
     profileRouters.post('/toggleplugin', requireAuth, profileController.togglePlugin);
+    //Connect to facebook pages
+    profileRouters.post('/fbconnect', requireAuth, facebookAuth);
+    profileRouters.get('/fbconnect/callback',
+      passport.authenticate('facebook', {
+        successRedirect: '/profile'
+      })
+    );
 
     //Widget Routes
     apiRoutes.use('/widget', widgetRouters);
