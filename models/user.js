@@ -45,7 +45,9 @@ const UserSchema = new Schema({
   // Stores list of social accounts of the user
   socialAccounts: [{
     provider_id: {type: String},
-    provider: {type: String}
+    provider: {type: String},
+    email: {type: String},
+    name: {type: String}
   }],
   password: {
     type: String

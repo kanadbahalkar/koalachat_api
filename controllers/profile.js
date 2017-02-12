@@ -41,22 +41,31 @@ module.exports = {
 
         // Update owner information
         updateOwnerInfo: function(req, res, next) {
-          console.log(req.body)
+          
+          var json;
+          var field;
+
           if(req.body.fieldname == 'password'){
             // update it with hash
             var password = req.body.fieldvalue;
             req.body.fieldvalue = bcrypt.hashSync(password);
           }
-
-          var json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
-          var field = JSON.parse(json);
-
+          else if(req.body.fieldname == 'socialAccounts'){
+            json = '{$push:{"' + req.body.fieldname + '":' + '{"provider_id":"' + req.body.provider_id + '","provider":"' + req.body.provider + '","email":"'+ req.body.email + '","name":"' + req.body.name + '"}}}';
+            firld = json;
+          }
+          else {
+            json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
+            field = JSON.parse(json);
+          }
+          
           User.findOneAndUpdate(
             { '_id' : req.body.ownerID },
             field,
             function(err, owner) {
               if (err) return next(err);
 
+              console.log('Owner: ', owner);
               if(!owner) {
                 res.status(422).send({ 'message': 'Owner with given id not found', 'status': 'failure' });
               }
@@ -64,6 +73,8 @@ module.exports = {
               res.status(200).send({ owner : owner });
             });
         },
+
+        // Update Social Accounts
 
         // Update email frequency
         emailFrequency: function(req, res, next) {
