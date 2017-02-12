@@ -75,7 +75,7 @@ let facebookLogin = new FacebookStrategy({
                 let str = JSON.stringify(profile, null, '\t');
 
                 //Create object for managed pages aka accounts
-                var accounts = [];
+                var managedPages = [];
                 if (profile._json.accounts) {
                     profile._json.accounts.data.forEach(function(manage_page) {
                         var page = {};
@@ -83,7 +83,7 @@ let facebookLogin = new FacebookStrategy({
                         page.access_token = manage_page.access_token;
                         page.name = manage_page.name;
                         page.category = manage_page.category;
-                        accounts.push(page);
+                        managedPages.push(page);
                     });
                 }
 
@@ -109,7 +109,7 @@ let facebookLogin = new FacebookStrategy({
                             'profile.gender' : profile.gender,
                             'profile.firstName' : profile.first_name,
                             'profile.birthday' : profile.birthday,
-                            'accounts': accounts,
+                            'managedPages': managedPages,
                             'socialAccounts': socialAccounts
                         },
                         { upsert : true },
@@ -135,7 +135,7 @@ let facebookLogin = new FacebookStrategy({
                         'birthday': profile.birthday
                     };
                     newUser.role = "Owner";
-                    newUser.accounts = accounts;
+                    newUser.managedPages = managedPages;
 
                     var socialAccounts = [];
                     socialAccounts.push({

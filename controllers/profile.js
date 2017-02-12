@@ -41,7 +41,7 @@ module.exports = {
 
         // Update owner information
         updateOwnerInfo: function(req, res, next) {
-
+          console.log(req.body)
           if(req.body.fieldname == 'password'){
             // update it with hash
             var password = req.body.fieldvalue;

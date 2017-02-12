@@ -149,11 +149,23 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
       $scope.me = function() {
         Facebook.api('/me?fields=email,name,id,accounts,photos,website', function(response) {
           console.log(response);
-          $scope.$apply(function() {
-            $scope.user = response;
-            console.log($scope.user);
+          $http({
+            method: 'POST',
+            url: baseUrl + '/profile/updateownerinfo',
+            data: $.param({
+              ownerID: $scope.ownerID,
+              fieldName: 'socialAccounts',
+              fieldValue: [{provider_id: "1", provider: "Facebook"}]
+            }),
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': $scope.token
+            }
+          }).success(function(response) {
+            console.log('Connected to facebook page');
+          }).error(function(err) {
+            console.log("Error in conncecting", err);
           });
-
         });
       };
 
