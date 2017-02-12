@@ -50,7 +50,7 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
     $scope.loadVisitors = function() {
         $http({
             method: 'POST',
-            url: 'https://localhost:4731/api/visitor/visitorslastweek',
+            url: 'https://localhost:4731/api/visitor/getvisitors/all',
             data: $.param({
                 ownerID: ownerID
             }),
@@ -60,10 +60,11 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
             }
         })
         .then(function(data){
-            $scope.visitors = data.data.visitors;
-            if($scope.visitors.length > 0) {
-                $scope.selectedVisitorID = data.data.visitors[0]._id;
-                $scope.loadMessages(data.data.visitors[0]);
+            $scope.visitors = data.data.visitor;
+            if($scope.visitor && $scope.visitor.length > 0) {
+                $scope.selectedConversationStartDate = data.data.visitor[0].visitedAt;
+                $scope.selectedVisitorID = data.data.visitor[0]._id;
+                $scope.loadMessages(data.data.visitor[0]);
             }
         });
     }

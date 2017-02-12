@@ -114,20 +114,26 @@ module.exports = {
   },
 
   //Get visitors last week
-  getVisitorsLastWeek: function(req, res, next) {
-    Visitor.find(
+  getVisitorsLastWeekCount: function(req, res, next) {
+    Visitor.count(
       { ownerID : req.body.ownerID }, 
       function(err, result) {
         if (err) return next(err);
+        res.status(200).send({ 
+          visitorsLastWeek : result 
+        });
+      }).sort({date: -1});
+  },
 
-        if(!result) {
-          res.status(422).send({ message : 'OwnerID not found' });
-        }
-        else {
-          res.status(200).send({ 
-            visitors : result 
-          });
-        }
+  //Get number of live visitors
+  getLiveVisitorsCount: function(req, res, next) {
+    Visitor.count(
+      { ownerID : req.body.ownerID, live : true }, 
+      function(err, result) {
+        if (err) return next(err);
+        res.status(200).send({ 
+          liveVisitors : result 
+        });
       }).sort({date: -1});
   },
 

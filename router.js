@@ -122,7 +122,9 @@ module.exports = function(app) {
     //Get a list of all visitors / visitors with email / anonymous visitors
     visitorRouters.post('/getvisitors/:filter', requireAuth, visitorController.getVisitors);
     //Get a number of unique visitors last week
-    visitorRouters.post('/visitorslastweek', requireAuth, visitorController.getVisitorsLastWeek);
+    visitorRouters.post('/visitorslastweek', requireAuth, visitorController.getVisitorsLastWeekCount);
+    //Get a number of live visitors
+    visitorRouters.post('/livevisitorscount', requireAuth, visitorController.getLiveVisitorsCount);
 
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);

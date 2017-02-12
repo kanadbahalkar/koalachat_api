@@ -28,14 +28,27 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
             }
         })
         .then(function (response) {
-            $scope.visitorsLastWeek = response.data.count;
-            return response;
+            $scope.visitorsLastWeekCount = response.data.visitorsLastWeek;
+        });
+
+        //Get number of live visitors
+        $http({
+            method: 'POST',
+            url: baseUrl + '/visitor/livevisitorscount',
+            data: $.param({
+                ownerID: $window.localStorage.userid
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .then(function (response) {
+            $scope.liveVisitorsCount = response.data.liveVisitors;
         });
     }
     
     //Get number of current conversations
-
-    //Blacklist a visitor
 
     //Profanity filter
     
