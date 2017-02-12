@@ -7,16 +7,13 @@ const VisitorSchema = new Schema({
  	email: {
     type: String,
     lowercase: true,
-    required: true
-  },
-  visitorID: { 
-    type: String,
     required: true,
-    unique: true
+    unique: false
   },
   ownerID: { 
     type: String,
-    required: true
+    required: true,
+    unique: false
   },
   ipAddress: { 
     type: String, 

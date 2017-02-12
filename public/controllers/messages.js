@@ -2,8 +2,8 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
 
     $scope.messages = [];
     var ownerID = $window.localStorage.userid;
+    $scope.ownerID = ownerID;
     $scope.selectedVisitorID = null;
-    $scope.selectedVisitorTempID = null;
     $scope.selectedConversationID = null;
     $scope.selectedConversationStartDate = null;
 
@@ -16,37 +16,62 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
         socket.emit('return', { ownerID: ownerID, owner: true });
     });
 
+    //Update the visitors list when a new visitor joins in
+    socket.on('new visitor for admin', function (data) {
+        console.log(data);
+        $scope.visitors = $scope.visitors.concat(data);
+    });
+
     socket.on('sent message', function (data) {
-        //Create new directive for chatReceived
-        $scope.messages = $scope.messages.concat(data);
-        $scope.$apply();
+        //Save the message in DB
+        if($scope.selectedConversationID == null){
+            $http({
+                method: 'POST',
+                url: 'https://localhost:4731/api/chat/conversations/' + data.from,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': $window.localStorage.token
+                }
+            })
+            .then(function(response){
+                var lastConversation = response.data.conversations[response.data.conversations.length - 1]
+                $scope.selectedConversationID = lastConversation[0].conversationId;
+                data.conversationId = $scope.selectedConversationID
+                $scope.sendMessage(data, data.from);
+            });
+        }
+        else {
+            data.conversationId = $scope.selectedConversationID
+            $scope.sendMessage(data, data.from);
+        }
     });
     
     //3. Get a list of website visitors
-    $http({
-        method: 'POST',
-        url: 'https://localhost:4731/api/visitor/visitorslastweek',
-        data: $.param({
-            ownerID: ownerID
-        }),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': $window.localStorage.token
-        }
-    })
-    .then(function(data){
-        $scope.visitors = data.data.visitors;
-        if($scope.visitors.length > 0) {
-             $scope.selectedVisitorID = data.data.visitors[0]._id;
-             $scope.loadMessages(data.data.visitors[0]);
-        }
-    });
+    $scope.loadVisitors = function() {
+        $http({
+            method: 'POST',
+            url: 'https://localhost:4731/api/visitor/visitorslastweek',
+            data: $.param({
+                ownerID: ownerID
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .then(function(data){
+            $scope.visitors = data.data.visitors;
+            if($scope.visitors.length > 0) {
+                $scope.selectedVisitorID = data.data.visitors[0]._id;
+                $scope.loadMessages(data.data.visitors[0]);
+            }
+        });
+    }
 
     //5. Get conversations between owner and visitor
     $scope.loadMessages = function(visitor) {
 
         $scope.selectedVisitorID = visitor._id;
-        $scope.selectedVisitorTempID = visitor.visitorID;
         $scope.messages = [];
         
         $http({
@@ -65,10 +90,12 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
                 }
                 else if(conversation) {
                     conversation.forEach(function(message, index, messages){
+                        var sender = (message.sender && message.sender._id == ownerID) ? ownerID : 'visitorID'
+                        
                         if(message){
                             var data = {
                                 message: message.body, 
-                                from: ownerID, 
+                                from: sender, 
                                 to: $scope.selectedVisitorID,
                                 createdAt: message.createdAt,
                                 conversationId: message.conversationId
@@ -88,20 +115,29 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
         $scope.selectedConversationID = message.conversationId;
     }
 
-    //Send message to the visitor
-    $scope.sendMessage = function() {
-        //Save the message in DB
-        if($scope.selectedConversationID) {
-            
+    $scope.getMessageBody = function(){
+        
+        if($scope.messageText != undefined && !$scope.messageText.trim() == ""){
             var data = {
                 message: $scope.messageText, 
-                from: ownerID, 
-                to: $scope.selectedVisitorTempID, 
+                from: ownerID,
+                to: $scope.selectedVisitorID, 
                 createdAt: Date.now(),
                 conversationId: $scope.selectedConversationID
             }
+
             socket.emit('send message', data);
+            $scope.sendMessage(data, ownerID);
+        }
+    }
+
+    //Send message to the visitor
+    $scope.sendMessage = function(data, sender) {
+
+        //Save the message in DB
+        if($scope.selectedConversationID) {
             $scope.messages = $scope.messages.concat(data);
+            $scope.messageText = data.message;
 
             // $scope.messages = $filter('orderBy')($scope.messages, 'createdAt');
             //Send replies in this conversation
@@ -109,7 +145,7 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
                 method: 'POST',
                 url: 'https://localhost:4731/api/chat/reply/' + $scope.selectedConversationID,
                 data: $.param({
-                    ownerID: ownerID,
+                    sender: sender,
                     message: $scope.messageText
                 }),
                 headers: {
@@ -136,15 +172,9 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
                     'Authorization': $window.localStorage.token
                 }
             })
-            .then(function(data){
-                $scope.selectedConversationID = data.data.conversationId;
-                    var data = {
-                    message: $scope.messageText, 
-                    from: ownerID, 
-                    to: $scope.selectedVisitorID,
-                    createdAt: Date.now(),
-                    conversationId: $scope.selectedConversationID
-                }
+            .then(function(response){
+                $scope.selectedConversationID = response.data.conversationId;
+                if(data.conversationId == null) data.conversationId = $scope.selectedConversationID;
                 socket.emit('send message', data);
                 $scope.messages = $scope.messages.concat(data);
                 //Reset the message textarea

@@ -96,7 +96,7 @@ module.exports = {
           return next(err);
         }
 
-        res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
+        res.status(200).json({ message: newMessage, conversationId: conversation._id });
         return next();
       });
     });
@@ -107,7 +107,7 @@ module.exports = {
     const reply = new Message({
       conversationId: req.params.conversationId,
       body: req.body.message,
-      sender: req.body.ownerID
+      sender: req.body.sender
     });
 
     reply.save(function(err, sentReply) {

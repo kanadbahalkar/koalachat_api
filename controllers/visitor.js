@@ -8,7 +8,6 @@ module.exports = {
     var reqData = JSON.parse(Object.keys(req.body)[0]);
 
     let ownerID = reqData.ownerID;
-    let visitorID = reqData.visitorID;
     let email = reqData.email || config.default_email;
     
     //Get ip address of the visitor
@@ -25,7 +24,6 @@ module.exports = {
     
     let visitor = new Visitor({
       email: email,
-      visitorID: visitorID,
       ownerID: ownerID,
       ipAddress: visitorip,
       visitedAt: Date.now()
@@ -34,7 +32,7 @@ module.exports = {
     visitor.save(function(err) {
       if (err) return next(err);
       else {
-        console.log("Visitor successfully registered!");
+        console.log("Visitor successfully registered: ", visitor);
         res.status(200).send({
           visitor: visitor
         });

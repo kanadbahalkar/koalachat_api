@@ -19,6 +19,9 @@ var options = {
     cert: fs.readFileSync('certificate.pem')
 };
 
+//Update mongoose promise
+mongoose.Promise = global.Promise;
+
 // Database Connection
 mongoose.connect(config.database);
 

@@ -870,7 +870,7 @@ img.small_icon {
 
 .message_sender {
     display: inline-block;
-    width: calc(100% - 80px);
+    width: calc(100% - 0px);
     text-align: right;
     float: right;
     margin-bottom: 10px;
@@ -919,14 +919,14 @@ p.sent_message {
     margin-bottom: 10px;
 }
 
-.message_receiver p.received_message {
+p.received_message {
     color: #4A4A4A;
     padding: 15px 20px 15px 20px;
-    display: inline-block;
+    display: table;
     margin-bottom: 2px;
     border-radius: 5px 25px 25px 5px;
     /*box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);*/
-    background: #F9F9F9;
+    background: #EEE;
 }
 
 p.received_message:first-of-type {
