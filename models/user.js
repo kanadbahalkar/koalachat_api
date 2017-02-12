@@ -36,7 +36,7 @@ const UserSchema = new Schema({
     unique: true
   },
   // Stores list of pages manage by user on facebook
-  accounts: [{
+  managedPages: [{
     access_token: {type: String},
     name: {type: String},
     category: {type: String},

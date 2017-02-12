@@ -12,7 +12,7 @@ module.exports = {
                 if(!owner || owner == undefined || owner == null) {
                   res.status(422).send({"message": "Owner with given id not found", "status": "failure"});
                 }
-                
+
                 console.log("User Found: " + owner);
 
                 owner.welcomeMessage = req.body.newMessage;
@@ -41,7 +41,7 @@ module.exports = {
 
         // Update owner information
         updateOwnerInfo: function(req, res, next) {
-          
+          console.log(req.body)
           if(req.body.fieldname == 'password'){
             // update it with hash
             var password = req.body.fieldvalue;
@@ -52,8 +52,8 @@ module.exports = {
           var field = JSON.parse(json);
 
           User.findOneAndUpdate(
-            { '_id' : req.body.ownerID }, 
-            field, 
+            { '_id' : req.body.ownerID },
+            field,
             function(err, owner) {
               if (err) return next(err);
 
@@ -67,19 +67,19 @@ module.exports = {
 
         // Update email frequency
         emailFrequency: function(req, res, next) {
-          
+
           var json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
           var field = JSON.parse(json);
 
           User.findOneAndUpdate(
-            { '_id' : req.body.ownerID }, 
-            { emailFrequency: 
+            { '_id' : req.body.ownerID },
+            { emailFrequency:
               {
                 newsletter: req.body.newsletter,
                 billingUpdates: req.body.billingUpdates,
                 announcements: req.body.announcements
-              } 
-            }, 
+              }
+            },
             function(err, owner) {
               if (err) return next(err);
 
@@ -93,10 +93,10 @@ module.exports = {
 
         // Allow anonymous chats
         allowAnonymous: function(req, res, next) {
-          
+
           User.findOneAndUpdate(
-            { '_id' : req.body.ownerID }, 
-            { 'allowAnonymous' : req.body.allowAnonymous }, 
+            { '_id' : req.body.ownerID },
+            { 'allowAnonymous' : req.body.allowAnonymous },
             { upsert: true },
             function(err, owner) {
               if (err) return next(err);
@@ -111,11 +111,11 @@ module.exports = {
 
         // Enable / Diable chatbot on the website
         togglePlugin: function(req, res, next) {
-          
+
           console.log(req.body);
           User.findOneAndUpdate(
-            { '_id' : req.body.ownerID }, 
-            { 'enablePlugin' : req.body.enablePlugin }, 
+            { '_id' : req.body.ownerID },
+            { 'enablePlugin' : req.body.enablePlugin },
             { upsert: true },
             function(err, owner) {
               if (err) return next(err);
@@ -126,5 +126,12 @@ module.exports = {
 
               res.status(200).send({ enablePlugin : owner.enablePlugin });
             });
+        },
+
+        connectFacebook: function(req, res, next) {
+          User.findOneAndUpdate(
+            { '_id' : req.body.ownerID },
+            {}
+          )
         }
 }
