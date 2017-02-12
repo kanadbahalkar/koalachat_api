@@ -1,5 +1,5 @@
-myApp.controller('profileController', ['$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook',
-                  function($scope, $location, $http, $window, AuthenticationService, Facebook){
+myApp.controller('profileController', ['$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook','GooglePlus',
+                  function($scope, $location, $http, $window, AuthenticationService, Facebook, GooglePlus){
 
     var baseUrl = "https://localhost:4731/api";
     $scope.isActive = function(destination){
@@ -137,61 +137,62 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
 
     //Update business name
 
+    //Update social profileFields
+    function updateSocial(provider) {
+      $http({
+        method: 'POST',
+        url: baseUrl + '/profile/updateownerinfo',
+        data: $.param({
+          ownerID: $scope.ownerID,
+          fieldName: 'socialAccounts',
+          provider: provider,
+          provider_id: response.id,
+          email: response.email,
+          name: response.name,
+          gender: response.gender
+        }),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': $scope.token
+        }
+      }).success(function(response) {
+        console.log('Connected to facebook page');
+      }).error(function(err) {
+        console.log("Error in conncecting", err);
+      });
+    }
+
     //Connect Facebook
     $scope.connectFacebook = function () {
       Facebook.login(function(response) {
         if (response.status == 'connected') {
           $scope.logged = true;
-          $scope.me();
+          $scope.facebook();
         }
       });
+    }
 
-      $scope.me = function() {
-        Facebook.api('/me?fields=email,name,id,accounts,photos,website', function(response) {
-          console.log(response);
-          $http({
-            method: 'POST',
-            url: baseUrl + '/profile/updateownerinfo',
-            data: $.param({
-              ownerID: $scope.ownerID,
-              fieldName: 'socialAccounts',
-              fieldValue: [{provider_id: "1", provider: "Facebook"}]
-            }),
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Authorization': $scope.token
-            }
-          }).success(function(response) {
-            console.log('Connected to facebook page');
-          }).error(function(err) {
-            console.log("Error in conncecting", err);
+    $scope.facebook = function() {
+      Facebook.api('/me?fields=email,name,id,accounts,photos,website,gender', function(response) {
+        var provider = 'facebook';
+        updateSocial(provider);
+      });
+    };
+
+    //Connect Google+
+    $scope.connectGooglePlus = function () {
+      GooglePlus.login().then(function (authResult) {
+          GooglePlus.getUser().then(function (user) {
+              var provider = 'facebook';
+              updateSocial(provider);
           });
-        });
-      };
-
-      //
-      // $http({
-      //   method: 'POST',
-      //   url: baseUrl + '/profile/fbconnect',
-      //   data: $.param({
-      //     ownerID: $scope.ownerID,
-      //   }),
-      //   headers: {
-      //     'Content-Type': 'application/x-www-form-urlencoded',
-      //     'Authorization': $scope.token
-      //   }
-      // }).success(function(response) {
-      //   console.log('Connected to facebook page');
-      // }).error(function(err) {
-      //   console.log("Error in conncecting", err);
-      // });
-
+      }, function (err) {
+          console.log(err);
+      });
     }
 
     //Connect Twitter
 
     //Connect Instagram
-
-    //Connect Google+
 
 }]);

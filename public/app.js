@@ -1,6 +1,6 @@
-var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook']);
+var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook', 'googleplus']);
 
-myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, FacebookProvider){
+myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, FacebookProvider, GooglePlusProvider){
 
     $ocLazyLoadProvider.config({
         modules: [
@@ -16,6 +16,10 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, F
     });
 
     FacebookProvider.init('182119938859848');
+    GooglePlusProvider.init({
+        clientId: '128931725263-6mof4j68lqvds8n6adjt5ft3b8vabtb3.apps.googleusercontent.com',
+        apiKey: 'npkrrCUWstpBNG7jXEJWP1v7'
+     });
 
     $routeProvider
     //Login Reg Router
