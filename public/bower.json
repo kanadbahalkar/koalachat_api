@@ -1,0 +1,22 @@
+{
+  "name": "public",
+  "authors": [
+    "Sachin Doiphode <sdoiphode@dataxu.com>"
+  ],
+  "description": "Koala_Chat",
+  "main": "",
+  "license": "MIT",
+  "homepage": "http://koalachat.com/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-facebook": "^0.2.3",
+    "angular-google-plus": "^0.1.3",
+    "oclazyload": "^1.1.0"
+  }
+}
