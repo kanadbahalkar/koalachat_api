@@ -97,6 +97,8 @@ module.exports = function(app) {
     profileRouters.post('/getownerinfo', requireAuth, profileController.getOwnerInfo);
     //Update owner's info
     profileRouters.post('/updateownerinfo', requireAuth, profileController.updateOwnerInfo);
+    //Update owner's social media accounts
+    profileRouters.post('/updatesocial', requireAuth, profileController.updateSocialAccounts);
     //Allow anonymous / non-anonymous chats
     profileRouters.post('/allowanonymous', requireAuth, profileController.allowAnonymous);
     //Set notification frequency

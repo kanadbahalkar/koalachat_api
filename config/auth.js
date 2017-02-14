@@ -12,8 +12,8 @@ module.exports = {
     },
 
     'twitterAuth' : {
-        'consumerKey'       : '7eKUkIImyJir2RCpWi7C1f7tG',
-        'consumerSecret'    : 'TYXKn2hMTkDQqHzllrm3V3k5vP17F07kPDSn5oO5V7FA1Awji3',
-        'callbackURL'       : 'http://localhost:4731/auth/twitter/callback'
+        'consumerKey'       : '9D7eEnw3zpO1L6k8xxqV5Lpaa',
+        'consumerSecret'    : 'CY0qqGJxKX57fZskdF1ecen4G00BzeaYumrHnZugRrWX2AjjeC',
+        'callbackURL'       : 'https://localhost:4731/auth/twitter/callback'
     }
   };

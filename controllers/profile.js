@@ -28,7 +28,6 @@ module.exports = {
         // Get's owner information
         getOwnerInfo: function(req, res, next) {
           User.findOne({'_id': req.body.ownerID}, function(err, owner) {
-            console.log('Req fired');
             if (err) return next(err);
 
             if(!owner) {
@@ -75,6 +74,53 @@ module.exports = {
         },
 
         // Update Social Accounts
+        updateSocialAccounts: function(req, res, next){
+          User.findOne({
+            '_id' : req.body.ownerID
+          }, function(err, user) {
+              if (err) return done(err);
+
+              if (user) {
+                var managedPages = [];
+                if(req.body.managedPages != '')
+                  managedPages = JSON.parse(req.body.managedPages);
+                
+                //Create object for social accounts
+                var newSocialAccount = {
+                  provider_id: req.body.provider_id,
+                  provider: req.body.provider,
+                  email: req.body.email,
+                  name: req.body.name,
+                };
+
+                var profile = {
+                  firstName: req.body.name.split(" ")[0],
+                  givenName: '',
+                  lastName: req.body.name.split(" ")[1],
+                  gender: req.body.gender,
+                  photo: req.body.photo
+                }
+
+                var socialAccountFound = user.socialAccounts.filter(function(item) {
+                    return item.provider == req.body.provider;
+                });
+                
+                //Update user with new social account and managed pages
+                if(user.socialAccounts != null && socialAccountFound.length <= 0){
+                  user.socialAccounts.push(newSocialAccount);
+                  managedPages.forEach(function(managedPage) {
+                    user.managedPages.push(managedPage);
+                  });
+                  user.profile = profile;
+                  user.save();
+                  console.log(user);
+                }
+              } 
+              else {
+                console.log('User not found... :(');
+              }
+          });
+        },
 
         // Update email frequency
         emailFrequency: function(req, res, next) {

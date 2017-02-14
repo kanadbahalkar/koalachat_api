@@ -68,11 +68,11 @@
 
         <div class="profile_info_col">
             <label class="profile_info_label">Connect Your Social Profiles</label>
-            <button class="btn_social_profile" ng-click="connectFacebook()"> <img class="social_button_icon" src="assets/images/facebook_white.svg" /> Facebook</button>
-            <button class="btn_social_profile" ng-click="connectGooglePlus()"> <img class="social_button_icon" src="assets/images/google_plus_colored.svg" /> Google</button>
-            <button class="btn_social_profile"> <img class="social_button_icon" src="assets/images/twitter_white.svg" /> Twitter</button>
-            <button class="btn_social_profile"> <img class="social_button_icon" src="assets/images/instagram_white.svg" /> Instagram</button>
-            <br>
+            <button class="btn_social_profile" ng-click="connectFacebook()" ng-disabled="fbConnected != undefined" ng-model="fb"> <img class="social_button_icon" src="assets/images/facebook_white.svg"/> Facebook {{fb}}</button>
+            <button class="btn_social_profile" ng-click="connectGooglePlus()" ng-disabled="googlePlusConnected != undefined"> <img class="social_button_icon" src="assets/images/google_plus_colored.svg"/> Google {{gp}}</button>
+            <!--<button class="btn_social_profile"> <img class="social_button_icon" src="assets/images/twitter_white.svg" /> Twitter</button>-->
+            <!--<button class="btn_social_profile"> <img class="social_button_icon" src="assets/images/instagram_white.svg" /> Instagram</button>-->
+            <br><br><br><br><br><br><br>
             <label class="profile_info_label">Enable / Diable Plugin</label>
             <input type="checkbox" ng-model="enablePlugin" ng-change="togglePlugin()">
                 <label class="checkbox_label">Enable or Diable KoalaChat plugin on your site</label>

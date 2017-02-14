@@ -27,7 +27,21 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
         $scope.businessWebsite = response.owner.website;
         $scope.accountCreationDate = response.owner.createdAt;
         $scope.userName = response.owner.email;
-        $scope.profilepic = response.owner.profile.profilepic || '/assets/images/avatar.png';
+        $scope.profilepic = response.owner.profile.photo || '/assets/images/avatar.png';
+        if(response.owner.socialAccounts){
+            $scope.fbConnected = response.owner.socialAccounts.filter(function(item) {
+                return item.provider === 'facebook';
+            });
+            $scope.googlePlusConnected = response.owner.socialAccounts.filter(function(item) {
+                return item.provider === 'google plus';
+            });
+
+            if ($scope.fbConnected) { $scope.fb = 'Connected'; }
+            else { $scope.fb = ''; }
+
+            if ($scope.googlePlusConnected) { $scope.gp = 'Connected'; }
+            else { $scope.gp = ''; }
+        }
     })
     .error(function(err) {
         console.log(err);
@@ -138,28 +152,39 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     //Update business name
 
     //Update social profileFields
-    function updateSocial(provider) {
-      $http({
-        method: 'POST',
-        url: baseUrl + '/profile/updateownerinfo',
-        data: $.param({
-          ownerID: $scope.ownerID,
-          fieldName: 'socialAccounts',
-          provider: provider,
-          provider_id: response.id,
-          email: response.email,
-          name: response.name,
-          gender: response.gender
-        }),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': $scope.token
+    function updateSocial(provider, response) { 
+    
+        var managedPages = '';
+        var managedPagesCount = 0;
+        if(provider === 'facebook'){
+            managedPages = JSON.stringify(response.accounts.data);
+            managedPagesCount = response.accounts.data.length;
         }
-      }).success(function(response) {
-        console.log('Connected to facebook page');
-      }).error(function(err) {
-        console.log("Error in conncecting", err);
-      });
+
+        $http({
+            method: 'POST',
+            url: baseUrl + '/profile/updatesocial',
+            data: $.param({
+                ownerID: $scope.ownerID,
+                fieldName: 'socialAccounts',
+                provider: provider,
+                provider_id: response.id,
+                email: response.email,
+                name: response.name,
+                gender: response.gender,
+                photo: response.picture,
+                managedPages: managedPages,
+                managedPagesCount: managedPagesCount
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $scope.token
+            }
+        }).success(function(response) {
+            console.log('Connected to facebook page');
+        }).error(function(err) {
+            console.log("Error in conncecting", err);
+        });
     }
 
     //Connect Facebook
@@ -175,16 +200,16 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     $scope.facebook = function() {
       Facebook.api('/me?fields=email,name,id,accounts,photos,website,gender', function(response) {
         var provider = 'facebook';
-        updateSocial(provider);
+        updateSocial(provider, response);
       });
     };
 
     //Connect Google+
     $scope.connectGooglePlus = function () {
-      GooglePlus.login().then(function (authResult) {
+      GooglePlus.login().then(function (response) {
           GooglePlus.getUser().then(function (user) {
-              var provider = 'facebook';
-              updateSocial(provider);
+              var provider = 'google plus';
+              updateSocial(provider, user);
           });
       }, function (err) {
           console.log(err);
