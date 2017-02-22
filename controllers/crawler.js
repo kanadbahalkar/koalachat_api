@@ -84,7 +84,6 @@ module.exports = {
   },
 
   verifyEmbedCode : function(req, res, next){
-    
     var website = req.body.website;
     var ownerid = req.body.ownerID;
 
@@ -111,6 +110,17 @@ module.exports = {
                 message: "KoalaChat is Correctly Installed on Your Site!",
                 status: "success"
               });
+            });
+          }
+          else if(script.attribs.id && 
+            script.attribs.id.indexOf('koala-index') != -1 && 
+            script.attribs.u != ownerid && 
+            script.attribs.src == 'https://s3.amazonaws.com/koalachat/index.js'){
+            
+            res.status(400).send({
+              websiteVerified: false,
+              message: 'Hmmm Chief Koala says the script tag on your website does not match his records! Try copy pasting the exact same script tag we provided inside the "head" tag of your home page. To complete the setup on your site, we need to verify this Embed Code. After you’re done pasting it, press the “Verify” button...',
+              status: "Error"
             });
           }
         });

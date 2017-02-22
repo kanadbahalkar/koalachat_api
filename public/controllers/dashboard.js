@@ -1,10 +1,19 @@
 'use strict';
 
-myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', 'VisitorsService', function($http, $scope, $log, $window, VisitorsService){
+myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '$routeParams', 'VisitorsService', 'UserService', function($http, $scope, $log, $window, $routeParams, VisitorsService, UserService){
 
     //Get number of current visitors on the site
     var baseUrl = "https://localhost:4731/api";
     var socket = io.connect("https://localhost:4731/");
+
+    var access_token = $routeParams.access_token;
+    var userid = $routeParams.id;
+    if(access_token){
+        UserService.setIsLogged(true);
+        $window.localStorage.token = access_token;
+        $window.localStorage.userid = userid;
+        $window.location = '/Overview';
+    }
 
     //1. Get a ping-pong serve from the socket server
     socket.on('serve', function (data) {

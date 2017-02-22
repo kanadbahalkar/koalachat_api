@@ -32,13 +32,13 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, F
     })
 
     //Login Reg Router
-      .when('/loggingin', {
+    .when('/loggingin', {
         templateUrl : 'pages/loggingin.html',
         access: {
-          requiredLogin: false,
-          isOnboarding: false
+            requiredLogin: false,
+            isOnboarding: false
         }
-      })
+    })
 
     //Dashboard Router
     .when('/Overview', {

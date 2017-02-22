@@ -4,6 +4,8 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         console.log('Sorry, copy to clipboard is not supported');
     }
 
+    $scope.verificationBlurb = 'Chief Koala says your website is koalafied to be hooked up with KoalaChat! Copy paste the code below inside the "head" tag of your home page. To complete the setup on your site, we need to verify this Embed Code. After you’re done pasting the code in the HTML of your site, press the “Verify” button below...';
+
     var timeout;
     
     // Save changes to the copy of the person back to the original,
@@ -118,7 +120,10 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
             }
         })
         .error(function (data, status, headers, config) {
-            console.log('Error: Embed Code Verification Failed');
+            console.log('Error:', data.message);
+            //Change the text on page to data.message
+            $scope.errorText = 'error-text-color';
+            $scope.verificationBlurb = data.message
         });
     };
 

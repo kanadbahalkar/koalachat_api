@@ -165,9 +165,9 @@ function loginUser() {
         loadBeat(true);
         angular.element($("#authController")).scope().login();
         loadBeat(false);
-        $('#email').val('');
+        // $('#email').val('');
         $('#password').val('');
-        hideChat(false);
+        // hideChat(false);
       } 
       else if(!validateEmail(email) && !validatePassword(password)){
         $('.chat_login_alert').remove();
@@ -198,10 +198,10 @@ $('#email_reg').click(function (e) {
       loadBeat(true);
       angular.element($("#authController")).scope().register(website, email, password);
       loadBeat(false);
-      $('#website').val('');
-      $('#email').val('');
+      // $('#website').val('');
+      // $('#email').val('');
       $('#password').val('');
-      hideChat(false);
+      // hideChat(false);
     } 
     else if(!validateEmail(email)){
       $('.chat_login_alert').remove();

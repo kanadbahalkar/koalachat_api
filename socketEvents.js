@@ -64,6 +64,11 @@ exports = module.exports = function (io) {
       }
     });
 
+    socket.on('validate', function (data) {
+      console.log(data);
+      //Emit Valdation Message
+    });
+
     // Disconnect a Visitor
     socket.on('disconnect', function (oid) {
       socket.leave(oid);

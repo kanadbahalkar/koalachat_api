@@ -51,7 +51,7 @@ module.exports = {
           }
           else if(req.body.fieldname == 'socialAccounts'){
             json = '{$push:{"' + req.body.fieldname + '":' + '{"provider_id":"' + req.body.provider_id + '","provider":"' + req.body.provider + '","email":"'+ req.body.email + '","name":"' + req.body.name + '"}}}';
-            firld = json;
+            field = json;
           }
           else {
             json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
@@ -113,7 +113,6 @@ module.exports = {
                   });
                   user.profile = profile;
                   user.save();
-                  console.log(user);
                 }
               } 
               else {

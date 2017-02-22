@@ -58,15 +58,6 @@ angular.module('myApp')
                 .success(success)
                 .error(error);
             },
-            fblogin: function(success, error) {
-                $http({
-                    method: 'GET',
-                    url: baseUrl + '/auth/facebook',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                })
-                .success(success)
-                .error(error);
-            },
             me: function(success, error) {
                 $http.get(baseUrl + '/me').success(success).error(error);
             },

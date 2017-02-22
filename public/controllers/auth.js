@@ -6,6 +6,11 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
     //Lazy load the pluin UI
     $ocLazyLoad.load(['jqueryUI', 'pluginUI'], {cache: true, serie: true});
 
+    //Verify Social Auth
+    $scope.$on('$viewContentLoaded', function(){
+        console.log("LALALALA");
+    });
+
     //Hook up Auth API
     //Login
     $scope.login = function() {
@@ -27,24 +32,29 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 $window.location = '/Overview';
             }
         }, function() {
-            $rootScope.error = 'Login Failed';
+            jQuery('.chat_login_alert').remove();
+            var validationText = 'Hmmm seems like your email and password are not matching...🤔 <br>Try logging in again pweez.';
+            jQuery('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
         });
     };
 
-    $scope.fblogin = function() {
+    $scope.fbLogin = function() {
         AuthenticationService.fblogin(function(res) {
+            console.log("HERE>>>>");
             if (res.type == false) {
                 $log.error(res);
             } else {
                 UserService.setIsLogged(true);
-                $window.localStorage.token = res.token;
-                $window.localStorage.user = res.user;
-                $window.localStorage.userid = res.user._id;
-                $window.localStorage.useremail = res.user.email;
-                $window.location = '/Overview';
+                // $window.localStorage.token = res.token;
+                // $window.localStorage.userfullname = res.user.profile.firstName + ' ' + res.user.profile.lastName;
+                // $window.localStorage.userid = res.user._id;
+                // $window.localStorage.useremail = res.user.email;
+                // $window.location = '/Overview';
             }
         }, function() {
-            $rootScope.error = 'Login Failed';
+            jQuery('.chat_login_alert').remove();
+            var validationText = 'Hmmm seems like your email and password are not matching...🤔 <br>Try logging in again pweez.';
+            jQuery('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
         });
     };
 
@@ -72,7 +82,9 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 $window.location = '/onboarding/setwelcome';
             }
         }, function() {
-            $rootScope.error = 'Signup Failed';
+            jQuery('.chat_login_alert').remove();
+            var validationText = 'Shoot! There was an error while registering your account! 😮<br>Try signing up again pweez.';
+            jQuery('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
         })
     };
 

@@ -3,7 +3,7 @@
 <div class="embed_code_box" ng-init="getEmbedCode()">
     <div class="embed_code_box_body">
         <h1 class="onboarding-headline">We are almost done... 😊</h1>
-        <p class="onboarding-blurb">Chief Koala says your website is koalafied to be hooked up with KoalaChat! Copy paste the code below inside the "head" tag of your home page. To complete the setup on your site, we need to verify this Embed Code. After you’re done pasting the code in the HTML of your site, press the “Verify” button below...</p>
+        <p class="onboarding-blurb {{errorText}}">{{verificationBlurb}}</p>
         
         <textarea class="onboarding-textarea" style="margin-bottom: 0px;" placeholder='<script href=“https://embed.koalachat.com/supersecretjavascriptmagicsauce.js” uid=“12345” color=“blue” creature=“koala”></script>'>{{embedcode}}</textarea>
 

@@ -40,34 +40,14 @@ exports.login = function(req, res, next) {
   });
 };
 
-// Return with temp authentication -
-exports.returnTempToken = function(req, res, next) {
-  
-  let tempToken = generateTempToken();
-  req.user.update({ tempToken: tempToken }, function(err, user) {
-    if(err) throw err;
-
-    User.findOne({tempToken: tempToken}, function(err, user){
-      if(err || !user){
-        res.json({ success: false, message: 'Invalid temp token.'})
-      }
-      console.log(user);
-      user.update({tempToken: null}, function(err, user){
-        if(err){
-          res.json(({ success: false, message: 'Something went wrong, please try again.' }))
-        }
-        res.status(200).json({
-          success: true,
-          token: generateToken({email: user.email, id: user._id})
-        });
-      });
-    });
-  });
-};
-
 // Return JWT token in exchange of temp token
 exports.getToken = function(req, res, next) {
-  console.log('HERE');
+  let userInfo = setUserInfo(req.user);
+  console.log(req.user);
+  res.status(200).json({
+    token: 'JWT ' + generateToken(userInfo),
+    user: userInfo
+  });
 };
 
 // Registration for Website Owners Route

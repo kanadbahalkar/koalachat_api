@@ -13,6 +13,7 @@ var requireAuth = passport.authenticate('jwt', { session: false });
 var requireLogin = passport.authenticate('local', { session: false });
 var facebookAuth = passport.authenticate('facebook', { scope: ['email', 'user_birthday', 'pages_show_list']});
 var googleAuth = passport.authenticate('google', { scope : ['profile', 'email'] });
+var requireAuth = passport.authenticate('jwt', { session: false });
 var pathfinderUI = require('pathfinder-ui');
 
 // Constants for role types
@@ -24,9 +25,13 @@ const REQUIRE_ADMIN = "Admin",
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 //////////////////////////////////////////////
 
+module.exports = function(app, io) {
 
-module.exports = function(app) {
-
+    app.use((req, res, next) => {
+        res.io = io;
+        next();
+    });
+    
     // Initializing route groups
     const apiRoutes = express.Router(),
     authRoutes = express.Router(),
@@ -52,21 +57,29 @@ module.exports = function(app) {
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect : '/Overview',
+            // successRedirect : '/Overview',
             failureRedirect: '/login',
             session: false
-        }), authenticationController.returnTempToken);
+        }),
+        function(req, res) {
+            res.redirect("/Overview?access_token=" + req.user.tempToken + "&id=" + req.user._id);
+        }
+    );
 
     //Google Auth
     app.get('/auth/google', googleAuth);
     // the callback after google has authenticated the user
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            successRedirect : '/Overview',
+            // successRedirect : '/Overview',
             failureRedirect : '/login',
             session: false
-        }), authenticationController.returnTempToken);
-
+        }), 
+        function(req, res) {
+            res.redirect("/Overview?access_token=" + req.user.tempToken + "&id=" + req.user._id);
+        }
+    );
+    
     // route for logging out
     app.get('/logout', function(req, res) {
         req.logout();

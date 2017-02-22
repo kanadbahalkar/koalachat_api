@@ -251,6 +251,10 @@ a {
     font-size: 20px;
 }
 
+.error-text-color {
+    color: rgb(234, 5, 59) !important;
+}
+
 textarea.onboarding-textarea {
     width: 70%;
     height: 160px;
