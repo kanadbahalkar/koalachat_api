@@ -99,17 +99,28 @@ module.exports = {
           script.attribs.u == ownerid && 
           script.attribs.src == 'https://s3.amazonaws.com/koalachat/index.js'){
 
-          User.findOneAndUpdate(
+          User.find(
             { 'userID': ownerid  }, 
-            { 'websiteVerified': true  },
             function(err, owner) {
               if (err) return next(err);
               
-              res.status(200).send({
-                websiteVerified: true,
-                message: "KoalaChat is Correctly Installed on Your Site!",
-                status: "success"
-              });
+              if(!websiteVerified || websiteVerified != true){
+                owner.websiteVerified = true;
+                owner.save();
+
+                res.status(200).send({
+                  websiteVerified: true,
+                  message: "KoalaChat is Correctly Installed on Your Site!",
+                  status: "success"
+                });
+              }
+              else if(websiteVerified == true){
+                res.status(400).send({
+                  websiteVerified: true,
+                  message: 'Hmmm Chief Koala says your website is already verified! Are you trying to install KoalaChat on your website more than once? Unfortunately Chief Koala says you wont be able to do that! If your website is already verified, you should also have a valid account. Why dont you try logging in that account... :)',
+                  status: "Error"
+                });
+              }
             });
           }
           else if(script.attribs.id && 
