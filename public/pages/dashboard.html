@@ -6,19 +6,19 @@
 
 <div class="analytics_snapshot" ng-init="initDashboard()">
         <div class="analytics">
-                <p class="analytics_datapoint">213</p>
+                <p class="analytics_datapoint">{{ ongoingConversations || 0 }}</p>
                 <img class="tooltip_explainer" src="assets/images/tooltip.png" />
                 <p class="analytics_explainer">Ongoing Conversations</p>
         </div>
         <div class="analytics">
-                <p class="analytics_datapoint">{{ visitorsLastWeekCount }}</p>
+                <p class="analytics_datapoint">{{ visitorsLastWeekCount || 0 }}</p>
                 <!--<p class="analytics_datapoint">181,239</p>-->
                 <img class="tooltip_explainer" src="assets/images/tooltip.png" />
                 <p class="analytics_explainer">Website Visitors Last Week</p>                
         </div>
         <div class="analytics">
                 <!--<p class="analytics_datapoint">316</p>-->
-                <p class="analytics_datapoint">{{ liveVisitorsCount }}</p>
+                <p class="analytics_datapoint">{{ liveVisitorsCount || 0 }}</p>
                 <img class="tooltip_explainer" src="assets/images/tooltip.png" />
                 <p class="analytics_explainer">Current Visitors on Site</p>                
         </div>

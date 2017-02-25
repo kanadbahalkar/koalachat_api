@@ -13,7 +13,6 @@ var requireAuth = passport.authenticate('jwt', { session: false });
 var requireLogin = passport.authenticate('local', { session: false });
 var facebookAuth = passport.authenticate('facebook', { scope: ['email', 'user_birthday', 'pages_show_list']});
 var googleAuth = passport.authenticate('google', { scope : ['profile', 'email'] });
-var requireAuth = passport.authenticate('jwt', { session: false });
 var pathfinderUI = require('pathfinder-ui');
 
 // Constants for role types
