@@ -104,7 +104,7 @@ let facebookLogin = new FacebookStrategy({
             email: profile.emails[0]['value'],
             name: profile.displayName
         };
-        
+
         //Create object for managed pages aka accounts
         var managedPages = [];
         if (profile._json.accounts) {
@@ -117,7 +117,7 @@ let facebookLogin = new FacebookStrategy({
                 managedPages.push(page);
             });
         }
-        
+
         //Create object for user profile
         var profile = {
             firstName: profile.displayName.split(" ")[0],
@@ -126,7 +126,7 @@ let facebookLogin = new FacebookStrategy({
             gender: profile.gender,
             photo: profile.photos[0]['value']
         }
-        
+
         // asynchronous
         process.nextTick(function() {
             // try to find the user based on their facebook id
@@ -139,10 +139,10 @@ let facebookLogin = new FacebookStrategy({
                     if(!checkSocialAccounts(user.socialAccounts, 'Facebook') && user.socialAccounts){
                         user.socialAccounts.push(newSocialAccount);
                     }
-                    
-                    let tempToken = generateToken({email: user.email, id: user._id});
+
+                    let tempToken = generateToken({email: user.email, _id: user._id});
                     user.tempToken = tempToken;
-                    
+
                     //Update the user data
                     User.findOneAndUpdate(
                         { 'email' : user.email },
@@ -184,7 +184,7 @@ let facebookLogin = new FacebookStrategy({
                     socialAccounts.push(newSocialAccount);
                     newUser.socialAccounts = socialAccounts;
 
-                    let tempToken = generateToken({email: newUser.email, id: newUser._id});
+                    let tempToken = generateToken({email: newUser.email, _id: newUser._id});
                     newUser.tempToken = tempToken;
 
                     // save the user
@@ -222,9 +222,9 @@ let googleLogin = new GoogleStrategy({
                         user.socialAccounts.push(newSocialAccount);
                     }
 
-                    let tempToken = generateToken({email: user.email, id: user._id});
+                    let tempToken = generateToken({email: user.email, _id: user._id});
                     user.tempToken = tempToken;
-                    
+
                     //Update the user data
                     User.findOneAndUpdate(
                         { 'email' : user.email },
@@ -262,7 +262,7 @@ let googleLogin = new GoogleStrategy({
                     });
                     newUser.socialAccounts = socialAccounts;
 
-                    let tempToken = generateToken({email: newUser.email, id: newUser.ownerID_id});
+                    let tempToken = generateToken({email: newUser.email, _id: newUser.ownerID_id});
                     newUser.tempToken = tempToken;
                     newUser.role = 'Owner';
                     newUser.save(function(err) {

@@ -31,7 +31,7 @@ module.exports = function(app, io) {
         res.io = io;
         next();
     });
-    
+
     // Initializing route groups
     const apiRoutes = express.Router(),
     authRoutes = express.Router(),
@@ -62,7 +62,7 @@ module.exports = function(app, io) {
             session: false
         }),
         function(req, res) {
-            res.redirect("/Overview?access_token=" + req.user.tempToken + "&id=" + req.user._id);
+            res.redirect("/Overview?access_token=JWT " + req.user.tempToken + "&id=" + req.user._id);
         }
     );
 
@@ -74,12 +74,12 @@ module.exports = function(app, io) {
             // successRedirect : '/Overview',
             failureRedirect : '/login',
             session: false
-        }), 
+        }),
         function(req, res) {
-            res.redirect("/Overview?access_token=" + req.user.tempToken + "&id=" + req.user._id);
+            res.redirect("/Overview?access_token=JWT " + req.user.tempToken + "&id=" + req.user._id);
         }
     );
-    
+
     // route for logging out
     app.get('/logout', function(req, res) {
         req.logout();
