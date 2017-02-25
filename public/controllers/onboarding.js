@@ -5,7 +5,8 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
     }
 
     $scope.verificationBlurb = 'Chief Koala says your website is koalafied to be hooked up with KoalaChat! Copy paste the code below inside the "head" tag of your home page. To complete the setup on your site, we need to verify this Embed Code. After you’re done pasting the code in the HTML of your site, press the “Verify” button below...';
-
+    $scope.faqBlurb = 'If you have a link for your FAQs, you can simply copy paste it here. If not, you can type in as many FAQs about your website or business below...';
+    
     var timeout;
     
     // Save changes to the copy of the person back to the original,
@@ -116,11 +117,12 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
                 $window.location.href = '/onboarding/getfaqs';
             }
             else{
-                console.log('Embed Code Verification Failed');
+                $scope.errorText = 'error-text-color';
+                $scope.verificationBlurb = 'Oh Shoot! Chief Koala says you Embed Code Verification failed! Try copy pasting the exact same script tag we provided inside the "head" tag of your home page. To complete the setup on your site, we need to verify this Embed Code. After you’re done pasting it, press the “Verify” button... ';
+                $scope.errorText = '';
             }
         })
         .error(function (data, status, headers, config) {
-            console.log('Error:', data.message);
             //Change the text on page to data.message
             $scope.errorText = 'error-text-color';
             $scope.verificationBlurb = data.message
@@ -166,20 +168,24 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
                         $scope.faqlist = data.sitedata.qnaList;
                     }
                     else{
-                        console.log('No FAQs found!');
+                        $scope.errorText = 'error-text-color';
+                        $scope.faqBlurb = 'Sadness! We could not find any FAQs on your site! Would you mind putting those in manually? Remember, you can also add FAQs in your account later... :)';
                     }
                 })
                 .error(function (data, status, headers, config) {
-                    console.log('Error: ' + status);
+                    $scope.errorText = 'error-text-color';
+                    $scope.faqBlurb = data.message
                 });
 
             }
             else{
-                console.log('No FAQ URL found on site');
+                $scope.errorText = 'error-text-color';
+                $scope.faqBlurb = 'Derp! We could not find an FAQs Link on your site! Could you copy paste your link FAQs Link manully? Remember, you can also add FAQs in your account later... :)';
             }
         })
         .error(function (data, status, headers, config) {
-            console.log('Error: Setting Up FAQs Page Failed');
+            $scope.errorText = 'error-text-color';
+            $scope.faqBlurb = data.message
         });
     }
 
@@ -200,21 +206,29 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
                 }
             })
             .success(function (data, status, headers, config) {
-                if(data.sitedata){
+                if(data.sitedata[0]){
+                    //Populate the FAQs in the view
+                    $scope.faqlist = data.sitedata[0].qnaList;
+                    $scope.faqlistCopy = data.sitedata[0].qnaList;
+                }
+                else if(data.sitedata && !data.sitedata[0]){
                     //Populate the FAQs in the view
                     $scope.faqlist = data.sitedata.qnaList;
                     $scope.faqlistCopy = data.sitedata.qnaList;
                 }
                 else{
-                    console.log('No FAQs found');
+                    $scope.errorText = 'error-text-color';
+                    $scope.faqBlurb = 'Sadness! We could not find any FAQs on your site! Would you mind putting those in manually? Remember, you can also add FAQs in your account later... :)';
                 }
             })
             .error(function (data, status, headers, config) {
-                console.log('Error: ' + status);
+                $scope.errorText = 'error-text-color';
+                $scope.faqBlurb = data.message
             });
         }
         else {
-            console.log('Hey, your FAQ URL is empty! Copy-paste or Type in your FAQ URL...');
+            $scope.errorText = 'error-text-color';
+            $scope.faqBlurb = 'Oh hey, your FAQ URL is empty! Copy-paste or Type in your FAQ URL, or type it in manually. Remember, you can also add FAQs in your account later... :)';
         }
     }
 

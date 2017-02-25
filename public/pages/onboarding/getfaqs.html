@@ -1,27 +1,27 @@
 <onboarding-topnav></onboarding-topnav>
 
-<div class="embed_code_box" ng-init="setupFAQPage()">
+<div class="embed_code_box" ng-init="setupFAQPage()" style="overflow-y: scroll !important; height: 100%; padding-bottom: 140px;">
     <div class="embed_code_box_body">
         <h1 class="onboarding-headline">Derp! We couldn’t find any FAQs on your site...</h1>
-        <p class="onboarding-blurb" style="margin-bottom: 40px; padding-bottom: 0px;">If you have a link for your FAQs, you can simply copy paste it here. If not, you can type in as many FAQs about your website or business below...</p>
+        <p class="onboarding-blurb {{errorText}}" style="margin-bottom: 40px; padding-bottom: 0px;">{{faqBlurb}}</p>
         
         <div class="faq_collector">
-            <input type"text" class="business_info faqs_url" placeholder="Got a URL for your FAQs page? Put it in here..." ng-model="faqurl"/>
+            <input type"url" class="business_info faqs_url" placeholder="Got a URL for your FAQs page? Put it in here..." ng-model="faqurl"/>
             <a href="" class="btn btn_white add_faq_url_btn text_center" ng-click="findFAQs()">Look for FAQs</a>
         </div>
         
-        <div class="faq_collector">
-            <input type"text" class="business_info faqs_url" placeholder="What do your website visitors ask you frequently?" style="margin-bottom: 20px;"/>
-            <p class="date_text">13th Dec, 2016</p>
-            <textarea class="faqs_textarea" placeholder="Tell us how you would reply to this question. The more you tell us, the more our Chief Koala trains the KoalaBots, and the better they can answer this and/or similar questions…"></textarea>
-            <a href="" class="btn btn_white add_faq_url_btn text_center">Add New FAQ</a>
-        </div>
-
         <div class="faq_collector" ng-repeat="faq in faqlist track by $index">
             <input type"text" class="business_info faqs_url" ng-model="faq.question" style="margin-bottom: 20px;" />
             <textarea class="faqs_textarea" ng-model="faq.answer"></textarea>
         </div>
         
+        <div class="faq_collector">
+            <input type"text" class="business_info faqs_url" placeholder="What do your website visitors ask you frequently?" style="margin-bottom: 20px;"/>
+            <!--<p class="date_text">13th Dec, 2016</p>-->
+            <textarea class="faqs_textarea" placeholder="Tell us how you would reply to this question. The more you tell us, the more our Chief Koala trains the KoalaBots, and the better they can answer this and/or similar questions…"></textarea>
+            <a href="" class="btn btn_white add_faq_url_btn text_center">Add New FAQ</a>
+        </div>
+
         <div class="next_prev">
             <a href="" class="back_left">◀ Back</a>
             <a href="" class="btn btn_blue" ng-click="goHomeYoureDrunk()">Next: Let's Wrap Up</a>

@@ -75,7 +75,7 @@ module.exports = {
                 if (err) return next(err);
                 res.status(200).send({
                     message: "FAQs Found!",
-                    status: "success"
+                    status: "Success"
                 });
             });
           }
@@ -87,8 +87,8 @@ module.exports = {
     var website = req.body.website;
     var ownerid = req.body.ownerID;
 
+    
     request(website, function(err, resp, body) {
-        
       if (err) throw err;
       
       $ = cheerio.load(body);
@@ -104,17 +104,23 @@ module.exports = {
             function(err, owner) {
               if (err) return next(err);
               
-              if(!websiteVerified || websiteVerified != true){
-                owner.websiteVerified = true;
-                owner.save();
+              if(!owner.websiteVerified || owner.websiteVerified != true){
+                //Update the user data
+                User.findOneAndUpdate(
+                  { 'userID': ownerid  },
+                  { 'websiteVerified': true  }, 
+                  function(err, doc){
+                      if (err) console.log(err);
+                  }
+                );
 
                 res.status(200).send({
                   websiteVerified: true,
                   message: "KoalaChat is Correctly Installed on Your Site!",
-                  status: "success"
+                  status: "Success"
                 });
               }
-              else if(websiteVerified == true){
+              else if(owner.websiteVerified == true){
                 res.status(400).send({
                   websiteVerified: true,
                   message: 'Hmmm Chief Koala says your website is already verified! Are you trying to install KoalaChat on your website more than once? Unfortunately Chief Koala says you wont be able to do that! If your website is already verified, you should also have a valid account. Why dont you try logging in that account... :)',
@@ -140,45 +146,66 @@ module.exports = {
 
   findFAQs : function(req, res, next){
     
-    var faqurl = req.body.faqurl;
+    var faqurl = sanitizeUrl('http://', req.body.faqurl);
     var owner = req.body.userID;
     var website = req.body.website;
 
     // if (origin.same(faqurl, website)) {
 
       request(faqurl, function(err, resp, body) {
-        if (err) throw err;
-        
-        var text = htmlToText.fromString( body, {
-          wordwrap: 130,
-          ignoreImage: true,
-          uppercaseHeadings: false
-        });
-        
-        tokenizer.setEntry(text);
-        var extractedQnAs = extractQnAs(tokenizer.getSentences());
-        
-        var sitedata = new SiteData({ 
-          website: website,
-          faqUrl: faqurl,
-          qnaList: extractedQnAs,
-          owner: owner
-        });
+        if (err) {
+          res.status(400).send({
+            err: err,
+            message: 'Oh shoot! Looks like your FAQs link is not correct. Make sure you are using a valid FAQ link and that your site is live and running... :)',
+            status: "Error"
+          });
+        }
 
-        sitedata.save(function(err) {
-          if (err) {
-            res.status(200).send({
-              err: err,
-              status: "Failed!!"
+        if(body){
+          var text = htmlToText.fromString( body, {
+            wordwrap: 130,
+            ignoreImage: true,
+            uppercaseHeadings: false
+          });
+          
+          tokenizer.setEntry(text);
+          var extractedQnAs = extractQnAs(tokenizer.getSentences());
+        
+          SiteData.findOneAndUpdate(
+            { 'owner': owner  },
+            { 
+              'website': website,
+              'faqUrl': faqurl,
+              'qnaList': extractedQnAs
+            },
+            { upsert: true },
+            function(err, sitedata) {
+              if (err) return next(err);
+              
+              if(!sitedata){
+                //Update the sitedata with FAQs
+                var newSiteData = new SiteData({ 
+                  'owner': owner,
+                  'website': website,
+                  'faqUrl': faqurl,
+                  'qnaList': extractedQnAs 
+                });
+
+                console.log(newSiteData);
+
+                res.status(200).send({
+                  sitedata: newSiteData,
+                  status: "Success"
+                });
+              }
+              else if(sitedata){
+                res.status(200).send({
+                  sitedata: sitedata,
+                  status: "Success"
+                });
+              }
             });
           }
-          else {
-            res.status(200).send({
-              sitedata: sitedata,
-              status: "Success!"
-            });
-          }
-        });
       });
     // } else {
     //   console.log('Derp! ' + faqurl + ' and ' + website + ' are not the same origin');
@@ -198,7 +225,7 @@ module.exports = {
         
         res.status(200).send({
           sitedata: sitedata,
-          status: "Success!"
+          status: "Success"
         });
       });
   },
@@ -221,7 +248,7 @@ module.exports = {
 
         res.status(200).send({
           sitedata: sitedata,
-          status: "Success!"
+          status: "Success"
         });
       });
   },
@@ -244,7 +271,7 @@ module.exports = {
 
         res.status(200).send({
           sitedata: sitedata,
-          status: "Success!"
+          status: "Success"
         });
       });
   },
@@ -263,7 +290,7 @@ module.exports = {
         
         res.status(200).send({
           sitedata: sitedata,
-          status: "Success!"
+          status: "Success"
         });
       });
   }  

@@ -494,7 +494,7 @@ aside.right_side {
     right: 0px;
     top: 0px;
     position: absolute;
-    background: #FFF;
+    background: #FAFAFA;
     height: 100%;
     z-index: -999;
 }
@@ -503,7 +503,7 @@ aside.right_side p {
     margin-top: 120%;
     padding: 20px;
     text-align: left;
-    background: #fff!important;
+    background: #FAFAFA!important;
 }
 
 img.window_screen {

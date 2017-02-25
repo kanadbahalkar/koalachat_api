@@ -133,8 +133,6 @@ let facebookLogin = new FacebookStrategy({
             User.findOne({
                 'email': newSocialAccount.email
             }, function(err, user) {
-                console.log(user);
-
                 if (err) return done(err);
 
                 if (user) {
