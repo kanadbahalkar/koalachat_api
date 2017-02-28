@@ -1359,6 +1359,8 @@ textarea.koalabot_textarea {
 	-webkit-border-radius: 60px;
 	border-radius: 60px;
     box-shadow: 0px 1px 15px #FDFDFD;
+    background-size: cover !important;
+    background-position: center;
 }
 
 .visitor_profile_pic {

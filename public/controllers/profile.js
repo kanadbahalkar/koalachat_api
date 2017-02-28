@@ -1,13 +1,17 @@
-myApp.controller('profileController', ['$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook','GooglePlus',
-                  function($scope, $location, $http, $window, AuthenticationService, Facebook, GooglePlus){
+myApp.controller('profileController', ['$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook','GooglePlus', function($scope, $location, $http, $window, AuthenticationService, Facebook, GooglePlus){
 
     var baseUrl = "https://localhost:4731/api";
+    var socket = io.connect("https://localhost:4731/");
+
     $scope.isActive = function(destination){
         return destination === $location.path();
     }
 
     $scope.token = $window.localStorage.token;
     $scope.ownerID = $window.localStorage.userid;
+    $scope.allowAnonMessages = true;
+    $scope.emailNotifications = true;
+    $scope.enablePlugin = true;
 
     //Get client info
     $http({
@@ -21,13 +25,14 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             'Authorization': $scope.token
         }
     })
-    .success(function(response) {
+    .success(function(response) { 
         $scope.ownerName = response.owner.profile.firstName + ' ' + response.owner.profile.lastName;
         $scope.businessName = response.owner.businessName;
         $scope.businessWebsite = response.owner.website;
         $scope.accountCreationDate = response.owner.createdAt;
         $scope.userName = response.owner.email;
         $scope.profilepic = response.owner.profile.photo || '/assets/images/avatar.png';
+        $scope.allowAnonMessages = response.owner.allowAnonymous;
         if(response.owner.socialAccounts){
             $scope.fbConnected = response.owner.socialAccounts.filter(function(item) {
                 return item.provider === 'facebook';
@@ -42,6 +47,14 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             if ($scope.googlePlusConnected) { $scope.gp = 'Connected'; }
             else { $scope.gp = ''; }
         }
+
+        //Profile completion
+        $scope.profileCompletion = 0;
+        if($scope.businessName) $scope.profileCompletion += 20;
+        if($scope.businessWebsite) $scope.profileCompletion += 20;
+        if($scope.fbConnected) $scope.profileCompletion += 20;
+        if($scope.googlePlusConnected) $scope.profileCompletion += 20;
+        if($scope.ownerName) $scope.profileCompletion += 20;
     })
     .error(function(err) {
         console.log(err);
@@ -49,7 +62,6 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
 
     //update Password
     $scope.changePassword = function (){
-
         $http({
             method: 'POST',
             url: baseUrl + '/profile/updateownerinfo',
@@ -73,10 +85,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     }
 
     //Allow Anonymous messages
-    $scope.allowAnonMessages = true;
     $scope.allowAnonymous = function(){
-        console.log($scope.allowAnonMessages);
-
         $http({
             method: 'POST',
             url: baseUrl + '/profile/allowanonymous',
@@ -90,7 +99,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             }
         })
         .success(function(response) {
-            console.log('Allow Anon Messages: ', response);
+            socket.emit('allowAnonMessages', { ownerID: ownerID, owner: true });
         })
         .error(function(err) {
             console.log(err);
@@ -98,10 +107,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     }
 
     //Update email preferences
-    $scope.emailNotifications = true;
     $scope.subscribe = function(){
-        console.log($scope.emailNotifications);
-
         $http({
             method: 'POST',
             url: baseUrl + '/profile/emailFrequency',
@@ -125,10 +131,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     }
 
     // Enable / Diable chatbot on the website
-    $scope.enablePlugin = true;
     $scope.togglePlugin = function(){
-        console.log($scope.enablePlugin);
-
         $http({
             method: 'POST',
             url: baseUrl + '/profile/toggleplugin',
@@ -153,7 +156,6 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
 
     //Update social profileFields
     function updateSocial(provider, response) { 
-    
         var managedPages = '';
         var managedPagesCount = 0;
         if(provider === 'facebook'){
@@ -172,7 +174,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
                 email: response.email,
                 name: response.name,
                 gender: response.gender,
-                photo: response.picture,
+                photo: response.picture.data.url,
                 managedPages: managedPages,
                 managedPagesCount: managedPagesCount
             }),
@@ -198,7 +200,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     }
 
     $scope.facebook = function() {
-      Facebook.api('/me?fields=email,name,id,accounts,photos,website,gender', function(response) {
+      Facebook.api('/me?fields=email,name,id,accounts,website,gender,picture.type(large)', function(response) {
         var provider = 'facebook';
         updateSocial(provider, response);
       });

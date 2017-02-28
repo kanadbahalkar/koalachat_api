@@ -14,12 +14,12 @@
     </div>
 </div>
 
-<div ng-controller="profileController" class="koalabot_content">
+<div class="koalabot_content">
     <div class="profile_header">
         <img src="assets/images/profile_header.png" />
-        <img src="{{ profilepic }}" class="profile_pic"/>
+        <div class="profile_pic" style="background-image: url('{{ profilepic }}');"></div>
         <p class="user_fullname"> {{ ownerName }} </p>
-        <p class="user_profile_completion">(Profile 80% complete)</p>
+        <p class="user_profile_completion">(Profile {{ profileCompletion }}% complete)</p>
     </div>
     <div class="profile_info">
         <div class="profile_info_col">

@@ -11,11 +11,6 @@ function generateToken(user) {
   });
 }
 
-function generateTempToken() {
-  let tempToken = crypto.randomBytes(48).toString('hex');
-  return tempToken;
-}
-
 // Set user info from request
 let setUserInfo = (user) => {
   return {
@@ -34,6 +29,7 @@ let setUserInfo = (user) => {
 exports.login = function(req, res, next) {
   let userInfo = setUserInfo(req.user);
 
+  console.log()
   res.status(200).json({
     token: 'JWT ' + generateToken(userInfo),
     user: userInfo

@@ -47,9 +47,8 @@ module.exports = function(app, io) {
     authRoutes.post('/registerowner', authenticationController.registerowner);
     // Login route
     authRoutes.use('/login', requireLogin, authenticationController.login);
-
-    // Get JWT token
-    authRoutes.post('/get_token', authenticationController.getToken);
+    // Check if already Logged In route
+    authRoutes.post('/checklogin', requireAuth, authenticationController.login);
 
     //Facebook authentication
     app.get('/auth/facebook', facebookAuth);

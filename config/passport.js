@@ -9,7 +9,6 @@ const passport = require('passport'),
     LocalStrategy = require('passport-local'),
     FacebookStrategy = require('passport-facebook').Strategy,
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-    BearerStrategy = require('passport-http-bearer').Strategy,
     jwt = require('jsonwebtoken');
 
 function generateToken(user) {
@@ -59,21 +58,6 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
             return done(null, user);
         });
     });
-});
-
-const tokenBearer = new BearerStrategy(function(token, done) {
-    User.findOne({ tempToken: token },
-        function(err, user) {
-            if(err) {
-                return done(err)
-            }
-            if(!user) {
-                return done(null, false)
-            }
-
-            return done(null, user, { scope: 'all' })
-        }
-    );
 });
 
 var checkSocialAccounts = function (socialAccounts, provider){
@@ -303,4 +287,3 @@ passport.use(localLogin);
 passport.use(facebookLogin);
 passport.use(googleLogin);
 passport.use(fbConnect);
-passport.use(tokenBearer);

@@ -3,13 +3,39 @@
 myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$scope', '$location', '$window', '$ocLazyLoad', '$http', 'UserService', 'AuthenticationService', 
     function($route, $routeParams, $rootScope, $scope, $location, $window, $ocLazyLoad, $http, UserService, AuthenticationService){
 
+    var baseUrl = "https://localhost:4731/api";
+
     //Lazy load the pluin UI
     $ocLazyLoad.load(['jqueryUI', 'pluginUI'], {cache: true, serie: true});
 
-    //Verify Social Auth
-    $scope.$on('$viewContentLoaded', function(){
-        console.log("LALALALA");
-    });
+    //Check if the user is already logged in
+    if($window.localStorage.token && $window.localStorage.userid && $window.localStorage.useremail){
+        //Get number of unique visitors last week
+        $http({
+            method: 'POST',
+            url: baseUrl + '/auth/checklogin',
+            data: $.param({
+                id: $window.localStorage.userid,
+                email: $window.localStorage.useremail
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .then(function (response) {
+            console.log(response.data.token, ' ', $window.localStorage.token);
+            console.log(response.data.user._id, ' ', $window.localStorage.userid);
+            console.log(response.data.user.email, ' ', $window.localStorage.useremail);
+
+            //Check if returned user is the same as the one in localStorage
+            if( $window.localStorage.userid == response.data.user._id && 
+                $window.localStorage.useremail == response.data.user.email){
+                //Redirect the user to the Dashboard
+                $window.location = '/Overview';
+            }
+        });
+    }
 
     //Hook up Auth API
     //Login
@@ -27,29 +53,11 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
                 UserService.setIsLogged(true);
                 $window.localStorage.token = res.token;
                 $window.localStorage.userfullname = res.user.profile.firstName + ' ' + res.user.profile.lastName;
+                $window.localStorage.user = res.user;
                 $window.localStorage.userid = res.user._id;
                 $window.localStorage.useremail = res.user.email;
+                $window.localStorage.userwebsite = res.user.website;
                 $window.location = '/Overview';
-            }
-        }, function() {
-            jQuery('.chat_login_alert').remove();
-            var validationText = 'Hmmm seems like your email and password are not matching...🤔 <br>Try logging in again pweez.';
-            jQuery('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
-        });
-    };
-
-    $scope.fbLogin = function() {
-        AuthenticationService.fblogin(function(res) {
-            console.log("HERE>>>>");
-            if (res.type == false) {
-                $log.error(res);
-            } else {
-                UserService.setIsLogged(true);
-                // $window.localStorage.token = res.token;
-                // $window.localStorage.userfullname = res.user.profile.firstName + ' ' + res.user.profile.lastName;
-                // $window.localStorage.userid = res.user._id;
-                // $window.localStorage.useremail = res.user.email;
-                // $window.location = '/Overview';
             }
         }, function() {
             jQuery('.chat_login_alert').remove();
@@ -75,6 +83,7 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
             } else {
                 UserService.setIsLogged(true);
                 $window.localStorage.token = res.token;
+                $window.localStorage.userfullname = res.user.profile.firstName + ' ' + res.user.profile.lastName;
                 $window.localStorage.user = res.user;
                 $window.localStorage.userid = res.user._id;
                 $window.localStorage.useremail = res.user.email;
@@ -88,20 +97,19 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
         })
     };
 
-    $scope.me = function() {
-        AuthenticationService.me(function(res) {
-            $scope.myDetails = res;
-        }, function() {
-            $rootScope.error = 'Failed to fetch details';
-        })
-    };
-
     $scope.logout = function() {
         AuthenticationService.logout(function() {
+            $window.localStorage.removeItem(token);
+            $window.localStorage.removeItem(user);
+            $window.localStorage.removeItem(userid);
+            $window.localStorage.removeItem(useremail);
+            $window.localStorage.removeItem(userwebsite); 
+            $window.localStorage.removeItem(userfullname);
             $window.location = '/login'
         }, function() {
             $log.error('Logout Failed!');
         });
     };
+    
     $scope.token = $window.localStorage.token;
 }]);
