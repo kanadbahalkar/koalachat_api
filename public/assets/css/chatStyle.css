@@ -100,7 +100,7 @@ p.pointer-text{
 .login:hover, .register:hover {
   text-decoration: none;
   color: #FAFAFA;
-  
+
   -o-transition:color .2s ease-in, background .2s ease-in;
   -ms-transition:color .2s ease-in, background .2s ease-in;
   -moz-transition:color .2s ease-in, background .2s ease-in;
@@ -208,7 +208,7 @@ p.pointer-text{
   width: 300px;
   font-size: 12px;
   line-height: 22px;
-  font-family: 'Roboto';
+  /*font-family: 'Roboto';*/
   font-weight: 500;
   opacity: 0;
   border-radius: 3px;
@@ -299,7 +299,7 @@ p.pointer-text{
 .chat_login input {
   position: relative;
   width: 100%;
-  font-family: 'Roboto';
+  /*font-family: 'Roboto';*/
   font-size: 14px;
   line-height: 40px;
   font-weight: 500;
@@ -329,7 +329,7 @@ p.pointer-text{
   background: -moz-linear-gradient(rgb(234, 5, 59), rgb(208, 2, 27)); /* For Firefox 3.6 to 15 */
   background: linear-gradient(rgb(234, 5, 59), rgb(208, 2, 27)); /* Standard syntax */
   animation: zoomIn .1s cubic-bezier(.42, 0, .58, 1);
-  
+
   color: #FAFAFA;
   padding: 10px 20px 10px 20px;
   border-radius: 24px 24px 24px 6px;
@@ -340,7 +340,7 @@ p.pointer-text{
   padding: 0px;
   position: relative;
   width: 70%;
-  font-family: 'Roboto';
+  /*font-family: 'Roboto';*/
   font-size: 16px;
   line-height: 40px;
   font-weight: 400;
@@ -651,7 +651,7 @@ strong.chat_time {
 
 @-webkit-keyframes ripple {
   /*scale the element to 250% to safely cover the entire link and fade it out*/
-  
+
   100% {
     opacity: 0;
     -moz-transform: scale(5);
@@ -664,7 +664,7 @@ strong.chat_time {
 
 @keyframes ripple {
   /*scale the element to 250% to safely cover the entire link and fade it out*/
-  
+
   100% {
     opacity: 0;
     -moz-transform: scale(5);
