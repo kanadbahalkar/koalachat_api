@@ -191,8 +191,6 @@ module.exports = {
                   'qnaList': extractedQnAs 
                 });
 
-                console.log(newSiteData);
-
                 res.status(200).send({
                   sitedata: newSiteData,
                   status: "Success"
@@ -229,6 +227,22 @@ module.exports = {
         });
       });
   },
+
+  //Get FAQs from the database
+  retrieveFAQs : function(req, res, next){
+    
+    var ownerID = req.body.ownerID;
+    
+    SiteData.find(
+      { 'owner': ownerID },
+      function(err, sitedata) {
+        if (err) return next(err);
+        res.status(200).send({
+          sitedata: sitedata,
+          status: "Success"
+        });
+      });
+  },
   
   //Add new question
   addNewFAQ : function(req, res, next){
@@ -239,13 +253,24 @@ module.exports = {
     var answer = req.body.answer;
     
     SiteData.findOneAndUpdate(
-      { '_id': ownerID, 'qnaList': { $exists: true } }, 
+      { 'owner': ownerID, 'qnaList': { $exists: true } }, 
       { '$push': { 'qnaList' : { 'questionID': questionID, 'question': question, 'answer': answer } } },
-      { 'new': true }, 
       function(err, sitedata) {
         if (err) return next(err);
-        console.log(sitedata);
+        res.status(200).send({
+          sitedata: sitedata,
+          status: "Success"
+        });
+      });
+  },
 
+  //Get FAQs from the database
+  deleteFAQ : function(req, res, next){
+    SiteData.update(
+      { 'owner': req.body.ownerID },
+      { $pull: { 'qnaList': { questionID: req.body.questionID } } },
+      function(err, sitedata) {
+        if (err) return next(err);
         res.status(200).send({
           sitedata: sitedata,
           status: "Success"
@@ -266,8 +291,6 @@ module.exports = {
       { '$set': { 'qnaList.$.question': question, 'qnaList.$.answer': answer } },
       function(err, sitedata) {
         if (err) return next(err);
-        
-        console.log('Sitedata: ', sitedata);
 
         res.status(200).send({
           sitedata: sitedata,

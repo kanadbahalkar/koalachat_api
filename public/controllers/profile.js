@@ -3,13 +3,9 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     var baseUrl = "https://localhost:4731/api";
     var socket = io.connect("https://localhost:4731/");
 
-    $scope.isActive = function(destination){
-        return destination === $location.path();
-    }
-
     $scope.token = $window.localStorage.token;
     $scope.ownerID = $window.localStorage.userid;
-    $scope.allowAnonMessages = true;
+    $scope.allowAnonMessages = false;
     $scope.emailNotifications = true;
     $scope.enablePlugin = true;
 
@@ -25,26 +21,28 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             'Authorization': $scope.token
         }
     })
-    .success(function(response) { 
+    .success(function(response) {
         $scope.ownerName = response.owner.profile.firstName + ' ' + response.owner.profile.lastName;
+        $window.localStorage.ownername = $scope.ownerName;
         $scope.businessName = response.owner.businessName;
         $scope.businessWebsite = response.owner.website;
         $scope.accountCreationDate = response.owner.createdAt;
         $scope.userName = response.owner.email;
         $scope.profilepic = response.owner.profile.photo || '/assets/images/avatar.png';
-        $scope.allowAnonMessages = response.owner.allowAnonymous;
+        $window.localStorage.profilepic = $scope.profilepic;
+        $scope.allowAnonMessages = response.owner.allowAnonymous || false;
         if(response.owner.socialAccounts){
             $scope.fbConnected = response.owner.socialAccounts.filter(function(item) {
                 return item.provider === 'facebook';
             });
             $scope.googlePlusConnected = response.owner.socialAccounts.filter(function(item) {
-                return item.provider === 'google plus';
+                return item.provider === 'google';
             });
 
-            if ($scope.fbConnected) { $scope.fb = 'Connected'; }
+            if ($scope.fbConnected.length == 1) { $scope.fb = 'Connected'; }
             else { $scope.fb = ''; }
 
-            if ($scope.googlePlusConnected) { $scope.gp = 'Connected'; }
+            if ($scope.googlePlusConnected.length == 1) { $scope.gp = 'Connected'; }
             else { $scope.gp = ''; }
         }
 
@@ -75,7 +73,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
                 'Authorization': $scope.token
             }
         })
-        .success(function(response) {
+        .success(function(response) {3
             console.log('Password Updated: ', response);
             $window.location.href = '/Profile';
         })
@@ -99,7 +97,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             }
         })
         .success(function(response) {
-            socket.emit('allowAnonMessages', { ownerID: ownerID, owner: true });
+            console.log(response);
         })
         .error(function(err) {
             console.log(err);
@@ -161,32 +159,57 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
         if(provider === 'facebook'){
             managedPages = JSON.stringify(response.accounts.data);
             managedPagesCount = response.accounts.data.length;
+        
+            $http({
+                method: 'POST',
+                url: baseUrl + '/profile/updatesocial',
+                data: $.param({
+                    ownerID: $scope.ownerID,
+                    fieldName: 'socialAccounts',
+                    provider: provider,
+                    provider_id: response.id,
+                    email: response.email,
+                    name: response.name,
+                    gender: response.gender,
+                    photo: response.picture.data.url,
+                    managedPages: managedPages,
+                    managedPagesCount: managedPagesCount
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': $scope.token
+                }
+            }).success(function(response) {
+                console.log('Connected to facebook page');
+            }).error(function(err) {
+                console.log("Error in conncecting", err);
+            });
+        }
+        else if(provider === 'google'){
+            $http({
+                method: 'POST',
+                url: baseUrl + '/profile/updatesocial',
+                data: $.param({
+                    ownerID: $scope.ownerID,
+                    fieldName: 'socialAccounts',
+                    provider: provider,
+                    provider_id: response.id,
+                    email: response.email,
+                    name: response.name,
+                    gender: response.gender,
+                    photo: response.picture
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': $scope.token
+                }
+            }).success(function(response) {
+                console.log('Connected to facebook page');
+            }).error(function(err) {
+                console.log("Error in conncecting", err);
+            });
         }
 
-        $http({
-            method: 'POST',
-            url: baseUrl + '/profile/updatesocial',
-            data: $.param({
-                ownerID: $scope.ownerID,
-                fieldName: 'socialAccounts',
-                provider: provider,
-                provider_id: response.id,
-                email: response.email,
-                name: response.name,
-                gender: response.gender,
-                photo: response.picture.data.url,
-                managedPages: managedPages,
-                managedPagesCount: managedPagesCount
-            }),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': $scope.token
-            }
-        }).success(function(response) {
-            console.log('Connected to facebook page');
-        }).error(function(err) {
-            console.log("Error in conncecting", err);
-        });
     }
 
     //Connect Facebook
@@ -210,7 +233,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     $scope.connectGooglePlus = function () {
       GooglePlus.login().then(function (response) {
           GooglePlus.getUser().then(function (user) {
-              var provider = 'google plus';
+              var provider = 'google';
               updateSocial(provider, user);
           });
       }, function (err) {

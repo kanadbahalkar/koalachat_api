@@ -13,53 +13,23 @@
 </div>
 
 <div class="koalabot_content">
-    <h1 class="koalabot_headline"> Hey! I have memorized 23 FAQs! </h1>
+    <h1 class="koalabot_headline"> Hey! I have memorized <strong>{{faqlist.length}}</strong> FAQs! </h1>
     <p class="koalabot_blurb"> KoalaBot can automatically answer questions similar to the following and hold a conversation with your website visitors. When it doesn’t know what to say, it will hand the conversation over to you, and remember your response to that question... </p>
 
     <div class="faqs_search_add">
-        <a class="search_faqs">
+        <div class="search_faqs">
             <img src="assets/images/search_circle.svg" alt=""> 
-            <span class="main_box_search"> Search Your FAQs</span>
-        </a>
+            <input type="text" class="main_box_search" placeholder="Search in your FAQs" ng-model="searchFAQs"/>
+        </div>
 
-        <button class="add_faq_btn"> Add a New FAQ </button>
+        <button class="add_faq_btn" ng-click="addFAQ()">{{ addFAQButtonText }}</button>
     </div>
 
     <div class="faqs_list">
-        <div class="faqs_list_item">
-            <input type="text" class="faq_question" value="One of my frequently asked questions?"/>
-            <a class="edit_faq"> <img src="assets/images/edit_text.svg" alt=""> </a>
-            <textarea class="faq_answer">Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet hodor hodor. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. </textarea>
-        </div>
-
-        <div class="faqs_list_item">
-            <input type="text" class="faq_question" value="One of my frequently asked questions?"/>
-            <a class="edit_faq"> <img src="assets/images/edit_text.svg" alt=""> </a>
-            <textarea class="faq_answer">Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet hodor hodor. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet hodor hodor. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet hodor hodor. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. </textarea>
-        </div>
-
-        <div class="faqs_list_item">
-            <input type="text" class="faq_question" value="One of my frequently asked questions?"/>
-            <a class="edit_faq"> <img src="assets/images/edit_text.svg" alt=""> </a>
-            <textarea class="faq_answer">Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet hodor hodor. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. </textarea>
-        </div>
-
-        <div class="faqs_list_item">
-            <input type="text" class="faq_question" value="One of my frequently asked questions?"/>
-            <a class="edit_faq"> <img src="assets/images/edit_text.svg" alt=""> </a>
-            <textarea class="faq_answer">Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet hodor hodor. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. </textarea>
-        </div>
-
-        <div class="faqs_list_item">
-            <input type="text" class="faq_question" value="One of my frequently asked questions?"/>
-            <a class="edit_faq"> <img src="assets/images/edit_text.svg" alt=""> </a>
-            <textarea class="faq_answer">Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet hodor hodor. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. </textarea>
-        </div>
-
-        <div class="faqs_list_item">
-            <input type="text" class="faq_question" value="One of my frequently asked questions?"/>
-            <a class="edit_faq"> <img src="assets/images/edit_text.svg" alt=""> </a>
-            <textarea class="faq_answer">Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet hodor hodor. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. Lorem ipsum totem dolor sip amet. </textarea>
+        <div class="faqs_list_item" ng-repeat="faq in faqlist | filter:searchFAQs track by $index" ng-mouseenter="showDelete=true" ng-mouseleave="showDelete=false">
+            <textarea elastic-textarea class="faq_question" ng-model="faq.question" placeholder="Write your new FAQ question here..."></textarea>
+            <a class="delete_faq" ng-show="showDelete" ng-click="deleteFAQ(faq)"> <img src="assets/images/delete.svg" alt=""> </a>
+            <textarea elastic-textarea class="faq_answer" ng-model="faq.answer" placeholder="Type in the answer to this question..."></textarea>
         </div>
     </div>
 </div>

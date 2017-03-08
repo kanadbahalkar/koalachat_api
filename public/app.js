@@ -164,7 +164,7 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, F
 
     .when('/KoalaBot/FAQs', {
         templateUrl : 'pages/koalabot/faqs.html',
-        controller : 'koalabotController',
+        controller : 'faqsController',
         access: {
             requiredLogin: true,
             isOnboarding: false

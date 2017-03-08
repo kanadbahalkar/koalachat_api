@@ -73,5 +73,10 @@ exports = module.exports = function (io) {
     socket.on('disconnect', function (oid) {
       socket.leave(oid);
     });
+
+    socket.on('allow anon', function (data) {
+      // For all the visitors sockets, send a message to update the jquery to show email
+      sockets[data.ownerID].emit('allow anon', data.allowAnon);
+    });
   });
 }

@@ -4,7 +4,7 @@ angular.module('myApp').directive('topnav', function() {
         replace : true,
         link : function(scope, element, attr) {
             scope.$watch(attr.sidebarDirective, function(newVal) {
-                
+
             });
         }
     };

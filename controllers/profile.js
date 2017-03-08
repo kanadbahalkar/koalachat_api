@@ -82,7 +82,7 @@ module.exports = {
 
         if (user) {
           var managedPages = [];
-          if(req.body.managedPages != '')
+          if(req.body.managedPages != '' && req.body.managedPages)
             managedPages = JSON.parse(req.body.managedPages);
           
           //Create object for social accounts
@@ -150,9 +150,27 @@ module.exports = {
 
   // Allow anonymous chats
   allowAnonymous: function(req, res, next) {
-    User.findOneAndUpdate(
+    User.findOne(
       { '_id' : req.body.ownerID },
       { 'allowAnonymous' : req.body.allowAnonymous },
+      function(err, owner) {
+        if (err) return next(err);
+
+        if(!owner) {
+          res.status(422).send({ 'message': 'Owner with given id not found', 'status': 'failure' });
+        }
+
+        owner.allowAnonymous = req.body.allowAnonymous;
+        owner.save();
+
+        res.status(200).send({ allowAnonymous : owner.allowAnonymous });
+      });
+  },
+
+  // Check if Owner Allows anonymous chats
+  checkAllowAnonymous: function(req, res, next) {
+    User.findOne(
+      { '_id' : req.body.ownerID },
       function(err, owner) {
         if (err) return next(err);
 
@@ -166,16 +184,18 @@ module.exports = {
 
   // Enable / Diable chatbot on the website
   togglePlugin: function(req, res, next) {
-    User.findOneAndUpdate(
+    User.findOne(
       { '_id' : req.body.ownerID },
       { 'enablePlugin' : req.body.enablePlugin },
-      { upsert: true },
       function(err, owner) {
         if (err) return next(err);
 
         if(!owner) {
           res.status(422).send({ 'message': 'Owner with given id not found', 'status': 'failure' });
         }
+
+        owner.enablePlugin = req.body.enablePlugin;
+        owner.save();
 
         res.status(200).send({ enablePlugin : owner.enablePlugin });
       });

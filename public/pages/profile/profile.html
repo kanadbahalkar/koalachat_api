@@ -24,7 +24,7 @@
     <div class="profile_info">
         <div class="profile_info_col">
             <label class="profile_info_label">Name</label>
-            <input type="text" class="profile_info_textbox" value="{{ ownerName }}" />
+            <input type="text" class="profile_info_textbox" value="{{ ownerName }}" style="text-transform: capitalize;"/>
 
             <label class="profile_info_label">Business Name</label>
             <input type="text" class="profile_info_textbox" placeholder="Type in your Business Name here..." value="{{ businessName }}" />
@@ -61,15 +61,15 @@
 
             <label class="profile_info_label">Allow Anonymous Messages</label>
             <input type="checkbox" ng-model="allowAnonMessages" ng-change="allowAnonymous()">
-                <label class="checkbox_label">Your site visitors to message you without giving their email</label>
+                <label class="checkbox_label">Your site visitors can message you without giving their email</label>
             </input>
 
         </div>
 
         <div class="profile_info_col">
             <label class="profile_info_label">Connect Your Social Profiles</label>
-            <button class="btn_social_profile" ng-click="connectFacebook()" ng-disabled="fbConnected != undefined" ng-model="fb"> <img class="social_button_icon" src="assets/images/facebook_white.svg"/> Facebook {{fb}}</button>
-            <button class="btn_social_profile" ng-click="connectGooglePlus()" ng-disabled="googlePlusConnected != undefined"> <img class="social_button_icon" src="assets/images/google_plus_colored.svg"/> Google {{gp}}</button>
+            <button class="btn_social_profile" ng-click="connectFacebook()" ng-disabled="fbConnected.length != 0" ng-model="fb"> <img class="social_button_icon" src="assets/images/facebook_white.svg"/> Facebook {{fb}}</button>
+            <button class="btn_social_profile" ng-click="connectGooglePlus()" ng-disabled="googlePlusConnected.length != 0"> <img class="social_button_icon" src="assets/images/google_plus_colored.svg"/> Google {{gp}}</button>
             <!--<button class="btn_social_profile"> <img class="social_button_icon" src="assets/images/twitter_white.svg" /> Twitter</button>-->
             <!--<button class="btn_social_profile"> <img class="social_button_icon" src="assets/images/instagram_white.svg" /> Instagram</button>-->
             <br><br><br><br><br><br><br>

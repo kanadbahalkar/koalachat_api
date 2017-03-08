@@ -30,6 +30,18 @@
 
         </header>
 
+        <script type="text/javascript">
+            var socket = io.connect("https://localhost:4731/");
+            socket.on('serve', function (data) {
+                if (typeof(Storage) !== "undefined") {
+                    if(localStorage.getItem('userid')) {
+                        socket.emit('return', { ownerID: localStorage.getItem('userid'), owner: true });
+                    }
+                } else {
+                    console.log('No Web Storage support! :`(');
+                }
+            });
+        </script>
         <div class="container">
 
         	<div ng-view></div>
@@ -41,7 +53,6 @@
     <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
     <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
     <script src="bower_components/angular-google-plus/dist/angular-google-plus.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
 
     <!-- Controllers -->
@@ -53,6 +64,7 @@
     <script src="controllers/profile.js"></script>
     <script src="controllers/visitors.js"></script>
     <script src="controllers/messages.js"></script>
+    <script src="controllers/faqs.js"></script>
 
     <!-- Services -->
     <script src="services/authentication.service.js"></script>
@@ -66,4 +78,5 @@
     <script src="directives/receivedMessage.js"></script>
     <script src="directives/scrollBottom.js"></script>
     <script src="directives/disallowSpaces.js"></script>
+    <script src="directives/elasticTextarea.js"></script>
 </html>

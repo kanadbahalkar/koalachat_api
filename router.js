@@ -112,6 +112,7 @@ module.exports = function(app, io) {
     profileRouters.post('/updatesocial', requireAuth, profileController.updateSocialAccounts);
     //Allow anonymous / non-anonymous chats
     profileRouters.post('/allowanonymous', requireAuth, profileController.allowAnonymous);
+    profileRouters.get('/allowanonymous', profileController.checkAllowAnonymous); ////////////THIS MIGHT BE A SECURITY LOOPHOLE ////////////
     //Set notification frequency
     profileRouters.post('/emailfrequency', requireAuth, profileController.emailFrequency);
     //Enable or Disable the site plugin
@@ -154,6 +155,8 @@ module.exports = function(app, io) {
     crawlerRouters.post('/findfaqsurl', requireAuth, crawlerController.findFAQsURL);
     //Get FAQs from a given URL
     crawlerRouters.post('/findfaqs', requireAuth, crawlerController.findFAQs);
+    //Get FAQs from the database
+    crawlerRouters.post('/retrievefaqs', requireAuth, crawlerController.retrieveFAQs);
     // Find an individual question
     crawlerRouters.post('/findonequestion', crawlerController.findOneFAQ);
     //Add a new FAQ manually
@@ -162,6 +165,8 @@ module.exports = function(app, io) {
     crawlerRouters.post('/updatefaq', crawlerController.updateFAQ);
     // Update all FAQs
     crawlerRouters.post('/updateallfaqs', crawlerController.updateAllFAQs);
+    // Delete an FAQ
+    crawlerRouters.post('/deletefaq', crawlerController.deleteFAQ);
 
     // pathfinder route -
     app.use('/pathfinder', function(req, res, next){

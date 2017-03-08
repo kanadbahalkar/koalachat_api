@@ -98,18 +98,29 @@ a {
 }
 
 .profile > .name {
+    text-transform: capitalize;
     padding: 0px;
     line-height: 60px;
     height: 60px;
     width: auto;
     text-align: center;
     font-size: 14px;
+    margin-right: 50px;
+    text-align: right;
 }
 
 .profile > a > .image {
-    padding: 15px 0px 15px 10px;
+    margin-left: 10px;
+    border-radius: 20px;
     width: 40px;
     display: inline !important;
+    height: 40px;
+    background-size: cover !important;
+    float: right;
+    position: absolute;
+    background-position: center;
+    top: 10px;
+    right: 20px;
 }
 
 .profile > a > .down-arrow {
@@ -151,6 +162,11 @@ a {
 .nav-item-active {
     background-color: rgba(11, 97, 255, 0.1) !important;
     border-bottom: solid rgb(11, 97, 255) 4px;
+}
+
+.profile-item-active {
+    /*border: solid rgb(11, 97, 255) 4px;*/
+    box-shadow: 0px 0px 20px rgb(11, 97, 255);
 }
 
 /*Left Nav Shit*/
@@ -416,10 +432,14 @@ business_info:-moz-placeholder { /* Firefox 4 - 18 */
 }
 
 .btn_social_profile[disabled=disabled], .btn_social_profile:disabled {
-    cursor: not-allowed;
+    cursor: not-allowed !important;
     pointer-events: none;
     background-color: #EEE;
     color: #4A4A4A
+}
+
+.profile_info_textbox[disabled=disabled]:hover {
+    border: none !important;
 }
 
 .platforms {
@@ -476,6 +496,11 @@ business_info:-moz-placeholder { /* Firefox 4 - 18 */
     width: 100%;
     padding: 0 15%;
     display: inline-block;
+}
+
+.delete_faq {
+    float: right;
+    cursor: pointer;
 }
 
 .date_text {
@@ -797,6 +822,8 @@ ul.list {
     color: #767B7B;
     vertical-align: middle;
     border: none;
+    background: none;
+    font-size: 16px;
 }
 
 ul.list li.search_chat:hover {
@@ -1192,12 +1219,13 @@ textarea.koalabot_textarea {
     width: 160px;
     border: none;
     border-radius: 20px 20px 4px 20px;
-    background: #FFF;
+    background: #0B61FF;
     box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);
-    color: #0B61FF;
+    color: #FFF;
     font-size: 14px;
     height: 40px;
     line-height: 40px;
+    outline: none;
 }
 
 .add_faq_btn:hover {
@@ -1230,25 +1258,22 @@ textarea.koalabot_textarea {
 .faq_question, .faq_answer {
     background: none;
     padding: 0px;
-    line-height: 20px;
     border: none;
-    width: 100%
+    font-size: 16px;
+    resize: none;
+    overflow: hidden;
+    -ms-overflow-style: hidden;
 }
 
 .faq_question {
     width: calc(100% - 20px);
     color: #0B61FF;
-    font-size: 16px;
     margin-bottom: 10px;
 }
 
 .faq_answer {
+    width: 100%;
     color: #4A4A4A;
-    font-size: 14px;
-    resize: none;
-    height: 100%;
-    overflow: hidden;
-    -ms-overflow-style: hidden;
 }
 
 .faqs_list_item:last-of-type {
@@ -1368,6 +1393,7 @@ textarea.koalabot_textarea {
 }
 
 .user_fullname {
+    text-transform: capitalize;
     font-size: 20px;
     line-height: 30px;
     position: absolute;
