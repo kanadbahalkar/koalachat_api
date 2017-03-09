@@ -167,6 +167,8 @@ module.exports = function(app, io) {
     crawlerRouters.post('/updateallfaqs', crawlerController.updateAllFAQs);
     // Delete an FAQ
     crawlerRouters.post('/deletefaq', crawlerController.deleteFAQ);
+    // Get FAQ Count
+    crawlerRouters.post('/getfaqscount', crawlerController.getFAQsCount);
 
     // pathfinder route -
     app.use('/pathfinder', function(req, res, next){

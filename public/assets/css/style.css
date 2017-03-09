@@ -684,7 +684,7 @@ p.explainer-blurb {
 
 .messages_per_channel {
     float: left;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .messages_per_channel > table {
@@ -760,6 +760,7 @@ td:nth-child(3) {
     line-height: 20px;
     color: #4A4A4A;
     width: 75%;
+    margin-bottom: 0px;
 }
 
 .more_growthhacks {

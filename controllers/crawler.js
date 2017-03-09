@@ -243,6 +243,25 @@ module.exports = {
         });
       });
   },
+
+  //Get FAQs count
+  getFAQsCount : function(req, res, next){
+    
+    SiteData.find(
+      { 'owner': req.body.ownerID },
+      function(err, sitedata) {
+        if (err) return next(err);
+        if(sitedata[0]){
+          res.status(200).send({
+            faqsCount: sitedata[0].qnaList.length,
+            status: "Success"
+          });
+        }
+        res.status(200).send({
+          status: "Error: Sitedata is Null"
+        });
+      });
+  },
   
   //Add new question
   addNewFAQ : function(req, res, next){
