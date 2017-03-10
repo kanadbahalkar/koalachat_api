@@ -6,7 +6,8 @@ const express = require('express'),
     profileController = require('./controllers/profile'),
     visitorController = require('./controllers/visitor'),
     widgetController = require('./controllers/widget_controller'),
-    crawlerController = require('./controllers/crawler');
+    crawlerController = require('./controllers/crawler'),
+    apiaiController = require('./controllers/api.ai');
 
 // Middleware to require login/auth
 var requireAuth = passport.authenticate('jwt', { session: false });
@@ -38,7 +39,8 @@ module.exports = function(app, io) {
     profileRouters = express.Router(),
     widgetRouters = express.Router(),
     visitorRouters = express.Router(),
-    crawlerRouters = express.Router();
+    crawlerRouters = express.Router(),
+    apiaiRouters = express.Router();
 
     // Auth Routes
     // Set auth routes as subgroup/middleware to apiRoutes
@@ -169,6 +171,13 @@ module.exports = function(app, io) {
     crawlerRouters.post('/deletefaq', crawlerController.deleteFAQ);
     // Get FAQ Count
     crawlerRouters.post('/getfaqscount', crawlerController.getFAQsCount);
+
+    //API.AI Routes
+    apiRoutes.use('/apiai', apiaiRouters);
+    // Verify widget embed code
+    apiaiRouters.post('/sendmessagetoapiai', requireAuth, apiaiController.sendMessagetoApiAI);
+    //Add to Entities array after an owner signs up
+    apiaiRouters.post('/addowneridtoapiai', requireAuth, apiaiController.addOwnerIDEntrytoEntity);
 
     // pathfinder route -
     app.use('/pathfinder', function(req, res, next){

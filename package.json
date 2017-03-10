@@ -13,6 +13,7 @@
     "npm": "3.10.x"
   },
   "dependencies": {
+    "apiai": "^4.0.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "cheerio": "^0.22.0",

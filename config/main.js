@@ -8,5 +8,7 @@ module.exports = {
     // Setting port for server
     'port': process.env.PORT || 4731,
     'default_email': 'anonymous@koala.com',
-    'default_password': 'anonymouskoala'
+    'default_password': 'anonymouskoala',
+    'api_ai_client_access_token': 'fe82ca64b4aa4507b3bb8ace27e738ca',
+    'api_ai_developer_access_token': 'ca74b5dba5f442cab9dcc1d09c653783'
 }
