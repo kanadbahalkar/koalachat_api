@@ -6,16 +6,14 @@ module.exports = {
       //find owner in database
       //expects ownerID field in req body
       User.findOne({
-          'userID': req.body._id
+          '_id': req.body.ownerID
       }, function(err, owner) {
           if (err) return next(err);
           if(!owner || owner == undefined || owner == null) {
             res.status(422).send({"message": "Owner with given id not found", "status": "failure"});
           }
-
-          console.log("User Found: " + owner);
-
-          owner.welcomeMessage = req.body.newMessage;
+        
+          owner.welcomeMessage = req.body.welcomeMessage;
           owner.save();
 
           res.status(200).send({

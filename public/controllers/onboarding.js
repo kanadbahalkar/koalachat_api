@@ -6,7 +6,8 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
 
     $scope.verificationBlurb = 'Chief Koala says your website is koalafied to be hooked up with KoalaChat! Copy paste the code below inside the "head" tag of your home page. To complete the setup on your site, we need to verify this Embed Code. After you’re done pasting the code in the HTML of your site, press the “Verify” button below...';
     $scope.faqBlurb = 'If you have a link for your FAQs, you can simply copy paste it here. If not, you can type in as many FAQs about your website or business below...';
-    
+    $scope.welcomeMessage = 'Hey there! You looking for something specific? Let me know, I’m here to answer your questions... 🐨 😊';
+
     var timeout;
     
     // Save changes to the copy of the person back to the original,
@@ -58,14 +59,34 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         $http({
 			method: 'POST',
 			url: '/api/profile/setwelcomemessage',
-			data: $.param({userID: $window.localStorage.userid, newMessage: $scope.welcomeMessage}),
+			data: $.param({
+                ownerID: $window.localStorage.userid, 
+                welcomeMessage: $scope.welcomeMessage
+            }),
 			headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': $window.localStorage.token
             }
 		})
         .success(function (data, status, headers, config) {
-            $window.location.href = '/onboarding/getembedcode';
+            $http({
+                method: 'POST',
+                url: '/api/apiai/createwelcomeintent',
+                data: $.param({ 
+                    ownerID: $window.localStorage.userid, 
+                    welcomeMessage: $scope.welcomeMessage,
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': $window.localStorage.token
+                }
+            })
+            .success(function (data, status, headers, config) {
+                $window.location.href = '/onboarding/getembedcode';
+            })
+            .error(function (data, status, headers, config) {
+                console.log('Error: Set Welcome Message Failed');
+            });
         })
         .error(function (data, status, headers, config) {
             console.log('Error: Set Welcome Message Failed');

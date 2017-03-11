@@ -178,6 +178,10 @@ module.exports = function(app, io) {
     apiaiRouters.post('/sendmessagetoapiai', requireAuth, apiaiController.sendMessagetoApiAI);
     //Add to Entities array after an owner signs up
     apiaiRouters.post('/addowneridtoapiai', requireAuth, apiaiController.addOwnerIDEntrytoEntity);
+    //Create a new Intent when a new FAQ is added
+    apiaiRouters.post('/createwelcomeintent', requireAuth, apiaiController.setWelcomeIntent);
+    //Create a new Intent when a new FAQ is added
+    apiaiRouters.post('/createintent', requireAuth, apiaiController.createIntent);
 
     // pathfinder route -
     app.use('/pathfinder', function(req, res, next){
