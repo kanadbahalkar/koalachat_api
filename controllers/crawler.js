@@ -256,10 +256,12 @@ module.exports = {
             faqsCount: sitedata[0].qnaList.length,
             status: "Success"
           });
+        } 
+        else {
+          res.status(200).send({
+            status: "Error: Sitedata is Null"
+          });
         }
-        res.status(200).send({
-          status: "Error: Sitedata is Null"
-        });
       });
   },
   

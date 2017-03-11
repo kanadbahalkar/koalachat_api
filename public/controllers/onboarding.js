@@ -1,4 +1,4 @@
-myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http', '$window', '$timeout', 'clipboard', function($scope, $log, $timeout, $http, $window, $timeout, clipboard){
+myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http', '$window', '$timeout', '$q', 'clipboard', function($scope, $log, $timeout, $http, $window, $timeout, $q, clipboard){
 
     if (!clipboard.supported) {
         console.log('Sorry, copy to clipboard is not supported');
@@ -253,10 +253,76 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         }
     }
 
-    //TODO: Adding a new FAQ manually
+    var saveFAQinApiai = function(faq){
+        console.log(faq);
+        var deferred = $q.defer();
+        $http({
+            method: 'POST',
+            url: 'api/apiai/createintent',
+            data: $.param({ 
+                ownerID: $window.localStorage.userid, 
+                intentQuestion: faq.question, 
+                intentAnswer: faq.answer
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .then(function(success){
+            deferred.resolve(success.data);
+        },function(error){
+            $scope.errorText = 'error-text-color';
+            $scope.faqBlurb = 'Hmmmm looks like there was an error while saving your FAQs! Can you refresh the page and try again?';
+            console.log('Error ', error);
+        });
+        return deferred.promise;
+    };
 
     //Go to dashboard after saving FAQs
     $scope.goHomeYoureDrunk = function () {
-        $window.location.href = '/Overview';
+        //Save FAQs in API.ai
+        $scope.faqlist.reduce(function(p, faq) {
+            return p.then(function() {
+                return saveFAQinApiai(faq);
+            });
+        }, $q.when(true)).then(function(finalResult) {
+            $window.location.href = '/Overview';
+        }, function(err) {
+            console.log(err);
+        });
+    }
+
+    //Adding a new FAQ manually
+    $scope.addNewFAQ = function () {
+        $http({
+            method: 'POST',
+            url: 'api/crawler/addnewfaq',
+            data: $.param({
+                question: $scope.newFAQ.question,
+                answer: $scope.newFAQ.answer,
+                ownerID: $window.localStorage.userid
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .success(function (data, status, headers, config) {
+            if(data.sitedata){
+                //Populate the FAQs in the view
+                console.log('New FAQ Added to your FAQs list! 😊');
+                //Save the FAQ in APi.ai
+                var newFAQ = {
+                    ownerID: $window.localStorage.userid,
+                    intentQuestion: $scope.newFAQ.question,
+                    intentAnswer: $scope.newFAQ.answer
+                }
+                saveFAQinApiai(newFAQ);
+            }
+        })
+        .error(function (data, status, headers, config) {
+            console.log('Error: ' + status);
+        });
     }
 }]);

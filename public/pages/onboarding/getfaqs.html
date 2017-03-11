@@ -16,10 +16,10 @@
         </div>
         
         <div class="faq_collector">
-            <input type"text" class="business_info faqs_url" placeholder="What do your website visitors ask you frequently?" style="margin-bottom: 20px;"/>
+            <input type"text" class="business_info faqs_url" ng-model="newfAQ.question" placeholder="What do your website visitors ask you frequently?" style="margin-bottom: 20px;"/>
             <!--<p class="date_text">13th Dec, 2016</p>-->
-            <textarea class="faqs_textarea" placeholder="Tell us how you would reply to this question. The more you tell us, the more our Chief Koala trains the KoalaBots, and the better they can answer this and/or similar questions…"></textarea>
-            <a href="" class="btn btn_white add_faq_url_btn text_center">Add New FAQ</a>
+            <textarea class="faqs_textarea" ng-model="newFAQ.answer" placeholder="Tell us how you would reply to this question. The more you tell us, the more our Chief Koala trains the KoalaBots, and the better they can answer this and/or similar questions…"></textarea>
+            <a href="" class="btn btn_white add_faq_url_btn text_center" ng-click="addNewFAQ()">Add New FAQ</a>
         </div>
 
         <div class="next_prev">

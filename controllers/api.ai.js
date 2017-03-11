@@ -104,7 +104,6 @@ module.exports = {
     createIntent: function(req, res, next){
         
         var ownerID = req.body.ownerID;
-        var intentName = req.body.intentName;
         var intentQuestion = req.body.intentQuestion;
         var intentAnswer = req.body.intentAnswer;
 
@@ -119,7 +118,7 @@ module.exports = {
                 authorization: 'Bearer ca74b5dba5f442cab9dcc1d09c653783' 
             },
             body: { 
-                "name": intentName, 
+                "name": ownerID + ' ' + intentQuestion, 
                 "auto": true, 
                 "contexts": [
                     ownerID
@@ -155,6 +154,7 @@ module.exports = {
         };
 
         request(options, function (error, response, body) {
+            console.log(response);
             if (error){ 
                 res.status(200).send({
                     error: error,

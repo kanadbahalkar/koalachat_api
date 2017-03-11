@@ -106,30 +106,30 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
 
     //Save added FAQ to the database
     var addNewFAQ = function(newFAQ) {
-            $http({
-                method: 'POST',
-                url: 'api/crawler/addnewfaq',
-                data: $.param({
-                    question: newFAQ.question,
-                    answer: newFAQ.answer,
-                    ownerID: $window.localStorage.userid
-                }),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': $window.localStorage.token
-                }
-            })
-            .success(function (data, status, headers, config) {
-                if(data.sitedata){
-                    //Populate the FAQs in the view
-                    console.log('New FAQ Added to your FAQs list! 😊');
-                    //Update the FAQs count
-                    $scope.faqsCount = data.data.sitedata[0].qnaList.length;
-                }
-            })
-            .error(function (data, status, headers, config) {
-                console.log('Error: ' + status);
-            });
+        $http({
+            method: 'POST',
+            url: 'api/crawler/addnewfaq',
+            data: $.param({
+                question: newFAQ.question,
+                answer: newFAQ.answer,
+                ownerID: $window.localStorage.userid
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .success(function (data, status, headers, config) {
+            if(data.sitedata){
+                //Populate the FAQs in the view
+                console.log('New FAQ Added to your FAQs list! 😊');
+                //Update the FAQs count
+                $scope.faqsCount = data.data.sitedata[0].qnaList.length;
+            }
+        })
+        .error(function (data, status, headers, config) {
+            console.log('Error: ' + status);
+        });
     };
 
     //Get number of current conversations
