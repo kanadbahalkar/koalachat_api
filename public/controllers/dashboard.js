@@ -104,6 +104,32 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
         }
     };
 
+    var saveFAQinApiai = function(faq){
+        console.log(faq);
+        var deferred = $q.defer();
+        $http({
+            method: 'POST',
+            url: 'api/apiai/createintent',
+            data: $.param({ 
+                ownerID: $window.localStorage.userid, 
+                intentQuestion: faq.question, 
+                intentAnswer: faq.answer
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .then(function(success){
+            deferred.resolve(success.data);
+        },function(error){
+            $scope.errorText = 'error-text-color';
+            $scope.faqBlurb = 'Hmmmm looks like there was an error while saving your FAQs! Can you refresh the page and try again?';
+            console.log('Error ', error);
+        });
+        return deferred.promise;
+    };
+
     //Save added FAQ to the database
     var addNewFAQ = function(newFAQ) {
         $http({
@@ -120,11 +146,18 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
             }
         })
         .success(function (data, status, headers, config) {
-            if(data.sitedata){
+            if(data.data.sitedata && newFAQ.question.length > 0 && newFAQ.answer.length > 0){
                 //Populate the FAQs in the view
                 console.log('New FAQ Added to your FAQs list! 😊');
                 //Update the FAQs count
                 $scope.faqsCount = data.data.sitedata[0].qnaList.length;
+                //Save the FAQ in APi.ai
+                var newFAQ = {
+                    ownerID: $window.localStorage.userid,
+                    intentQuestion: newFAQ.question,
+                    intentAnswer: newFAQ.answer
+                }
+                saveFAQinApiai(newFAQ);
             }
         })
         .error(function (data, status, headers, config) {

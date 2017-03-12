@@ -175,13 +175,15 @@ module.exports = function(app, io) {
     //API.AI Routes
     apiRoutes.use('/apiai', apiaiRouters);
     // Verify widget embed code
-    apiaiRouters.post('/sendmessagetoapiai', requireAuth, apiaiController.sendMessagetoApiAI);
+    apiaiRouters.post('/sendmessagetoapiai', apiaiController.sendMessagetoApiAI);
     //Add to Entities array after an owner signs up
     apiaiRouters.post('/addowneridtoapiai', requireAuth, apiaiController.addOwnerIDEntrytoEntity);
     //Create a new Intent when a new FAQ is added
     apiaiRouters.post('/createwelcomeintent', requireAuth, apiaiController.setWelcomeIntent);
     //Create a new Intent when a new FAQ is added
     apiaiRouters.post('/createintent', requireAuth, apiaiController.createIntent);
+    //Create a Fallback Intent when answer to an FAQ is not found
+    apiaiRouters.post('/setfallbackintent', requireAuth, apiaiController.setFallbackIntent);
 
     // pathfinder route -
     app.use('/pathfinder', function(req, res, next){

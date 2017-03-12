@@ -9,6 +9,8 @@
 //8. USE NAMESPACES AND ROOMS FOR ROUTING TRAFFIC
 
 var request = require('request');
+var qs = require("querystring");
+var https = require("https");
 
 request.defaults({
     strictSSL: false, // allow us to use our self-signed cert for testing
@@ -61,6 +63,26 @@ exports = module.exports = function (io) {
       console.log(data);
       if(data.to && sockets[data.to]){
         sockets[data.to].emit('sent message', data);
+      }
+
+      //Get response from api.ai if the sender is visitor
+      if(data.sender == 'visitor'){
+        request({
+          method: 'POST',
+          url: 'https://localhost:4731/api/apiai/sendmessagetoapiai',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+          form: {
+            question: data.message,
+            sessionId: data.from,
+            ownerID: data.to 
+          }
+        }, function (error, response, body) {   
+          if (error) throw new Error(error);
+          //Send a reply
+          var replyBody = JSON.parse(body);
+          var replyFromApiai = { message: replyBody.reply };
+          sockets[data.from].emit('sent message', replyFromApiai);
+        });
       }
     });
 

@@ -253,8 +253,8 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         }
     }
 
+    //Save FAQ in API.ai
     var saveFAQinApiai = function(faq){
-        console.log(faq);
         var deferred = $q.defer();
         $http({
             method: 'POST',
@@ -279,6 +279,31 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         return deferred.promise;
     };
 
+    //Save Fallback Intent in API.ai
+    var saveFallbackIntentinApiai = function(message){
+        var deferred = $q.defer();
+        $http({
+            method: 'POST',
+            url: 'api/apiai/setfallbackintent',
+            data: $.param({ 
+                ownerID: $window.localStorage.userid, 
+                fallbackMessage: message
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .then(function(success){
+            deferred.resolve(success.data);
+        },function(error){
+            $scope.errorText = 'error-text-color';
+            $scope.faqBlurb = 'Hmmmm looks like there was an error while saving your FAQs! Can you refresh the page and try again?';
+            console.log('Error ', error);
+        });
+        return deferred.promise;
+    };
+
     //Go to dashboard after saving FAQs
     $scope.goHomeYoureDrunk = function () {
         //Save FAQs in API.ai
@@ -287,6 +312,8 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
                 return saveFAQinApiai(faq);
             });
         }, $q.when(true)).then(function(finalResult) {
+            var fallbackMessage = 'I`m sorry, I don`t quite understand your question. Please give us your email so we can get back to you on this...';
+            saveFallbackIntentinApiai(fallbackMessage);
             $window.location.href = '/Overview';
         }, function(err) {
             console.log(err);

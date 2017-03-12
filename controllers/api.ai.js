@@ -79,7 +79,71 @@ module.exports = {
                 "fallbackIntent": false,
                 "events": [
                     {
-                        "name": ownerID + "WELCOME"
+                        "name": ownerID + " WELCOME"
+                    }
+                ]
+            },
+            json: true 
+        };
+
+        request(options, function (error, response, body) {
+            if (error){ 
+                res.status(200).send({
+                    error: error,
+                    status: "Error"
+                });
+            }
+            res.status(200).send({
+                result: body,
+                status: "Success"
+            });
+        });
+    },
+
+    //Create Intent for when answer is not found in api.ai
+    setFallbackIntent: function(req, res, next){
+        
+        var ownerID = req.body.ownerID;
+        var fallbackMessage = req.body.fallbackMessage;
+
+        var options = { 
+            method: 'POST',
+            url: 'https://api.api.ai/v1/intents',
+            qs: { v: '20150910' },
+            headers: 
+            {
+                'cache-control': 'no-cache',
+                'content-type': 'application/json; charset=utf-8',
+                authorization: 'Bearer ca74b5dba5f442cab9dcc1d09c653783' 
+            },
+            body: { 
+                "templates": [],
+                "userSays": [],
+                "name": ownerID + ' Fallback Message', 
+                "auto": true, 
+                "contexts": [
+                    ownerID
+                ], 
+                "userSays": [], 
+                "responses": [{
+                    "resetContexts": false,
+                    "action": "input.unknown",
+                    "affectedContexts": [],
+                    "parameters": [],
+                    "messages": [{
+                        "type": 0,
+                        "speech": [
+                            fallbackMessage
+                        ]
+                    }]
+                }],
+                "priority": 500000,
+                "webhookUsed": false,
+                "webhookForSlotFilling": false,
+                "fallbackIntent": true,
+                "events": [
+                    {
+                        "name": ownerID + " FALLBACK"
                     }
                 ]
             },
@@ -154,7 +218,6 @@ module.exports = {
         };
 
         request(options, function (error, response, body) {
-            console.log(response);
             if (error){ 
                 res.status(200).send({
                     error: error,
@@ -178,7 +241,6 @@ module.exports = {
                 }
             ]
         };
-
 
         var request = apiaiClient.textRequest(req.body.question, options);
 
