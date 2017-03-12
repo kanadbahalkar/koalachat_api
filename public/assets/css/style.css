@@ -780,7 +780,7 @@ td:nth-child(3) {
 /*Inbox Shit*/
 .main_box {
     float: left;
-    width: 100%;
+    width: calc(100% - 240px);;
     background: #fff;
     height: calc(100% - 60px);
     position: absolute;
@@ -887,7 +887,7 @@ img.small_icon {
 
 .chat_box {
     width: 43%; /*Fallback if necessary*/
-    width: calc(100% - 840px);
+    width: calc(100% - 600px);
     height: calc(100% - 110px);
     overflow-y: scroll;
     float: left;
@@ -999,7 +999,7 @@ p.received_message:last-of-type {
     bottom: 0px;
     background: none;
     padding-top: 20px;
-    width: calc(100% - 840px);
+    width: calc(100% - 600px);
     z-index: 99;
     border-top: solid 1px #D8D8D8;
     left: 360px;
@@ -1027,7 +1027,7 @@ img.clip {
 
 .input {
     float: left;
-    width: 85%;
+    width: calc(100% - 120px);
 }
 
 textarea.message_input {
@@ -1040,6 +1040,11 @@ textarea.message_input {
     padding: 0px;
 }
 
+div.send_button {
+    float: right;
+    width: 60px;
+}
+
 a.send {
     text-decoration: none;
     color: #0B61FF;
@@ -1047,6 +1052,7 @@ a.send {
 
 .visitor_profile {
     width: 240px;
+    right: 0px;
     text-align: center;
     background: #222;
     height: 100%;
