@@ -247,6 +247,7 @@ module.exports = {
         request.on('response', function(response) {
             res.status(200).send({
                 reply: response.result.fulfillment.speech,
+                action: response.result.action,
                 status: "Success"
             });
         });

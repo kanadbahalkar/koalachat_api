@@ -66,7 +66,7 @@ exports = module.exports = function (io) {
       }
 
       //Get response from api.ai if the sender is visitor
-      if(data.sender == 'visitor'){
+      if(data.sender == 'visitor' && data.email == false){
         request({
           method: 'POST',
           url: 'https://localhost:4731/api/apiai/sendmessagetoapiai',
@@ -82,7 +82,14 @@ exports = module.exports = function (io) {
           var replyBody = JSON.parse(body);
           var replyFromApiai = { message: replyBody.reply };
           sockets[data.from].emit('sent message', replyFromApiai);
+
+          if(replyBody.action == 'input.unknown'){
+            sockets[data.from].emit('ask for email', true);
+          }
         });
+      }
+      else if(data.sender == 'visitor' && data.email == true){
+        sockets[data.from].emit('sent message', { message: 'Thanks! Someone from our team will drop you an email as soon as possible. 😊' });
       }
     });
 
@@ -98,7 +105,7 @@ exports = module.exports = function (io) {
 
     socket.on('allow anon', function (data) {
       // For all the visitors sockets, send a message to update the jquery to show email
-      sockets[data.ownerID].emit('allow anon', data.allowAnon);
+      // sockets[data.ownerID].emit('allow anon', data.allowAnon);
     });
   });
 }

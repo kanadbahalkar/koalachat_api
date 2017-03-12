@@ -997,12 +997,12 @@ p.received_message:last-of-type {
 .message_textbox {
     position: absolute;
     bottom: 0px;
-    background-color: #FFF;
+    background: none;
     padding-top: 20px;
-    width: 600px;
+    width: calc(100% - 840px);
     z-index: 99;
-    border: solid 1px #D8D8D8;
-    left: 359px;
+    border-top: solid 1px #D8D8D8;
+    left: 360px;
 }
 
 input.attachfile {
@@ -1027,7 +1027,7 @@ img.clip {
 
 .input {
     float: left;
-    width: 75%;
+    width: 85%;
 }
 
 textarea.message_input {
