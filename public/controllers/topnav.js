@@ -1,4 +1,4 @@
-myApp.controller('topnavController', ['$scope', '$location', '$window', '$http',  function($scope, $location, $window, $http){
+myApp.controller('topnavController', ['$scope', '$location', '$window', '$http', 'AuthenticationService', function($scope, $location, $window, $http, AuthenticationService){
 
     $scope.ownername = $window.localStorage.ownername || 'Anon Koala'; 
     $scope.profilepic = $window.localStorage.profilepic || '/assets/images/avatar.png'; 
@@ -7,4 +7,9 @@ myApp.controller('topnavController', ['$scope', '$location', '$window', '$http',
         var active = ($location.path().startsWith(viewLocation));
         return active;
     };
+
+    $scope.logout =  function () {
+        AuthenticationService.logout();
+        $window.location.href = '/login';
+    }
 }]);

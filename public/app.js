@@ -31,15 +31,6 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, F
         }
     })
 
-    //Login Reg Router
-    .when('/loggingin', {
-        templateUrl : 'pages/loggingin.html',
-        access: {
-            requiredLogin: false,
-            isOnboarding: false
-        }
-    })
-
     //Dashboard Router
     .when('/Overview', {
         templateUrl : 'pages/dashboard.html',

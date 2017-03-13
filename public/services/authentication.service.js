@@ -64,8 +64,7 @@ angular.module('myApp')
             logout: function(success) {
                 changeUser({});
                 delete $window.localStorage.token;
-                $window.localStorage.$reset();
-                success();
+                $window.loca
             }
         };
     }

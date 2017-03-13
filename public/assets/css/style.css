@@ -105,12 +105,11 @@ a {
     width: auto;
     text-align: center;
     font-size: 14px;
-    margin-right: 50px;
     text-align: right;
 }
 
 .profile > a > .image {
-    margin-left: 10px;
+    margin: 10px;
     border-radius: 20px;
     width: 40px;
     display: inline !important;
@@ -119,14 +118,60 @@ a {
     float: right;
     position: absolute;
     background-position: center;
-    top: 10px;
-    right: 20px;
+    right: 30px;
 }
 
 .profile > a > .down-arrow {
     line-height: 60px;
-    padding-left: 10px;
+    padding-left: 60px;
     display: inline !important;
+}
+
+.dropdown {
+    top: 60px;
+    right: -12px;
+    background: white;
+    border-radius: 3px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.25);
+    list-style: none;
+    padding-left: 20px;
+    margin-bottom: 0px;
+    height: 140px;
+}
+
+.dropdown a {
+    line-height: 40px;
+    display: block;
+    text-decoration: none;
+    color: rgb(11, 97, 255);
+    position: absolute;
+}
+
+.dropdown a:hover {
+    text-decoration: underline;
+}
+
+.dropdown a:first-child {  
+  top: 10px;
+}
+
+.dropdown a:nth-child(2) {  
+  top: 50px;
+}
+
+.dropdown a:nth-child(3) {  
+  top: 90px;
+}
+
+#dropdown-triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 7px solid white;
+    position: absolute;
+    right: 10px;
+    top: -7px;
 }
 
 .nav-item > p {

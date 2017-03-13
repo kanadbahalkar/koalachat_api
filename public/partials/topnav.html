@@ -22,9 +22,9 @@
             <a class="navbar-brand ng-class:{'nav-item-active':isActive('/Messages')};" href="/Messages/Inbox">Inbox</a>
         </div>
 
-        <!--<div class="navbar-header nav-item">
+        <div class="navbar-header nav-item">
             <a class="navbar-brand ng-class:{'nav-item-active':isActive('/Contacts')};" href="/Contacts">Leads</a>
-        </div>-->
+        </div>
 
         <div class="navbar-header nav-item">
             <a class="navbar-brand ng-class:{'nav-item-active':isActive('/KoalaBot')};" href="/KoalaBot/FAQs">KoalaBot</a>
@@ -39,10 +39,17 @@
         </div>-->
 
         <div class="navbar-header profile">
-            <a class="navbar-brand name" href="/Profile"> {{ ownername }} 
-                <div class="image pic_avatar ng-class:{'profile-item-active':isActive('/Profile')};" style="background-image:url({{ profilepic }})"></div>
-                <!--<img class="down-arrow" src="/assets/images/down-triangle.svg"/>-->
+            <a class="navbar-brand name" ng-click="isDropdownOpen = !isDropdownOpen"> 
+                <div class="image pic_avatar" style="background-image:url({{ profilepic }})"></div>
+                {{ ownername }} 
+                <img class="down-arrow" src="/assets/images/down-triangle.svg"/>
             </a>
+            <div ng-show="isDropdownOpen" class="dropdown">
+                <a href="/Profile">My Profile</a>
+                <a href="/KoalaBot/FAQs">FAQs</a>
+                <a href="" ng-click="logout()">Logout</a>
+                <div id="dropdown-triangle-up"></div>
+            </div>
         </div>
 
         <!--<div class="navbar-header search">
