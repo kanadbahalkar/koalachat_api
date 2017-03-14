@@ -15,7 +15,7 @@
 </div>
 
 <div class="search_contacts">
-    <img src="assets/images/search_circle.svg" alt=""> 
+    <img src="assets/images/search_circle.svg" alt="">
     <span class="main_box_search"> Search Leads</span>
 </div>
 
@@ -31,10 +31,6 @@
             <th class="contact_bounced_in">Bounced In</th>
             <th class="contact_score">Score</th>
         </tr>
-        <div class="faq_collector" ng-repeat="faq in faqlist track by $index">
-            <input type"text" class="business_info faqs_url" ng-model="faq.question" style="margin-bottom: 20px;" ng-change="test()"/>
-            <textarea class="faqs_textarea" ng-model="faq.answer"></textarea>
-        </div>
         <tr class="contact_details" ng-repeat="lead in leads track by $index">
             <td class="contact_pic"> <img class="visitor_profile_pic" src="assets/images/avatar.png" alt=""> </td>
             <td class="contact_name" ng-model="lead.email">Matt Tompson</td>
@@ -234,4 +230,3 @@
         </tr>
     </table>
 </div>
-
