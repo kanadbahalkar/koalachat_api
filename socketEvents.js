@@ -51,6 +51,22 @@ exports = module.exports = function (io) {
         }
         else if(data.visitor) {
           console.log('Visitor connected: ', data);
+          //Update visitor attributes
+          var requestData = { 'vid' : data.visitorID };
+          request({
+            url: 'https://localhost:4731/api/visitor/updatevisitor',
+            method: "POST",
+            json: requestData,
+            headers: { 'content-type' : 'application/x-www-form-urlencoded' }
+          }, function(error, response, body){
+            if(error) console.log('ERROR: ', error);
+            if(body.visitor) {
+              socket.emit('new visitor', body.visitor._id);
+              socket.emit('new visitor for admin', body.visitor);
+              sockets[body.visitor._id] = socket;
+              sockets[data.ownerID] = socket;
+            }
+          });
           sockets[data.visitorID] = socket;
         }
         else if(data.owner) {

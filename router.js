@@ -140,8 +140,10 @@ module.exports = function(app, io) {
     visitorRouters.post('/setnickname', requireAuth, visitorController.setNickname);
     //Set email for a visitor
     visitorRouters.post('/setemail', visitorController.setEmail);
-    //Blacklist visitor by email / ip address / id
-    visitorRouters.post('/blacklistvisitor', requireAuth, visitorController.blacklistVisitor);
+    //Update visitor attribs
+    visitorRouters.post('/updatevisitor', visitorController.updateVisitor);
+    //Mark visitor as Archived
+    visitorRouters.post('/archivevisitor', requireAuth, visitorController.archiveVisitor);
     //Get a list of all visitors / visitors with email / anonymous visitors
     visitorRouters.post('/getvisitors/:filter', requireAuth, visitorController.getVisitors);
     //Get a number of unique visitors last week

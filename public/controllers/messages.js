@@ -140,7 +140,6 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
             $scope.messages = $scope.messages.concat(data);
             $scope.messageText = data.message;
 
-            // $scope.messages = $filter('orderBy')($scope.messages, 'createdAt');
             //Send replies in this conversation
             $http({
                 method: 'POST',

@@ -9,8 +9,6 @@ module.exports = {
 
     let ownerID = reqData.ownerID;
     let email = reqData.email || config.default_email;
-    console.log("Inside registerVisitor");
-    console.log(reqData);
     //Get ip address of the visitor
     var visitorip =  req.headers['x-forwarded-for'] ||
               req.connection.remoteAddress ||
@@ -68,9 +66,8 @@ module.exports = {
 
   //Set email of a visitor by email / id
   setEmail: function(req, res, next) {
-    let visitorId = req.body.vid;
     Visitor.findOneAndUpdate(
-      { '_id' : visitorId },
+      { '_id' : req.body.vid },
       { 'email' : req.body.email },
       function(err, result) {
         if (err) return next(err);
@@ -88,24 +85,65 @@ module.exports = {
       });
   },
 
-  //Blacklist visitor by - Email / IP Address / ID
-  blacklistVisitor: function(req, res, next) {
-    var json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
-    var field = JSON.parse(json);
-
-    Visitor.update(
-      field,
-      { blacklisted : req.body.blacklisted },
-      { multi: true },
+  //Delete a visitor (Mark it as Archived)
+  archiveVisitor: function(req, res, next) {
+    Visitor.findOneAndUpdate(
+      { '_id' : req.body.vid },
+      { 'archived' : true },
       function(err, result) {
         if (err) return next(err);
 
         if(!result) {
-          res.status(422).send({ message : 'Visitor with given IP not found' });
+          res.status(422).send({ message : 'Visitor with given ID not found' });
         }
         else {
           res.status(200).send({
             visitor : result
+          });
+        }
+      });
+  },
+
+  //Blacklist a visitor
+  blacklistVisitor: function(req, res, next) {
+    Visitor.findOneAndUpdate(
+      { '_id' : req.body.vid },
+      { 'blacklisted' : true },
+      function(err, result) {
+        if (err) return next(err);
+
+        if(!result) {
+          res.status(422).send({ message : 'Visitor with given ID not found' });
+        }
+        else {
+          res.status(200).send({
+            visitor : result
+          });
+        }
+      });
+  },
+
+  //Update visitor attribs
+  updateVisitor: function(req, res, next) {
+    var reqData = JSON.parse(Object.keys(req.body)[0]);
+    Visitor.findOne(
+      { '_id' : reqData.vid },
+      function(err, visitor) {
+        if (err) return next(err);
+
+        if(!visitor) {
+          res.status(422).send({ message : 'Visitor with given IP not found' });
+        }
+        else {
+          //Update fields and save
+          visitor.lastVisitDuration = Date.now() - visitor.lastSeen;
+          visitor.lastSeen = Date.now();
+          visitor.totalNumberOfVisits = visitor.totalNumberOfVisits + 1 || 1;
+          visitor.score = (visitor.totalNumberOfVisits * (visitor.lastVisitDuration / 1000)).toFixed(0) || 0;
+          visitor.save();
+
+          res.status(200).send({
+            visitor : visitor
           });
         }
       });
@@ -143,7 +181,9 @@ module.exports = {
 
     if(req.params.filter == 'all'){
       json = {
-        ownerID  : req.body.ownerID
+        ownerID  : req.body.ownerID,
+        archived: { $ne: true },
+        blacklisted: { $ne: true },
       };
     }
     else if(req.params.filter == 'known'){
@@ -169,7 +209,7 @@ module.exports = {
         }
         else {
           res.status(200).send({
-            visitor : result
+            visitors : result
           });
         }
       });

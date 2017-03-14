@@ -20,16 +20,26 @@
 </div>
 
 <div class="contacts_list">
-    <table class="contacts_table" ng-repeat="contact in contacts">
+    <table class="contacts_table">
         <tr>
             <th class="contact_pic"></th>
-            <th class="contact_name">{{conatct.email}}</th>
+            <th class="contact_name">Email</th>
             <th class="contact_first_seen">First Seen</th>
             <th class="contact_last_seen">Last Seen</th>
             <th class="contact_visits">Visits</th>
-            <th class="contact_location">Location</th>
             <th class="contact_bounced_in">Bounced In</th>
             <th class="contact_score">Score</th>
+            <th class="contact_location"></th>
+        </tr>
+        <tr class="contact_details" ng-repeat="lead in leads | filter:searchBox" ng-mouseenter="showDelete=true" ng-mouseleave="showDelete=false">
+            <td class="contact_pic"> <!--<img class="visitor_profile_pic" src="assets/images/avatar.png" alt="">--> </td>
+            <td class="contact_name"> {{ lead.email }} </td>
+            <td class="contact_first_seen" style="text-transform: capitalize;"> <time am-time-ago="lead.visitedAt"></time> </td>
+            <td class="contact_last_seen" style="text-transform: capitalize;"> <time am-time-ago="lead.lastSeen"></time> </td>
+            <td class="contact_visits"> {{ lead.totalNumberOfVisits }} </td>
+            <td class="contact_bounced_in" style="text-transform: capitalize;"> {{ lead.lastVisitDuration | amDurationFormat : 'minute' }} </td>
+            <td class="contact_score"> {{ lead.score }} </td>
+            <td class="contact_location"><a class="delete_faq" ng-show="showDelete" ng-click="deleteLead(lead)" style="float:left;"> <img src="assets/images/delete.svg" alt=""></a></td>
         </tr>
     </table>
 </div>
