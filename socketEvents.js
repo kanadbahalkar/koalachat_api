@@ -18,21 +18,21 @@ request.defaults({
 });
 
 exports = module.exports = function (io) {
-  
+
   //Create array of live sockets
   var sockets = {};
 
   // Set socket.io listeners.
   io.sockets.on('connection', function (socket) {
-    
-    //1. Emit a starter event when a new connection (Owner or Visitor) occurs 
+
+    //1. Emit a starter event when a new connection (Owner or Visitor) occurs
     socket.emit('serve', 'New Connection!');
 
     //2. On receiving a reply from the connection, check who is connected (owner or visitor)
     socket.on('return', function (data) {
         //Save a new user
         if(data.visitor && data.newVisitor){
-          
+
           var requestData = { 'ownerID' : data.ownerID };
           request({
             url: 'https://localhost:4731/api/visitor/newvisitor',
@@ -74,9 +74,9 @@ exports = module.exports = function (io) {
           form: {
             question: data.message,
             sessionId: data.from,
-            ownerID: data.to 
+            ownerID: data.to
           }
-        }, function (error, response, body) {   
+        }, function (error, response, body) {
           if (error) throw new Error(error);
           //Send a reply
           var replyBody = JSON.parse(body);
@@ -90,6 +90,19 @@ exports = module.exports = function (io) {
       }
       else if(data.sender == 'visitor' && data.email == true){
         sockets[data.from].emit('sent message', { message: 'Thanks! Someone from our team will drop you an email as soon as possible. 😊' });
+        //mark visitor as a lead
+        request({
+          method: 'POST',
+          url: 'https://localhost:4731/api/visitor/setemail',
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+          form: {
+            ownerID: data.to,
+            vid: data.from,
+            email: data.message
+          }
+        }, function(err, resp, body) {
+          if (err) throw new Error(error);
+        });
       }
     });
 

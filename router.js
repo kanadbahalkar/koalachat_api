@@ -139,7 +139,7 @@ module.exports = function(app, io) {
     //Set nickname for a visitor
     visitorRouters.post('/setnickname', requireAuth, visitorController.setNickname);
     //Set email for a visitor
-    visitorRouters.post('/setemail', requireAuth, visitorController.setEmail);
+    visitorRouters.post('/setemail', visitorController.setEmail);
     //Blacklist visitor by email / ip address / id
     visitorRouters.post('/blacklistvisitor', requireAuth, visitorController.blacklistVisitor);
     //Get a list of all visitors / visitors with email / anonymous visitors
