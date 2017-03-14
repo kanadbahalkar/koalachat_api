@@ -4,15 +4,16 @@ var config = require('../config/main');
 
 module.exports = {
   registerVisitor: function(req, res, next) {
-    
+
     var reqData = JSON.parse(Object.keys(req.body)[0]);
 
     let ownerID = reqData.ownerID;
     let email = reqData.email || config.default_email;
-    
+    console.log("Inside registerVisitor");
+    console.log(reqData);
     //Get ip address of the visitor
-    var visitorip =  req.headers['x-forwarded-for'] || 
-              req.connection.remoteAddress || 
+    var visitorip =  req.headers['x-forwarded-for'] ||
+              req.connection.remoteAddress ||
               req.socket.remoteAddress ||
               req.connection.socket.remoteAddress;
 
@@ -21,7 +22,7 @@ module.exports = {
       console.log("Register visitor request is not associated with ownerID");
       return res.status(422).send({ error: "Register visitor request is not associated with ownerID" });
     }
-    
+
     let visitor = new Visitor({
       email: email,
       ownerID: ownerID,
@@ -46,9 +47,9 @@ module.exports = {
     var field = JSON.parse(json);
 
     Visitor.update(
-      field, 
-      { nickname : req.body.nickname }, 
-      { multi: true }, 
+      field,
+      { nickname : req.body.nickname },
+      { multi: true },
       function(err, result) {
         if (err) return next(err);
 
@@ -57,8 +58,8 @@ module.exports = {
         }
         else {
           if( req.body.email != config.default_email ){
-            res.status(200).send({ 
-              visitor : result 
+            res.status(200).send({
+              visitor : result
             });
           }
         }
@@ -67,13 +68,10 @@ module.exports = {
 
   //Set email of a visitor by email / id
   setEmail: function(req, res, next) {
-    var json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
-    var field = JSON.parse(json);
-
-    Visitor.update(
-      field, 
-      { email : req.body.email }, 
-      { multi: true }, 
+    let visitorId = req.body.vid;
+    Visitor.findOneAndUpdate(
+      { '_id' : visitorId },
+      { 'email' : req.body.email },
       function(err, result) {
         if (err) return next(err);
 
@@ -81,9 +79,9 @@ module.exports = {
           res.status(422).send({ message : 'Visitor with given email not found' });
         }
         else {
-          if( req.body.email != config.default_email ){
-            res.status(200).send({ 
-              visitor : result 
+          if(req.body.email !== config.default_email ){
+            res.status(200).send({
+              visitor : result
             });
           }
         }
@@ -96,9 +94,9 @@ module.exports = {
     var field = JSON.parse(json);
 
     Visitor.update(
-      field, 
-      { blacklisted : req.body.blacklisted }, 
-      { multi: true }, 
+      field,
+      { blacklisted : req.body.blacklisted },
+      { multi: true },
       function(err, result) {
         if (err) return next(err);
 
@@ -106,8 +104,8 @@ module.exports = {
           res.status(422).send({ message : 'Visitor with given IP not found' });
         }
         else {
-          res.status(200).send({ 
-            visitor : result 
+          res.status(200).send({
+            visitor : result
           });
         }
       });
@@ -116,11 +114,11 @@ module.exports = {
   //Get visitors last week
   getVisitorsLastWeekCount: function(req, res, next) {
     Visitor.count(
-      { ownerID : req.body.ownerID }, 
+      { ownerID : req.body.ownerID },
       function(err, result) {
         if (err) return next(err);
-        res.status(200).send({ 
-          visitorsLastWeek : result 
+        res.status(200).send({
+          visitorsLastWeek : result
         });
       }).sort({date: -1});
   },
@@ -128,41 +126,41 @@ module.exports = {
   //Get number of live visitors
   getLiveVisitorsCount: function(req, res, next) {
     Visitor.count(
-      { ownerID : req.body.ownerID, live : true }, 
+      { ownerID : req.body.ownerID, live : true },
       function(err, result) {
         if (err) return next(err);
-        res.status(200).send({ 
-          liveVisitors : result 
+        res.status(200).send({
+          liveVisitors : result
         });
       }).sort({date: -1});
   },
 
   //Get a list of all visitors / visitors with email / anonymous visitors
   getVisitors: function(req, res, next) {
-    
+
     var json = '';
     var condition = '';
 
     if(req.params.filter == 'all'){
-      json = { 
-        ownerID  : req.body.ownerID 
+      json = {
+        ownerID  : req.body.ownerID
       };
     }
     else if(req.params.filter == 'known'){
-      json = { 
+      json = {
         ownerID: req.body.ownerID,
         email: { $ne: config.default_email }
       };
     }
     else if(req.params.filter == 'anonymous'){
-      json = { 
+      json = {
         ownerID: req.body.ownerID,
         email: config.default_email
       };
     }
 
     Visitor.find(
-      json, 
+      json,
       function(err, result) {
         if (err) return next(err);
 
@@ -170,8 +168,8 @@ module.exports = {
           res.status(422).send({ message : 'Visitor with given IP not found' });
         }
         else {
-          res.status(200).send({ 
-            visitor : result 
+          res.status(200).send({
+            visitor : result
           });
         }
       });
