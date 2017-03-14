@@ -106,9 +106,11 @@ module.exports = {
 
   //Blacklist a visitor
   blacklistVisitor: function(req, res, next) {
+    console.log('here...')
     Visitor.findOneAndUpdate(
       { '_id' : req.body.vid },
       { 'blacklisted' : true },
+      { upsert : true }, 
       function(err, result) {
         if (err) return next(err);
 

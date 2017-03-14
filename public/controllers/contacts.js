@@ -1,3 +1,10 @@
+// TODO
+//1. Owner can set Lead's nickname
+//2. Show if lead is hot, warm or cold next to Score
+//3. Owner can Blacklist or Block a lead 
+//4. Button to redirect to Messages page so Owner can see a lead's messages 
+//5. Delete and Blacklist confirmation buttons
+
 myApp.controller('contactsController', ['$scope', '$http', '$window', '$timeout', function($scope, $http, $window, $timeout){
 
     var baseUrl = "https://localhost:4731/api";
@@ -19,10 +26,10 @@ myApp.controller('contactsController', ['$scope', '$http', '$window', '$timeout'
     });
 
     //Delete a Lead
-    $scope.deleteLead = function(selectedLead){
+    $scope.deleteOrBlacklistLead = function(selectedLead, action){
         $http({
             method: 'POST',
-            url: 'api/visitor/archivevisitor',
+            url: 'api/visitor/' + action,
             data: $.param({
                 vid: selectedLead._id
             }),

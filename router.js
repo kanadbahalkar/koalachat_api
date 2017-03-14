@@ -144,6 +144,8 @@ module.exports = function(app, io) {
     visitorRouters.post('/updatevisitor', visitorController.updateVisitor);
     //Mark visitor as Archived
     visitorRouters.post('/archivevisitor', requireAuth, visitorController.archiveVisitor);
+    //Mark visitor as Blacklisted
+    visitorRouters.post('/blacklistvisitor', requireAuth, visitorController.blacklistVisitor);
     //Get a list of all visitors / visitors with email / anonymous visitors
     visitorRouters.post('/getvisitors/:filter', requireAuth, visitorController.getVisitors);
     //Get a number of unique visitors last week

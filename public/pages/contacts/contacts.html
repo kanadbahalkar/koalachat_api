@@ -39,7 +39,15 @@
             <td class="contact_visits"> {{ lead.totalNumberOfVisits }} </td>
             <td class="contact_bounced_in" style="text-transform: capitalize;"> {{ lead.lastVisitDuration | amDurationFormat : 'minute' }} </td>
             <td class="contact_score"> {{ lead.score }} </td>
-            <td class="contact_location"><a class="delete_faq" ng-show="showDelete" ng-click="deleteLead(lead)" style="float:left;"> <img src="assets/images/delete.svg" alt=""></a></td>
+            <td class="contact_location">
+                <a class="delete_faq" ng-show="showDelete" ng-click="deleteOrBlacklistLead(lead, 'archivevisitor')" style="float:left;"> 
+                    <img src="assets/images/delete.svg" alt="">
+                </a>
+
+                <a class="delete_faq" ng-show="showDelete" ng-click="deleteOrBlacklistLead(lead, 'blacklistvisitor')" style="float:left;margin-left:20px;"> 
+                    <img src="assets/images/blacklisted.svg" alt="">
+                </a>
+            </td>
         </tr>
     </table>
 </div>
