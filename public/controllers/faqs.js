@@ -28,7 +28,6 @@ myApp.controller('faqsController', ['$scope', '$location', '$window', '$http', '
                 .success(function (data, status, headers, config) {
                         if(data.sitedata){
                                 //Populate the FAQs in the view
-                                console.log('FAQ List Updated!');
                         }
                 })
                 .error(function (data, status, headers, config) {

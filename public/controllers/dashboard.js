@@ -53,6 +53,7 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
             }
         })
         .then(function (response) {
+            console.log(response);
             $scope.liveVisitorsCount = response.data.liveVisitors;
         });
     }

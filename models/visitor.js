@@ -52,6 +52,9 @@ const VisitorSchema = new Schema({
   },
   archived : { 
     type : Boolean 
+  },
+  live : { 
+    type : Boolean 
   }
 });
 

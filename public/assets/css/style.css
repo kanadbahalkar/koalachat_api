@@ -139,6 +139,17 @@ a {
     height: 140px;
 }
 
+.notification_dropdown {
+    position: fixed;
+    width: 160px;
+    height: 100px;
+    left: 225px;
+}
+
+.notification_dropdown .dropdown-triangle-up {
+    right: 110px;
+}
+
 .dropdown a {
     line-height: 40px;
     display: block;
@@ -163,7 +174,7 @@ a {
   top: 90px;
 }
 
-#dropdown-triangle-up {
+.dropdown-triangle-up {
 	width: 0;
 	height: 0;
 	border-left: 7px solid transparent;

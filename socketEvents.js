@@ -25,13 +25,20 @@ exports = module.exports = function (io) {
   // Set socket.io listeners.
   io.sockets.on('connection', function (socket) {
 
+    var socketID;
+    var userCategory;
+
     //1. Emit a starter event when a new connection (Owner or Visitor) occurs
     socket.emit('serve', 'New Connection!');
 
     //2. On receiving a reply from the connection, check who is connected (owner or visitor)
     socket.on('return', function (data) {
+
         //Save a new user
         if(data.visitor && data.newVisitor){
+
+          socketID = data.visitorID;
+          userCategory = 'visitor';
 
           var requestData = { 'ownerID' : data.ownerID };
           request({
@@ -50,6 +57,10 @@ exports = module.exports = function (io) {
           });
         }
         else if(data.visitor) {
+
+          socketID = data.visitorID;
+          userCategory = 'visitor';
+
           console.log('Visitor connected: ', data);
           //Update visitor attributes
           var requestData = { 'vid' : data.visitorID };
@@ -70,6 +81,10 @@ exports = module.exports = function (io) {
           sockets[data.visitorID] = socket;
         }
         else if(data.owner) {
+
+          socketID = data.ownerID;
+          userCategory = 'owner';
+
           console.log('Owner connected: ', data);
           sockets[data.ownerID] = socket;
         }
@@ -128,13 +143,28 @@ exports = module.exports = function (io) {
     });
 
     // Disconnect a Visitor
-    socket.on('disconnect', function (oid) {
-      socket.leave(oid);
+    socket.on('disconnect', function () {
+      console.log('SOCKUS: ', socketID);
+      if(userCategory == 'visitor'){
+        var requestData = { 'visitorID' : socketID, 'live' : false };
+        request({
+          url: 'https://localhost:4731/api/visitor/updatevisitorstatus',
+          method: "POST",
+          json: requestData,
+          headers: { 'content-type' : 'application/x-www-form-urlencoded' }
+        }, function(error, response, body){
+          if(error) console.log('ERROR: ', error);
+        });
+      }
+      
+      delete sockets.disconnectedSocket;
     });
 
     socket.on('allow anon', function (data) {
-      // For all the visitors sockets, send a message to update the jquery to show email
-      // sockets[data.ownerID].emit('allow anon', data.allowAnon);
+      // Broadcast to all visitors in Owner's room
+      // if(sockets[data.ownerID]){
+      //   sockets[data.ownerID].emit('ask for email', data.allowAnon);
+      // }
     });
   });
 }

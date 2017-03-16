@@ -106,7 +106,6 @@ module.exports = {
 
   //Blacklist a visitor
   blacklistVisitor: function(req, res, next) {
-    console.log('here...')
     Visitor.findOneAndUpdate(
       { '_id' : req.body.vid },
       { 'blacklisted' : true },
@@ -142,6 +141,7 @@ module.exports = {
           visitor.lastSeen = Date.now();
           visitor.totalNumberOfVisits = visitor.totalNumberOfVisits + 1 || 1;
           visitor.score = (visitor.totalNumberOfVisits * (visitor.lastVisitDuration / 1000)).toFixed(0) || 0;
+          visitor.live = true;
           visitor.save();
 
           res.status(200).send({
@@ -155,24 +155,46 @@ module.exports = {
   getVisitorsLastWeekCount: function(req, res, next) {
     Visitor.count(
       { ownerID : req.body.ownerID },
-      function(err, result) {
+      function(err, visitor) {
         if (err) return next(err);
         res.status(200).send({
-          visitorsLastWeek : result
+          visitorsLastWeek : visitor
         });
       }).sort({date: -1});
+  },
+
+  //Live or Offline visitor
+  updateVisitorStatus: function(req, res, next) {
+    
+    var reqData = JSON.parse(Object.keys(req.body)[0]);
+
+    Visitor.findOneAndUpdate(
+      { '_id' : reqData.visitorID },
+      { 'live' : reqData.live },
+      function(err, visitor) {
+        if (err) return next(err);
+
+        if(!visitor) {
+          res.status(422).send({ message : 'Visitor with given ID not found' });
+        }
+        else {
+          res.status(200).send({
+            'success' : 'Success'
+          });
+        }
+      });
   },
 
   //Get number of live visitors
   getLiveVisitorsCount: function(req, res, next) {
     Visitor.count(
       { ownerID : req.body.ownerID, live : true },
-      function(err, result) {
+      function(err, visitors) {
         if (err) return next(err);
         res.status(200).send({
-          liveVisitors : result
+          liveVisitors : visitors
         });
-      }).sort({date: -1});
+      });
   },
 
   //Get a list of all visitors / visitors with email / anonymous visitors

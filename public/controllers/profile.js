@@ -97,7 +97,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             }
         })
         .success(function(response) {
-            console.log(response);
+            socket.emit('allow anon', { ownerID: $scope.ownerID, allowAnon: response.allowAnonymous });
         })
         .error(function(err) {
             console.log(err);

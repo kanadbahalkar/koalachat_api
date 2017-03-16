@@ -11,7 +11,12 @@
         </div>
 
         <!--<div class="navbar-header">
-            <a class="navbar-brand notification" href="/"> <img src="/assets/images/notification.svg"/> </a>
+            <a class="navbar-brand notification" ng-click="isNotificationsOpen = !isNotificationsOpen"> <img src="/assets/images/notification.svg"/> </a>
+            <div ng-show="isNotificationsOpen" class="dropdown notification_dropdown">
+                <a href="/Messages/Inbox"> {{ newMessages || 0 }} New Messages </a>
+                <a href="/Contacts"> {{ newLeads || 0 }} New Leads </a>
+                <div class="dropdown-triangle-up"></div>
+            </div>
         </div>-->
 
         <div class="navbar-header nav-item">
@@ -48,7 +53,7 @@
                 <a href="/Profile">My Profile</a>
                 <a href="/KoalaBot/FAQs">FAQs</a>
                 <a href="" ng-click="logout()">Logout</a>
-                <div id="dropdown-triangle-up"></div>
+                <div class="dropdown-triangle-up"></div>
             </div>
         </div>
 

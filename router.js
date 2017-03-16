@@ -150,6 +150,8 @@ module.exports = function(app, io) {
     visitorRouters.post('/getvisitors/:filter', requireAuth, visitorController.getVisitors);
     //Get a number of unique visitors last week
     visitorRouters.post('/visitorslastweek', requireAuth, visitorController.getVisitorsLastWeekCount);
+    //Update visitor status
+    visitorRouters.post('/updatevisitorstatus', visitorController.updateVisitorStatus);
     //Get a number of live visitors
     visitorRouters.post('/livevisitorscount', requireAuth, visitorController.getLiveVisitorsCount);
 
