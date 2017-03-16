@@ -154,11 +154,11 @@ module.exports = {
   //Get visitors last week
   getVisitorsLastWeekCount: function(req, res, next) {
     Visitor.count(
-      { ownerID : req.body.ownerID },
-      function(err, visitor) {
+      { ownerID : req.body.ownerID, "lastSeen":{ $gt: new Date(Date.now() - 24*60*60*7 * 1000) } },
+      function(err, result) {
         if (err) return next(err);
         res.status(200).send({
-          visitorsLastWeek : visitor
+          visitorsLastWeek : result
         });
       }).sort({date: -1});
   },
