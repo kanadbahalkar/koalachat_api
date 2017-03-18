@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
 const MessageSchema = new Schema({  
-  conversationId: {
+  conversation: {
     type: Schema.Types.ObjectId,
     required: true
   },
@@ -13,6 +13,9 @@ const MessageSchema = new Schema({
   body: {
     type: String,
     required: true
+  },
+  channel: {
+    type: String
   },
   draft: {
     type: Boolean

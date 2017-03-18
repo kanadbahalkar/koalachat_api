@@ -12,6 +12,9 @@ const ConversationSchema = new Schema({
   archive: {
     type: Boolean
   }
+},
+{
+  timestamps: true
 });
 
 module.exports = mongoose.model('Conversation', ConversationSchema);

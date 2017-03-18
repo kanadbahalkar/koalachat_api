@@ -22,42 +22,110 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
     });
 
     //Get number of unique visitors last week
-    $scope.initDashboard = function() {
-        
-        //Get number of unique visitors last week
-        $http({
-            method: 'POST',
-            url: baseUrl + '/visitor/visitorslastweek',
-            data: $.param({
-                ownerID: $window.localStorage.userid
-            }),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': $window.localStorage.token
-            }
-        })
-        .then(function (response) {
-            $scope.visitorsLastWeekCount = response.data.visitorsLastWeek;
+    $http({
+        method: 'POST',
+        url: baseUrl + '/visitor/visitorslastweek',
+        data: $.param({
+            ownerID: $window.localStorage.userid
+        }),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': $window.localStorage.token
+        }
+    })
+    .then(function (response) {
+        $scope.visitorsLastWeekCount = response.data.visitorsLastWeek;
+    });
+
+    //Get number of live visitors
+    $http({
+        method: 'POST',
+        url: baseUrl + '/visitor/livevisitorscount',
+        data: $.param({
+            ownerID: $window.localStorage.userid
+        }),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': $window.localStorage.token
+        }
+    })
+    .then(function (response) {
+        $scope.liveVisitorsCount = response.data.liveVisitors;
+    });
+
+    //Get number of messages
+    $http({
+        method: 'POST',
+        url: baseUrl + '/chat/getallconversations',
+        data: $.param({
+            ownerID: $window.localStorage.userid
+        }),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': $window.localStorage.token
+        }
+    })
+    .then(function (response) {
+        $scope.messageCount = response.data.totalMessages;
+        $scope.conversationsCount = response.data.conversations.length;
+        $scope.conversations = response.data.conversations;
+
+        var dataForChart = [];
+        angular.forEach($scope.conversations, function(value, index) {
+            dataForChart.push({x: value.date, messagesCount: parseInt(value.messages.length)});
         });
 
-        //Get number of live visitors
-        $http({
-            method: 'POST',
-            url: baseUrl + '/visitor/livevisitorscount',
-            data: $.param({
-                ownerID: $window.localStorage.userid
-            }),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': $window.localStorage.token
+        //Draw messaging chart
+        $scope.options = {
+            series: [
+                {
+                    axis: "y",
+                    dataset: "timed",
+                    key: "messagesCount",
+                    label: "Conversations with Visitors: ",
+                    color: "#0B61FF",
+                    type: ['line', 'dot', 'area'],
+                    id: "mySeries0"
+                }
+            ],
+            axes: {
+                x: {
+                    key: "x",
+                    type: "date",
+                    ticks: 0
+                },
+                y: {
+                    ticks: 0
+                }
+            },
+            grid: {
+                x: false,
+                y: false
             }
-        })
-        .then(function (response) {
-            console.log(response);
-            $scope.liveVisitorsCount = response.data.liveVisitors;
+        };
+
+        if(dataForChart.length == 1){
+            $scope.data = {
+                timed: [
+                    {
+                        x: "2017-01-01T00:00:00.000Z",
+                        messagesCount: 0
+                    },
+                    dataForChart[0]   
+                ]
+            };
+        }
+        else {
+            $scope.data = {
+                timed: dataForChart
+            };
+        }
+        $scope.data.timed.forEach(function(row) {
+            row.x = new Date(row.x);
         });
-    }
-    
+    });
+
+
     //Get number of FAQs
     $scope.faqsCount = 0;
     $http({

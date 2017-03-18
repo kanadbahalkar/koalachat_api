@@ -89,16 +89,16 @@ module.exports = function(app, io) {
     // Chat routes
     apiRoutes.use('/chat', chatRoutes);
     // Retrieve all conversations between owner and visitor
-    chatRoutes.post('/conversations/:visitorid', requireAuth, chatController.getConversations);
+    chatRoutes.post('/getallconversations', requireAuth, chatController.getConversations);
     // Retrieve single conversation by id
-    chatRoutes.get('/conversation/:conversationId', requireAuth, chatController.getConversation);
+    chatRoutes.get('/getoneconversation', requireAuth, chatController.getConversation);
     // Send reply in conversation
-    chatRoutes.post('/reply/:conversationId', requireAuth, chatController.sendReply);
+    chatRoutes.post('/reply', chatController.sendReply);
     // Start new conversation
-    chatRoutes.post('/new/:recipient', chatController.newConversation);
+    chatRoutes.post('/newconversation', chatController.newConversation);
     // Delete a conversation
-    chatRoutes.post('/delete/:conversationId', requireAuth, chatController.deleteConversation);
-
+    chatRoutes.post('/deleteconversation', requireAuth, chatController.deleteConversation);
+    
     app.use(passport.initialize());
     app.use(passport.session());
 

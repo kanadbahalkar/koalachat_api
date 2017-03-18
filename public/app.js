@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook', 'googleplus', 'angularMoment']);
+var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook', 'googleplus', 'angularMoment', 'n3-line-chart']);
 
 myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, FacebookProvider, GooglePlusProvider){
 

@@ -4,7 +4,7 @@
 
 <topnav></topnav>
 
-<div class="analytics_snapshot" ng-init="initDashboard()">
+<div class="analytics_snapshot">
         <div class="analytics">
                 <p class="analytics_datapoint">{{ ongoingConversations || 0 }}</p>
                 <img class="tooltip_explainer" src="assets/images/tooltip.png" />
@@ -30,7 +30,7 @@
                         <tr>
                                 <td><img class="channel_icon" src="/assets/images/twitter_logo_blue.png" /></td>
                                 <td><p class="channel_name">Website</p></td>
-                                <td><p class="channel_messages" style="text-decoration: underline;">Coming Soon</p></td>
+                                <td><p class="channel_messages" style="text-decoration: underline;">{{ messageCount }} Messages</p></td>
                         </tr>
 
                         <tr>
@@ -62,9 +62,10 @@
         </div>
 
         <div class="messaging_overview messaging_growth">
-                <p class="chart_title">Messaging Growth</p>
-                <img class="dummy_chart" src="/assets/images/dummay_chart.svg" />
-                <p class="chart_axis_title">18,211 total audience, as of today</p>
+                <p class="chart_title">Conversations</p>
+                <linechart data="data" options="options" style="height: 140px"></linechart>
+                <!--<img class="dummy_chart" src="/assets/images/dummay_chart.svg" />-->
+                <p class="chart_axis_title">{{ conversationsCount }} Total Conversations</p>
         </div>
 </div>
 

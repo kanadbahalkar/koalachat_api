@@ -1,51 +1,51 @@
 "use strict";
 
-const Conversation = require('../models/conversation'),  
-      Message = require('../models/message'),
-      User = require('../models/user');
+const Conversation = require('../models/conversation'),
+  Message = require('../models/message'),
+  User = require('../models/user');
 
 module.exports = {
-  getConversations: function(req, res, next) {
-    
-    Conversation.find({ participants: req.params.visitorid })
-    .select('_id')
-    .sort('-createdAt')
-    .exec(function(err, conversations) {
-      if (err) {
-        res.send({ error: err });
-        return next(err);
-      }
 
-      let fullConversations = [];
-      if(conversations.length == 0) {
-        return res.status(200).json({ conversations: conversations });
-      }
-      else {
-        conversations.forEach(function(conversation) {
-          Message.find({ 'conversationId': conversation._id })
-            .populate({
-              path: 'sender',
-              select: 'profile.firstName profile.lastName'
-            })
-            .exec(function(err, message) {
-              if (err) {
-                res.send({ error: err });
-                return next(err);
-              }
-              fullConversations.push(message);
-              if(fullConversations.length === conversations.length) {
-                return res.status(200).json({ conversations: fullConversations });
-              }
-            });
-        });
-      }
-    });
+  getConversations: function (req, res, next) {
+
+    Conversation.find({ participants: req.body.ownerID })
+      .sort('-createdAt')
+      .exec(function (err, conversations) {
+        if (err) {
+          res.send({ error: err });
+          return next(err);
+        }
+
+        let fullConversations = [];
+        let totalMessages = 0;
+        if (conversations.length == 0) {
+          return res.status(200).json({ conversations: conversations });
+        }
+        else {
+          conversations.forEach(function (conversation) {
+            var conversationDate = conversation.createdAt;
+            Message.find({ 'conversation': conversation._id })
+              .exec(function (err, messages) {
+                if (err) {
+                  res.send({ error: err });
+                  return next(err);
+                }
+
+                totalMessages += messages.length;
+                fullConversations.push({messages: messages, date: conversationDate, messagesCount: messages.length});
+                if (fullConversations.length === conversations.length) {
+                  return res.status(200).json({ conversations: fullConversations, totalMessages: totalMessages });
+                }
+              });
+          });
+        }
+      });
   },
 
-  getConversation: function(req, res, next) {
-    Conversation.find({ conversationId: req.params.conversationid })
+  getConversation: function (req, res, next) {
+    Conversation.find({ conversationId: req.body.conversationid })
       .sort('-createdAt')
-      .exec(function(err, messages) {
+      .exec(function (err, messages) {
         if (err) {
           res.send({ error: err });
           return next(err);
@@ -55,85 +55,94 @@ module.exports = {
       });
   },
 
-  newConversation: function(req, res, next) {
-    
+  newConversation: function (req, res, next) {
+
     var reqData;
     try {
-        reqData = JSON.parse(Object.keys(req.body)[0]);
+      reqData = JSON.parse(Object.keys(req.body)[0]);
     } catch (e) {
-        reqData = req.body;
+      reqData = req.body;
     }
 
-    if(!req.params.recipient) {
+    if (!reqData.visitorID) {
       res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
       return next();
     }
 
-    if(!reqData.message) {
+    if (!reqData.message) {
       res.status(422).send({ error: 'Please enter a message.' });
       return next();
     }
 
     const conversation = new Conversation({
-      participants: [reqData.ownerID, req.params.recipient]
+      participants: [reqData.ownerID, reqData.visitorID]
     });
 
-    conversation.save(function(err, newConversation) {
+    conversation.save(function (err, conversation) {
       if (err) {
         res.send({ error: err });
         return next(err);
       }
 
       const message = new Message({
-        conversationId: newConversation._id,
+        conversation: conversation._id,
         body: reqData.message,
-        sender: reqData.ownerID
+        sender: reqData.senderID //Can be owner or visitor
       });
 
-      message.save(function(err, newMessage) {
+      message.save(function (err, message) {
         if (err) {
           res.send({ error: err });
           return next(err);
         }
 
-        res.status(200).json({ message: newMessage, conversationId: conversation._id });
+        res.status(200).json({ conversation: conversation });
         return next();
       });
     });
   },
 
-  sendReply: function(req, res, next) {
+  sendReply: function (req, res, next) {
+
+    var reqData;
+    try {
+      reqData = JSON.parse(Object.keys(req.body)[0]);
+    } catch (e) {
+      reqData = req.body;
+    }
 
     const reply = new Message({
-      conversationId: req.params.conversationId,
-      body: req.body.message,
-      sender: req.body.sender
+      conversation: reqData.conversation,
+      body: reqData.message,
+      sender: reqData.sender,
+      channel: reqData.channel
     });
 
-    reply.save(function(err, sentReply) {
+    reply.save(function (err, sentReply) {
       if (err) {
         res.send({ error: err });
         return next(err);
       }
 
-      res.status(200).json({ message: 'Reply successfully sent!' });
-      return(next);
+      res.status(200).json({ message: sentReply });
+      return (next);
     });
   },
 
   // DELETE Route to Delete Conversation
-  deleteConversation: function(req, res, next) {  
+  deleteConversation: function (req, res, next) {
     Conversation.findOneAndRemove({
-      $and : [
-              { '_id': req.params.conversationId }, { 'participants': req.body._id }
-            ]}, function(err) {
-          if (err) {
-            res.send({ error: err });
-            return next(err);
-          }
+      $and: [
+        { '_id': req.body.conversationId }, { 'participants': req.body._id }
+      ]
+    }, function (err) {
+      if (err) {
+        res.send({ error: err });
+        return next(err);
+      }
 
-          res.status(200).json({ message: 'Conversation removed!' });
-          return next();
+      res.status(200).json({ message: 'Conversation removed!' });
+      return next();
     });
   }
 }
