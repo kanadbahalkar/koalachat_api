@@ -9,8 +9,8 @@
 //8. USE NAMESPACES AND ROOMS FOR ROUTING TRAFFIC
 
 var request = require('request');
-var qs = require("querystring");
 var https = require("https");
+var url = require('url');
 
 request.defaults({
 	strictSSL: false, // allow us to use our self-signed cert for testing
@@ -21,9 +21,9 @@ exports = module.exports = function (io) {
 
 	//Create array of live sockets
 	var sockets = {};
-
+	
 	// Set socket.io listeners.
-	io.sockets.on('connection', function (socket) {
+	io.on('connection', function (socket) {
 
 		var socketID;
 		var userCategory;
@@ -60,8 +60,17 @@ exports = module.exports = function (io) {
 							if (error) console.log('ERROR: ', error);
 							socket.emit('new visitor', body.conversation.participants[1], body.conversation._id);
 							socket.emit('new visitor for admin', body.conversation.participants[1]);
-							sockets[body.conversation.participants[1]] = socket;
-							sockets[body.conversation.participants[0]] = socket;
+							
+							sockets[body.conversation.participants[1]] = {
+								socket: socket,
+								owner: body.conversation.participants[0],
+								visitor: body.conversation.participants[1]
+							};
+							sockets[body.conversation.participants[0]] = {
+								socket: socket,
+								owner: body.conversation.participants[1],
+								visitor: body.conversation.participants[0]
+							};
 						});
 					}
 				});
@@ -82,11 +91,13 @@ exports = module.exports = function (io) {
 				}, function (error, response, body) {
 					if (error) console.log('ERROR: ', error);
 					if (body.visitor) {
-						sockets[body.visitor._id] = socket;
-						sockets[data.ownerID] = socket;
+						sockets[body.visitor._id] = {
+							socket: socket,
+							owner: data.ownerID,
+							visitor: data.visitorID
+						};
 					}
 				});
-				sockets[data.visitorID] = socket;
 			}
 			else if (data.owner) {
 
@@ -94,17 +105,15 @@ exports = module.exports = function (io) {
 				userCategory = 'owner';
 
 				console.log('Owner connected: ', data);
-				sockets[data.ownerID] = socket;
+				sockets[data.ownerID] = {
+					socket: socket,
+					owner: data.ownerID
+				};
 			}
 		});
 
 		socket.on('send message', function (data) {
 			console.log(data);
-
-			//TODO - Emit message from visitor to Owner
-			if (data.to && sockets[data.to]) {
-				// sockets[data.to].emit('sent message', data);
-			}
 
 			//Get response from api.ai if the sender is visitor
 			if (data.sender == 'visitor' && data.email == false) {
@@ -122,15 +131,17 @@ exports = module.exports = function (io) {
 					//Send a reply
 					var replyBody = JSON.parse(body);
 					var replyFromApiai = { message: replyBody.reply };
-					sockets[data.from].emit('sent message', replyFromApiai);
+					sockets[data.from].socket.emit('sent message', replyFromApiai);
+					sockets[data.to].socket.emit('sent message', replyFromApiai);
 
 					if (replyBody.action == 'input.unknown') {
-						sockets[data.from].emit('ask for email', true);
+						sockets[data.from].socket.emit('ask for email', true);
 					}
 				});
 			}
 			else if (data.sender == 'visitor' && data.email == true) {
-				sockets[data.from].emit('sent message', { message: 'Thanks! Someone from our team will drop you an email as soon as possible. 😊' });
+				sockets[data.from].socket.emit('sent message', { message: 'Thanks! Someone from our team will drop you an email as soon as possible. 😊' });
+				sockets[data.to].socket.emit('sent message', { message: 'Thanks! Someone from our team will drop you an email as soon as possible. 😊' });
 				//mark visitor as a lead
 				request({
 					method: 'POST',
@@ -150,10 +161,11 @@ exports = module.exports = function (io) {
 			request({
 				url: 'https://localhost:4731/api/chat/reply',
 				method: "POST",
-				json: { 'conversation': data.conversation, 'message': data.message, 'sender': data.from, 'channel': data.channel },
+				json: { 'conversationID': data.conversationID, 'message': data.message, 'sender': data.from, 'channel': data.channel },
 				headers: { 'content-type': 'application/x-www-form-urlencoded' }
 			}, function (error, response, body) {
 				if (error) console.log('ERROR: ', error);
+				sockets[data.to].socket.emit('sent message', data);
 			});
 		});
 

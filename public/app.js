@@ -269,35 +269,6 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, F
     $locationProvider.html5Mode(true);
 });
 
-myApp.service('socket', ['$rootScope', function ($rootScope) {
-
-  //Establish socket connection
-  var socket = io.connect("https://localhost:4731");
-
-  return {
-    on: function (eventName, callback) {
-      socket.on(eventName, function () {
-        console.log('ON....', eventName);
-        var args = arguments;
-        $rootScope.$apply(function () {
-          callback.apply(socket, args);
-        });
-      });
-    },
-    emit: function (eventName, data, callback) {
-      socket.emit(eventName, data, function () {
-        console.log('EMITING....', eventName);
-        var args = arguments;
-        $rootScope.$apply(function () {
-          if (callback) {
-            callback.apply(socket, args);
-          }
-        });
-      })
-    }
-  };
-}]);
-
 myApp.run(function($window, $rootScope, $location, UserService) {
     $rootScope.$on('$routeChangeStart', function(event, nextRoute, currentRoute) {
         //1. FTU - User is registering / onboarding

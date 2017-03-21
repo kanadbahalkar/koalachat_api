@@ -47,6 +47,12 @@ const VisitorSchema = new Schema({
   nickname : { 
     type : String
   },
+  name : { 
+    type : String
+  },
+  phone : { 
+    type : String
+  },
   blacklisted : { 
     type : Boolean 
   },
@@ -55,6 +61,9 @@ const VisitorSchema = new Schema({
   },
   live : { 
     type : Boolean 
+  },
+  gender : { 
+    type : String 
   }
 });
 

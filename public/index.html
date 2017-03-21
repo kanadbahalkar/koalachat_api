@@ -30,18 +30,6 @@
 
         </header>
 
-        <script type="text/javascript">
-            var socket = io.connect("https://localhost:4731/");
-            socket.on('serve', function (data) {
-                if (typeof(Storage) !== "undefined") {
-                    if(localStorage.getItem('userid')) {
-                        socket.emit('return', { ownerID: localStorage.getItem('userid'), owner: true });
-                    }
-                } else {
-                    console.log('No Web Storage support! :`(');
-                }
-            });
-        </script>
         <div class="container">
 
         	<div ng-view></div>
@@ -73,6 +61,7 @@
     <script src="controllers/contacts.js"></script>
 
     <!-- Services -->
+    <script src="services/socket.service.js"></script>
     <script src="services/authentication.service.js"></script>
     <script src="services/user.service.js"></script>
     <script src="services/visitors.service.js"></script>

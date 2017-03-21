@@ -32,9 +32,13 @@ module.exports = {
                 }
 
                 totalMessages += messages.length;
-                fullConversations.push({messages: messages, date: conversationDate, messagesCount: messages.length});
+                fullConversations.push({ messages: messages, date: conversationDate, messagesCount: messages.length, conversationID: conversation._id });
+
                 if (fullConversations.length === conversations.length) {
-                  return res.status(200).json({ conversations: fullConversations, totalMessages: totalMessages });
+                  return res.status(200).json({ 
+                    conversations: fullConversations, 
+                    totalMessages: totalMessages 
+                  });
                 }
               });
           });
@@ -43,15 +47,14 @@ module.exports = {
   },
 
   getConversation: function (req, res, next) {
-    Conversation.find({ conversationId: req.body.conversationid })
+    Conversation.find({ participants: [req.body.ownerID, req.body.visitorID] })
       .sort('-createdAt')
       .exec(function (err, messages) {
         if (err) {
           res.send({ error: err });
           return next(err);
         }
-
-        res.status(200).json({ conversation: messages });
+        res.status(200).json({ conversations: messages });
       });
   },
 
@@ -112,7 +115,7 @@ module.exports = {
     }
 
     const reply = new Message({
-      conversation: reqData.conversation,
+      conversation: reqData.conversationID,
       body: reqData.message,
       sender: reqData.sender,
       channel: reqData.channel
@@ -133,7 +136,7 @@ module.exports = {
   deleteConversation: function (req, res, next) {
     Conversation.findOneAndRemove({
       $and: [
-        { '_id': req.body.conversationId }, { 'participants': req.body._id }
+        { '_id': req.body.conversationID }, { 'participants': req.body._id }
       ]
     }, function (err) {
       if (err) {

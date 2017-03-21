@@ -106,30 +106,24 @@
 
     <div class="visitor_profile">
         <div class="profile_pic_large">
-            <img src="assets/images/avatar.png" alt="">
-            <h2 class="user_name">Rachel Curtis</h2>
-            <h3 class="location">New york, USA</h3>
+            <img src="{{ selectedVisitor.profilePicture || 'assets/images/avatar.png' }}" alt="">
+            <input type="text" ng-model='selectedVisitor.name' class="user_name" placeholder="{{ selectedVisitor.name || 'Anonymous Koala'}}"/>
+            <h3 class="location">{{ selectedVisitor.location || 'Unknown City'}}</h3>
         </div>
         <div class="profile_edit">
             <p class="profile_title">Nickname</p>
-            <p class="visitor_nickname">Silentgirl </p>
+            <input type="text" ng-model='selectedVisitor.nickname' class="visitor_nickname" placeholder="{{ selectedVisitor.nickname || 'Tree Hugger'}}"/>
             <p class="profile_title">Email</p>
-            <p>rachelcurtis@itzpromo.com</p>
+            <input type="text" ng-model='selectedVisitor.email' class="visitor_nickname" placeholder="{{ selectedVisitor.email || 'anonymous@koala.com'}}"/>
             <p class="profile_title">Phone number</p>
-            <p>(805) 651-9088</p>
-            <div class="space-10"></div>
-            <p class="profile_title">Date of Birth</p>
-            <p>January 20,1990</p>
+            <input type="text" ng-model='selectedVisitor.phone' class="visitor_nickname" placeholder="{{ selectedVisitor.phone || '+1 617.777.7777'}}"/>
             <p class="profile_title">Gender</p>
-            <p>Female</p>
-            <p class="profile_title">Languages</p>
-            <p>English, French</p>
+            <input type="text" ng-model='selectedVisitor.gender' class="visitor_nickname" placeholder="{{ selectedVisitor.gender || 'Unknown'}}"/>
 
             <br><br>
             <a href="" class=""><img src="assets/images/edit_text.svg" alt=""> Like / Star</a> <br><br>
-            <a href="" class=""><img src="assets/images/edit_text.svg" alt=""> Edit Visitor Profile</a> <br><br>
-            <a href="" class=""><img src="assets/images/edit_text.svg" alt=""> Delete Visitor</a> <br><br>
-            <a href="" class=""><img src="assets/images/edit_text.svg" alt=""> Block Visitor</a> <br><br>
+            <a href="" class=""><img src="assets/images/delete.svg" alt=""> Delete Visitor</a> <br><br>
+            <a href="" class=""><img src="assets/images/blacklisted.svg" alt=""> Block Visitor</a> <br><br>
         </div>
     </div>
 </div>

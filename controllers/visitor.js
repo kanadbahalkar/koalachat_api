@@ -39,28 +39,27 @@ module.exports = {
     });
   },
 
-  //Set nickname for a visitor by email / id
-  setNickname: function(req, res, next) {
-    var json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
-    var field = JSON.parse(json);
+  //Update a visitor
+  updateVisitorProfile: function(req, res, next) {
+    
+    Visitor.findOne(
+      { '_id' : req.body.visitorID },
+      function(err, visitor) {
+        if (err) res.status(422).send({ message : 'Error: ' + err });
 
-    Visitor.update(
-      field,
-      { nickname : req.body.nickname },
-      { multi: true },
-      function(err, result) {
-        if (err) return next(err);
+        if(!visitor) res.status(422).send({ message : 'Visitor with given ID not found' });
+        
+        visitor.name = req.body.updatedName;
+        visitor.nickname = req.body.updatedNickname;
+        visitor.email = req.body.updatedEmail;
+        visitor.phone = req.body.updatedPhone;
+        visitor.gender = req.body.updatedGender;
+        
+        visitor.save();
 
-        if(!result) {
-          res.status(422).send({ message : 'Visitor with given email not found' });
-        }
-        else {
-          if( req.body.email != config.default_email ){
-            res.status(200).send({
-              visitor : result
-            });
-          }
-        }
+        res.status(200).send({
+          visitor : visitor
+        });
       });
   },
 
@@ -220,6 +219,11 @@ module.exports = {
       json = {
         ownerID: req.body.ownerID,
         email: config.default_email
+      };
+    }
+    else if(req.params.filter == 'one'){
+      json = {
+        _id: req.body.visitorID
       };
     }
 

@@ -89,9 +89,9 @@ module.exports = function(app, io) {
     // Chat routes
     apiRoutes.use('/chat', chatRoutes);
     // Retrieve all conversations between owner and visitor
-    chatRoutes.post('/getallconversations', requireAuth, chatController.getConversations);
-    // Retrieve single conversation by id
-    chatRoutes.get('/getoneconversation', requireAuth, chatController.getConversation);
+    chatRoutes.post('/getconversations', requireAuth, chatController.getConversations);
+    // Retrieve single conversation between participants
+    chatRoutes.post('/getoneconversation', requireAuth, chatController.getConversation);
     // Send reply in conversation
     chatRoutes.post('/reply', chatController.sendReply);
     // Start new conversation
@@ -137,7 +137,7 @@ module.exports = function(app, io) {
     //Create new visitor
     visitorRouters.post('/newvisitor', visitorController.registerVisitor);
     //Set nickname for a visitor
-    visitorRouters.post('/setnickname', requireAuth, visitorController.setNickname);
+    visitorRouters.post('/updatevisitorprofile', requireAuth, visitorController.updateVisitorProfile);
     //Set email for a visitor
     visitorRouters.post('/setemail', visitorController.setEmail);
     //Update visitor attribs

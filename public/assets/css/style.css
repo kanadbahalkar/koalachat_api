@@ -1121,14 +1121,42 @@ a.send {
     margin: 20px;
 }
 
-h2.user_name {
+.user_name {
     color: #FDFDFD;
     font-size: 16px;
     margin: 0px;
     line-height: 20px;
+    background: none;
+    border: none;
+    text-align: center;
 }
 
-h3.location {
+.user_name:focus{
+    text-align:left; 
+    content:''
+}
+
+.user_name:hover {
+    border-bottom: 1px solid white;
+}
+
+.user_name::-webkit-input-placeholder {
+   text-align: center;
+}
+
+.user_name:-moz-placeholder { /* Firefox 18- */
+   text-align: center;  
+}
+
+.user_name::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;  
+}
+
+.user_name:-ms-input-placeholder {  
+   text-align: center; 
+}
+
+.location {
     font-size: 14px;
     color: #FDFDFD;
     opacity: .4;
@@ -1153,6 +1181,13 @@ p.profile_title {
     text-decoration: none;
     line-height: 20px;
     margin-bottom: 20px;
+    background: none;
+    border: none;
+    width: 90%;
+}
+
+.visitor_nickname:hover {
+    border-bottom: solid 1px white;
 }
 
 .profile_edit a img {
