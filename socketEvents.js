@@ -1,7 +1,7 @@
 ////// TODO //////
 //1. Change Visitor status to Offline when they disconnect √
 //2. Change it back to Live when they reconnect √
-//3. Add a timestamp to the message sent by Visitor 
+//3. Add a timestamp to the message sent by Visitor
 //4. Remove the duplicate visitor error
 //5. Make plugin iframe clickthru / or atleast dynamic height
 //6. Stop sending error codes when the server is down or restarting
@@ -21,7 +21,7 @@ exports = module.exports = function (io) {
 
 	//Create array of live sockets
 	var sockets = {};
-	
+
 	// Set socket.io listeners.
 	io.on('connection', function (socket) {
 
@@ -60,7 +60,7 @@ exports = module.exports = function (io) {
 							if (error) console.log('ERROR: ', error);
 							socket.emit('new visitor', body.conversation.participants[1], body.conversation._id);
 							socket.emit('new visitor for admin', body.conversation.participants[1]);
-							
+
 							sockets[body.conversation.participants[1]] = {
 								socket: socket,
 								owner: body.conversation.participants[0],
@@ -171,6 +171,7 @@ exports = module.exports = function (io) {
 				headers: { 'content-type': 'application/x-www-form-urlencoded' }
 			}, function (error, response, body) {
 				if (error) console.log('ERROR: ', error);
+				//TODO: gives error when visitor id is in socket
 				sockets[data.to].socket.emit('sent message', data);
 			});
 		});
