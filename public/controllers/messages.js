@@ -17,6 +17,8 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
 
     socket.on('sent message', function (data) {
 
+        console.log(data);
+        
         //Save the message in DB
         if($scope.selectedConversationID == null){
             $http({
@@ -186,6 +188,33 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
                 });
             }, 3000);
         }
+    };
+
+    //Delete a Visitor
+    $scope.deleteOrBlacklistVisitor = function(selectedVisitor, action){
+        $http({
+            method: 'POST',
+            url: 'api/visitor/' + action,
+            data: $.param({
+                vid: selectedVisitor._id
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .success(function (data, status, headers, config) {
+            if(data.visitor){
+                var index = $scope.visitors.indexOf(selectedVisitor);
+                $scope.visitors.splice(index, 1);
+            }
+            else{
+                console.log('No visitor found! :(');
+            }
+        })
+        .error(function (data, status, headers, config) {
+            console.log('Error: ' + status);
+        });
     };
 
     $scope.$watch('selectedVisitor.name', saveProfileUpdates)

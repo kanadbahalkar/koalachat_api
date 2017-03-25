@@ -53,12 +53,20 @@
             <li ng-repeat= "visitor in visitors | filter:searchBox | orderBy: '-visitedAt'" 
                 style="cursor: pointer; cursor: hand;" 
                 ng-click="loadMessages(visitor)" 
-                ng-class="{ visitor_selected: visitor._id === selectedVisitorID }">
+                ng-class="{ visitor_selected: visitor._id === selectedVisitorID }"
+                ng-mouseenter="showDelete=true" ng-mouseleave="showDelete=false">
                 <a href="">
                     <img src="assets/images/avatar.png" alt="" class="profile_icon">
                     <div class="details">
                         <span class="name"> {{ visitor.email }} <span class="name_time"> {{ visitor.visitedAt | date:'MMM dd' }} </span> </span>
                         <span class="name_details">{{ visitor.channel }}</span>
+                        
+                        <span class="name_details" ng-show="showDelete" >
+                            <img src="assets/images/delete.svg" alt="" style="margin-right: 10px;" ng-click="deleteOrBlacklistVisitor(visitor, 'archivevisitor')" >
+                        </span>
+                        <span class="name_details" ng-show="showDelete" >
+                            <img src="assets/images/blacklisted.svg" alt="" style="height: 20px;" ng-click="deleteOrBlacklistVisitor(visitor, 'blacklistvisitor')" >
+                        </span>
                     </div>
                 </a>
             </li>
