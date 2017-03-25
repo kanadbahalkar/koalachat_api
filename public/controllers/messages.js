@@ -17,6 +17,8 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
 
     socket.on('sent message', function (data) {
 
+        console.log(data);
+
         //Save the message in DB
         if($scope.selectedConversationID == null){
             $http({
@@ -43,7 +45,6 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
             data.to = $scope.selectedVisitorID; 
             data.channel = 'Website';
             $scope.sendMessage(data);
-            console.log(data);
         }
     });
     
@@ -89,7 +90,6 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
             }
         })
         .then(function(data){
-            console.log(data);
             data.data.conversations.forEach(function(conversation, index, conversations){
                 $scope.selectedConversationStartDate = conversation.date;
                 if(conversation) {

@@ -113,8 +113,6 @@ exports = module.exports = function (io) {
 		});
 
 		socket.on('send message', function (data) {
-			console.log(data);
-
 			//Get response from api.ai if the sender is visitor
 			if (data.sender == 'visitor' && data.email == false) {
 				request({
@@ -129,8 +127,16 @@ exports = module.exports = function (io) {
 				}, function (error, response, body) {
 					if (error) throw new Error(error);
 					//Send a reply
+					console.log(data);
+					
 					var replyBody = JSON.parse(body);
-					var replyFromApiai = { message: replyBody.reply };
+					var replyFromApiai = { 
+						message: replyBody.reply,
+						// from: "58cc3218078f5b3729bbfbfc", 
+						// to: "58c434aeb993070948ea5759", 
+						// conversation: "58cc3218078f5b3729bbfbfd"
+					};
+					
 					sockets[data.from].socket.emit('sent message', replyFromApiai);
 					sockets[data.to].socket.emit('sent message', replyFromApiai);
 
