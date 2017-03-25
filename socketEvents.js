@@ -161,7 +161,7 @@ exports = module.exports = function (io) {
 			request({
 				url: 'https://localhost:4731/api/chat/reply',
 				method: "POST",
-				json: { 'conversationID': data.conversationID, 'message': data.message, 'sender': data.from, 'channel': data.channel },
+				json: { 'conversationID': data.conversation, 'message': data.message, 'sender': data.from, 'channel': data.channel },
 				headers: { 'content-type': 'application/x-www-form-urlencoded' }
 			}, function (error, response, body) {
 				if (error) console.log('ERROR: ', error);

@@ -18,11 +18,11 @@ const MessageSchema = new Schema({
     type: String
   },
   draft: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   sender: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+    type: String
   }
 },
 {
