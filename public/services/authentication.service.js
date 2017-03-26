@@ -1,13 +1,13 @@
 'use strict';
- 
+
 angular.module('myApp')
-    .factory('AuthenticationService', ['$http', '$window', function($http, $window){
-        var baseUrl = "https://localhost:4731/api";
-        
+    .factory('AuthenticationService', ['config', '$http', '$window', function(config, $http, $window){
+        var baseUrl = config.baseUrl;
+
         function changeUser(user) {
             angular.extend(currentUser, user);
         }
- 
+
         function urlBase64Decode(str) {
             var output = str.replace('-', '+').replace('_', '/');
             switch (output.length % 4) {
@@ -24,7 +24,7 @@ angular.module('myApp')
             }
             return window.atob(output);
         }
- 
+
         function getUserFromToken() {
             var token = $window.localStorage.token;
             var user = {};
@@ -34,9 +34,9 @@ angular.module('myApp')
             }
             return user;
         }
- 
+
         var currentUser = getUserFromToken();
- 
+
         return {
             register: function(data, success, error) {
                 $http({

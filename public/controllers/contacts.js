@@ -2,11 +2,11 @@
 //1. Owner can set Lead's nickname
 //2. Show if lead is hot, warm or cold next to Score
 //3. Delete and Blacklist confirmation buttons
-//4. Button to redirect to Messages page so Owner can see a lead's messages 
+//4. Button to redirect to Messages page so Owner can see a lead's messages
 
-myApp.controller('contactsController', ['$scope', '$http', '$window', '$timeout', function($scope, $http, $window, $timeout){
+myApp.controller('contactsController', ['config', '$scope', '$http', '$window', '$timeout', function(config, $scope, $http, $window, $timeout){
 
-    var baseUrl = "https://localhost:4731/api";
+    var baseUrl = config.baseUrl;
 
     //Get number of unique visitors last week
     $http({

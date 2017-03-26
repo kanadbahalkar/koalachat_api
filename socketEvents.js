@@ -11,6 +11,7 @@
 var request = require('request');
 var https = require("https");
 var url = require('url');
+var config = require('./config/main');
 
 request.defaults({
 	strictSSL: false, // allow us to use our self-signed cert for testing
@@ -42,7 +43,7 @@ exports = module.exports = function (io) {
 
 				var requestData = { 'ownerID': data.ownerID };
 				request({
-					url: 'https://localhost:4731/api/visitor/newvisitor',
+					url: config.api_server + 'api/visitor/newvisitor',
 					method: "POST",
 					json: requestData,
 					headers: { 'content-type': 'application/x-www-form-urlencoded' }
@@ -52,7 +53,7 @@ exports = module.exports = function (io) {
 						var vid = body.visitor._id;
 						//Create a new conversation when a new visitor is registered
 						request({
-							url: 'https://localhost:4731/api/chat/newconversation',
+							url: config.api_server + 'api/chat/newconversation',
 							method: "POST",
 							json: { 'ownerID': body.visitor.ownerID, 'visitorID': vid, 'message': 'New visitor joined!', 'sender': body.visitor.ownerID },
 							headers: { 'content-type': 'application/x-www-form-urlencoded' }
@@ -84,7 +85,7 @@ exports = module.exports = function (io) {
 				//Update visitor attributes
 				var requestData = { 'vid': data.visitorID };
 				request({
-					url: 'https://localhost:4731/api/visitor/updatevisitor',
+					url: config.api_server + 'api/visitor/updatevisitor',
 					method: "POST",
 					json: requestData,
 					headers: { 'content-type': 'application/x-www-form-urlencoded' }
@@ -117,7 +118,7 @@ exports = module.exports = function (io) {
 			if (data.sender == 'visitor' && data.email == false) {
 				request({
 					method: 'POST',
-					url: 'https://localhost:4731/api/apiai/sendmessagetoapiai',
+					url: config.api_server + 'api/apiai/sendmessagetoapiai',
 					headers: { 'content-type': 'application/x-www-form-urlencoded' },
 					form: {
 						question: data.message,
@@ -128,15 +129,15 @@ exports = module.exports = function (io) {
 					if (error) throw new Error(error);
 					//Send a reply
 					console.log(data);
-					
+
 					var replyBody = JSON.parse(body);
-					var replyFromApiai = { 
+					var replyFromApiai = {
 						message: replyBody.reply,
-						// from: "58cc3218078f5b3729bbfbfc", 
-						// to: "58c434aeb993070948ea5759", 
+						// from: "58cc3218078f5b3729bbfbfc",
+						// to: "58c434aeb993070948ea5759",
 						// conversation: "58cc3218078f5b3729bbfbfd"
 					};
-					
+
 					sockets[data.from].socket.emit('sent message', replyFromApiai);
 					if (sockets[data.to])
 						sockets[data.to].socket.emit('sent message', replyFromApiai);
@@ -152,7 +153,7 @@ exports = module.exports = function (io) {
 				//mark visitor as a lead
 				request({
 					method: 'POST',
-					url: 'https://localhost:4731/api/visitor/setemail',
+					url: config.api_server + 'api/visitor/setemail',
 					headers: { 'content-type': 'application/x-www-form-urlencoded' },
 					form: {
 						ownerID: data.to,
@@ -166,7 +167,7 @@ exports = module.exports = function (io) {
 
 			//Save ther message in database
 			request({
-				url: 'https://localhost:4731/api/chat/reply',
+				url: config.api_server + 'api/chat/reply',
 				method: "POST",
 				json: { 'conversationID': data.conversation, 'message': data.message, 'sender': data.from, 'channel': data.channel },
 				headers: { 'content-type': 'application/x-www-form-urlencoded' }
@@ -183,7 +184,7 @@ exports = module.exports = function (io) {
 			if (userCategory == 'visitor') {
 				var requestData = { 'visitorID': socketID, 'live': false };
 				request({
-					url: 'https://localhost:4731/api/visitor/updatevisitorstatus',
+					url: config.api_server + 'api/visitor/updatevisitorstatus',
 					method: "POST",
 					json: requestData,
 					headers: { 'content-type': 'application/x-www-form-urlencoded' }

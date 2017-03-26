@@ -1,9 +1,9 @@
 'use strict';
- 
+
 angular.module('myApp')
-    .factory('VisitorsService', ['$http', '$window', function($http, $window){
-        var baseUrl = "https://localhost:4731/api";
-        
+    .factory('VisitorsService', ['config', '$http', '$window', function(config, $http, $window){
+        var baseUrl = config.baseUrl;
+
         return {
             //Register a new visitor when they visit a website
             getVisitorsLastWeek: function(data, success, error) {
@@ -31,7 +31,7 @@ angular.module('myApp')
             //         method: 'POST',
             //         url: baseUrl + '/visitor/newvisitor',
             //         data: $.param({
-            //             ownerid: data.ownerid, 
+            //             ownerid: data.ownerid,
             //             visitorid: data.visitorid
             //         }),
             //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -46,7 +46,7 @@ angular.module('myApp')
             //         method: 'POST',
             //         url: baseUrl + '/visitor/blacklistvisitor',
             //         data: $.param({
-            //             ownerid: data.ownerid, 
+            //             ownerid: data.ownerid,
             //             visitorid: data.visitorid
             //         }),
             //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -61,7 +61,7 @@ angular.module('myApp')
             //         method: 'POST',
             //         url: baseUrl + '/visitor/setnickname',
             //         data: $.param({
-            //             ownerid: data.ownerid, 
+            //             ownerid: data.ownerid,
             //             visitorid: data.visitorid
             //         }),
             //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -76,7 +76,7 @@ angular.module('myApp')
             //         method: 'POST',
             //         url: baseUrl + '/visitor/setemail',
             //         data: $.param({
-            //             ownerid: data.ownerid, 
+            //             ownerid: data.ownerid,
             //             visitorid: data.visitorid
             //         }),
             //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -94,7 +94,7 @@ angular.module('myApp')
             //         method: 'POST',
             //         url: baseUrl + '/visitor/getvisitors/' + filter,
             //         data: $.param({
-            //             ownerid: data.ownerid, 
+            //             ownerid: data.ownerid,
             //             visitorid: data.visitorid
             //         }),
             //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}

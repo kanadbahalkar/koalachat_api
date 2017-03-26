@@ -1,9 +1,9 @@
 'use strict';
 
-myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '$routeParams', 'VisitorsService', 'UserService', function($http, $scope, $log, $window, $routeParams, VisitorsService, UserService){
+myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$window', '$routeParams', 'VisitorsService', 'UserService', function(config, $http, $scope, $log, $window, $routeParams, VisitorsService, UserService){
 
     //Get number of current visitors on the site
-    var baseUrl = "https://localhost:4731/api";
+    var baseUrl = config.baseUrl;
 
     var access_token = $routeParams.access_token;
     var userid = $routeParams.id;
@@ -139,7 +139,7 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
     $scope.faqsCount = 0;
     $http({
         method: 'POST',
-        url: 'https://localhost:4731/api/crawler/getfaqscount',
+        url: config.baseUrl + 'crawler/getfaqscount',
         data: $.param({
             ownerID: $window.localStorage.userid
         }),
