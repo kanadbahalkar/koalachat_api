@@ -264,11 +264,11 @@ a {
     height: 40px;
 }
 
-.navigation-items:last-of-type {
+/*.navigation-items:last-of-type {
     width: 100%;
     position: absolute;
     bottom: 20px;
-}
+}*/
 
 .navigation-items a {
     padding-left: 30px;
