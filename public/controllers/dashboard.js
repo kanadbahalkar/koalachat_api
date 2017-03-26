@@ -4,7 +4,7 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
 
     //Get number of current visitors on the site
     var baseUrl = "https://localhost:4731/api";
-    
+
     var access_token = $routeParams.access_token;
     var userid = $routeParams.id;
     if(access_token){
@@ -120,7 +120,7 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
                         x: "2017-01-01T00:00:00.000Z",
                         messagesCount: 0
                     },
-                    dataForChart[0]   
+                    dataForChart[0]
                 ]
             };
         }
@@ -164,7 +164,7 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
             angular.element(document.getElementsByClassName('growthhack_blurb')).append($scope.newFAQanswer);
         }
         else if($scope.addFAQButtonText == "Save FAQ" && $scope.newFAQquestion != "" && $scope.newFAQanswer != "") {
-                
+
             var newFAQ = {
                 question: $scope.newQuestion,
                 answer: $scope.newAnswer
@@ -188,9 +188,9 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
         $http({
             method: 'POST',
             url: 'api/apiai/createintent',
-            data: $.param({ 
-                ownerID: $window.localStorage.userid, 
-                intentQuestion: faq.question, 
+            data: $.param({
+                ownerID: $window.localStorage.userid,
+                intentQuestion: faq.question,
                 intentAnswer: faq.answer
             }),
             headers: {
@@ -246,5 +246,12 @@ myApp.controller('dashboardController', ['$http', '$scope', '$log', '$window', '
     //Get number of current conversations
 
     //Profanity filter
-    
+
+
+     var script = document.createElement('script');
+     script.setAttribute('src', "https://s3.amazonaws.com/koalachat/index.js");
+     script.setAttribute('id', 'koala-index');
+     script.setAttribute('u', "58d08e8aca25739231c90223");
+     jQuery('head').append(script);
+
 }]);

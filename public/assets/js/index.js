@@ -2,7 +2,7 @@
 $('#website').remove();
 
 // var oid = document.getElementById("koala-index").getAttribute("u");
-  
+
 toggleFab();
 
 //Fab click
@@ -168,7 +168,7 @@ function loginUser() {
         // $('#email').val('');
         $('#password').val('');
         // hideChat(false);
-      } 
+      }
       else if(!validateEmail(email) && !validatePassword(password)){
         $('.chat_login_alert').remove();
         var validationText = 'Hmmmm sneaky sneaky! 😉 Type in your email and password to get in... ';
@@ -178,7 +178,7 @@ function loginUser() {
         $('.chat_login_alert').remove();
         var validationText = 'Derp! Seems like this email id is not valid. Let’s try again... 😊';
         $('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
-      } 
+      }
       else if(!validatePassword(password)){
         $('.chat_login_alert').remove();
         var validationText = 'Derp! Seems like your password is a little too short. Let’s make it longer shall we... 😊';
@@ -190,11 +190,14 @@ function loginUser() {
 
 //Show Registration options
 $('#email_reg').click(function (e) {
+  console.log("inside register")
   if($('#website').length > 0){
     var website = $('#website').val();
     var email = $('#email').val();
     var password = $('#password').val();
-    if (jQuery.trim(email) !== '' && validateEmail(email) && validatePassword(password) && validateWebsite(website) && website.length > 0) {
+    //TODO add website validation
+    if (validateEmail(email) && validatePassword(password)) {
+      console.log("inside register index")
       loadBeat(true);
       angular.element($("#authController")).scope().register(website, email, password);
       loadBeat(false);
@@ -202,12 +205,12 @@ $('#email_reg').click(function (e) {
       // $('#email').val('');
       $('#password').val('');
       // hideChat(false);
-    } 
+    }
     else if(!validateEmail(email)){
       $('.chat_login_alert').remove();
       var validationText = 'Derp! Seems like this email id is not valid. Let’s try again... 😊';
       $('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
-    } 
+    }
     else if(!validatePassword(password)){
       $('.chat_login_alert').remove();
       var validationText = 'Derp! Seems like your password is a little too short. Let’s make it longer shall we... 😊';
@@ -217,9 +220,12 @@ $('#email_reg').click(function (e) {
       $('.chat_login_alert').remove();
       var validationText = 'Derp! Seems like your website field is empty. Chief Koala needs your website to sign you up... 😊';
       $('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
+    } else {
+      console.log("Failed");
     }
   }
   else{
+    console.log("here")
     $('.chat_login_alert').remove();
     $('#website').remove();
     $('<input id="website" name="website" placeholder="Your Website Link" class="chat_field chat_message" ng-model="website" ></input>').insertAfter('#gmail_login');
@@ -232,7 +238,7 @@ $('#email').keypress(function (e) {
   if(key == 13)
     {
       $('#email_login').click();
-      return false;  
+      return false;
     }
 });
 
@@ -241,7 +247,7 @@ $('#password').keypress(function (e) {
   if(key == 13)
   {
     $('#email_login').click();
-    return false;  
+    return false;
   }
 });
 
