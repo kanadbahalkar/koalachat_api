@@ -58,6 +58,7 @@
                 ng-mouseenter="showDelete=true" ng-mouseleave="showDelete=false">
                 <a href="">
                     <img src="assets/images/avatar.png" alt="" class="profile_icon">
+                    <div ng-class="{green_circle: visitor.live == true}"></div>
                     <div class="details">
                         <span class="name"> {{ visitor.email }} <span class="name_time"> {{ visitor.visitedAt | date:'MMM dd' }} </span> </span>
                         <span class="name_details">{{ visitor.channel }}</span>
