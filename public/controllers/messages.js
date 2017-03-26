@@ -17,8 +17,6 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
 
     socket.on('sent message', function (data) {
 
-        console.log(data);
-
         //Save the message in DB
         if($scope.selectedConversationID == null){
             $http({

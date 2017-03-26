@@ -7,19 +7,19 @@
 <div class="analytics_snapshot">
         <div class="analytics">
                 <p class="analytics_datapoint">{{ leadsCollected || 0 }}</p>
-                <img class="tooltip_explainer" src="assets/images/tooltip.png" />
+                <img class="tooltip_explainer" src="assets/images/tooltip.png" tooltips tooltip-template="Leads are people who shared their email with you" tooltip-side="right"/>
                 <p class="analytics_explainer">Leads Collected</p>
         </div>
         <div class="analytics">
                 <p class="analytics_datapoint">{{ visitorsLastWeekCount || 0 }}</p>
                 <!--<p class="analytics_datapoint">181,239</p>-->
-                <img class="tooltip_explainer" src="assets/images/tooltip.png" />
+                <img class="tooltip_explainer" src="assets/images/tooltip.png" tooltips tooltip-template="Shows you how popular was your site last week" tooltip-side="right"/>
                 <p class="analytics_explainer">Website Visitors Last Week</p>                
         </div>
         <div class="analytics">
                 <!--<p class="analytics_datapoint">316</p>-->
                 <p class="analytics_datapoint">{{ liveVisitorsCount || 0 }}</p>
-                <img class="tooltip_explainer" src="assets/images/tooltip.png" />
+                <img class="tooltip_explainer" src="assets/images/tooltip.png" tooltips tooltip-template="You can message any of these people from Inbox" tooltip-side="right"/>
                 <p class="analytics_explainer">Current Visitors on Site</p>                
         </div>
 </div>

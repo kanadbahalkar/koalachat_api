@@ -22,6 +22,7 @@
     "ngstorage": "^0.3.11",
     "angular-google-chart": "^0.1.0",
     "d3": "^4.7.3",
-    "n3-line-chart": "^2.0.28"
+    "n3-line-chart": "^2.0.28",
+    "angular-tooltips": "^1.1.10"
   }
 }
