@@ -138,7 +138,8 @@ exports = module.exports = function (io) {
 					};
 					
 					sockets[data.from].socket.emit('sent message', replyFromApiai);
-					sockets[data.to].socket.emit('sent message', replyFromApiai);
+					if (sockets[data.to])
+						sockets[data.to].socket.emit('sent message', replyFromApiai);
 
 					if (replyBody.action == 'input.unknown') {
 						sockets[data.from].socket.emit('ask for email', true);
@@ -172,7 +173,8 @@ exports = module.exports = function (io) {
 			}, function (error, response, body) {
 				if (error) console.log('ERROR: ', error);
 				//TODO: gives error when visitor id is in socket
-				sockets[data.to].socket.emit('sent message', data);
+				if (sockets[data.to])
+					sockets[data.to].socket.emit('sent message', data);
 			});
 		});
 
