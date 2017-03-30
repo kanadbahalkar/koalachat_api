@@ -1,7 +1,7 @@
-myApp.controller('profileController', ['$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook','GooglePlus', function($scope, $location, $http, $window, AuthenticationService, Facebook, GooglePlus){
+myApp.controller('profileController', ['config', '$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook','GooglePlus', function(config, $scope, $location, $http, $window, AuthenticationService, Facebook, GooglePlus){
 
-    var baseUrl = "https://localhost:4731/api";
-    var socket = io.connect("https://localhost:4731/");
+    var baseUrl = config.baseUrl;
+    var socket = io.connect(config.socketUrl);
 
     $scope.token = $window.localStorage.token;
     $scope.ownerID = $window.localStorage.userid;
@@ -153,13 +153,13 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     //Update business name
 
     //Update social profileFields
-    function updateSocial(provider, response) { 
+    function updateSocial(provider, response) {
         var managedPages = '';
         var managedPagesCount = 0;
         if(provider === 'facebook'){
             managedPages = JSON.stringify(response.accounts.data);
             managedPagesCount = response.accounts.data.length;
-        
+
             $http({
                 method: 'POST',
                 url: baseUrl + '/profile/updatesocial',

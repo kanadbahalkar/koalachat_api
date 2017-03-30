@@ -1,4 +1,4 @@
-myApp.controller('faqsController', ['$scope', '$location', '$window', '$http', '$timeout', function($scope, $location, $window, $http, $timeout){
+myApp.controller('faqsController', ['config', '$scope', '$location', '$window', '$http', '$timeout', function(config, $scope, $location, $window, $http, $timeout){
 
         $scope.addFAQButtonText = "Add a New FAQ";
         $scope.faqlist = [];
@@ -52,7 +52,7 @@ myApp.controller('faqsController', ['$scope', '$location', '$window', '$http', '
                         $scope.addFAQButtonText = "Save FAQ";
                 }
                 else if($scope.addFAQButtonText == "Save FAQ" && $scope.faqlist[0].question != "" && $scope.faqlist[0].answer != "") {
-                        
+
                         newFAQ.question = $scope.faqlist[0].question;
                         newFAQ.answer = $scope.faqlist[0].answer;
 
@@ -134,7 +134,7 @@ myApp.controller('faqsController', ['$scope', '$location', '$window', '$http', '
 
         $http({
                 method: 'POST',
-                url: 'https://localhost:4731/api/crawler/retrievefaqs',
+                url: config.baseUrl + 'crawler/retrievefaqs',
                 data: $.param({
                         ownerID: $window.localStorage.userid
                 }),

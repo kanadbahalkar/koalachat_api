@@ -1,6 +1,6 @@
-angular.module('myApp').service('SocketService', ["$rootScope", function ($rootScope) {
+angular.module('myApp').service('SocketService', ["config", "$rootScope", function (config, $rootScope) {
 
-    var socket = io.connect("https://localhost:4731/");
+    var socket = io.connect(config.socketUrl);
     socket.on('serve', function (data) {
         if (typeof(Storage) !== "undefined") {
             if(localStorage.getItem('userid')) {
@@ -16,5 +16,5 @@ angular.module('myApp').service('SocketService', ["$rootScope", function ($rootS
             return socket;
         }
     };
-    
+
 }]);

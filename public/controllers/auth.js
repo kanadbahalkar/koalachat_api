@@ -1,9 +1,9 @@
 'use strict';
 
-myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$scope', '$location', '$window', '$ocLazyLoad', '$http', 'UserService', 'AuthenticationService', 
-    function($route, $routeParams, $rootScope, $scope, $location, $window, $ocLazyLoad, $http, UserService, AuthenticationService){
+myApp.controller('authController', ['config', '$route', '$routeParams', '$rootScope', '$scope', '$location', '$window', '$ocLazyLoad', '$http', 'UserService', 'AuthenticationService',
+    function(config, $route, $routeParams, $rootScope, $scope, $location, $window, $ocLazyLoad, $http, UserService, AuthenticationService){
 
-    var baseUrl = "https://localhost:4731/api";
+    var baseUrl = config.baseUrl;
 
     //Lazy load the pluin UI
     $ocLazyLoad.load(['jqueryUI', 'pluginUI'], {cache: true, serie: true});
@@ -29,7 +29,7 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
             console.log(response.data.user.email, ' ', $window.localStorage.useremail);
 
             //Check if returned user is the same as the one in localStorage
-            if( $window.localStorage.userid == response.data.user._id && 
+            if( $window.localStorage.userid == response.data.user._id &&
                 $window.localStorage.useremail == response.data.user.email){
                 //Redirect the user to the Dashboard
                 $window.location = '/Overview';
@@ -40,12 +40,12 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
     //Hook up Auth API
     //Login
     $scope.login = function() {
-        
+
         var formData = {
             email: $scope.email,
             password: $scope.password
         }
-        
+
         AuthenticationService.login(formData, function(res) {
             if (res.type == false) {
                 $log.error(res);
@@ -103,13 +103,13 @@ myApp.controller('authController', ['$route', '$routeParams', '$rootScope', '$sc
             $window.localStorage.removeItem(user);
             $window.localStorage.removeItem(userid);
             $window.localStorage.removeItem(useremail);
-            $window.localStorage.removeItem(userwebsite); 
+            $window.localStorage.removeItem(userwebsite);
             $window.localStorage.removeItem(userfullname);
             $window.location = '/login'
         }, function() {
             $log.error('Logout Failed!');
         });
     };
-    
+
     $scope.token = $window.localStorage.token;
 }]);

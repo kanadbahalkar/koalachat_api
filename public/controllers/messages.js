@@ -1,4 +1,4 @@
-myApp.controller('messagesController', ['$scope', '$location', '$http', '$window', '$filter', '$timeout', 'SocketService', function($scope, $location, $http, $window, $filter, $timeout, SocketService){
+myApp.controller('messagesController', ['config', '$scope', '$location', '$http', '$window', '$filter', '$timeout', 'SocketService', function(config, $scope, $location, $http, $window, $filter, $timeout, SocketService){
 
     $scope.messages = [];
     var ownerID = $window.localStorage.userid;
@@ -21,7 +21,7 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
         if($scope.selectedConversationID == null){
             $http({
                 method: 'POST',
-                url: 'https://localhost:4731/api/chat/getconversations/',
+                url: config.baseUrl + 'chat/getconversations/',
                 data: $.param({
                     ownerID: $window.localStorage.userid
                 }),
@@ -40,17 +40,17 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
         else {
             data.conversationID = $scope.selectedConversationID;
             data.from = $window.localStorage.userid;
-            data.to = $scope.selectedVisitorID; 
+            data.to = $scope.selectedVisitorID;
             data.channel = 'Website';
             $scope.sendMessage(data);
         }
     });
-    
+
     //3. Get a list of website visitors
     $scope.loadVisitors = function() {
         $http({
             method: 'POST',
-            url: 'https://localhost:4731/api/visitor/getvisitors/all',
+            url: config.baseUrl + 'visitor/getvisitors/all',
             data: $.param({
                 ownerID: ownerID
             }),
@@ -75,10 +75,10 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
         $scope.selectedVisitor = visitor;
         $scope.selectedVisitorID = visitor._id;
         $scope.messages = [];
-        
+
         $http({
             method: 'POST',
-            url: 'https://localhost:4731/api/chat/getconversations/',
+            url: config.baseUrl + 'chat/getconversations/',
             data: $.param({
                 ownerID: ownerID
             }),
@@ -93,16 +93,16 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
                 if(conversation) {
                     conversation.messages.forEach(function(message, index, messages){
                         var sender = (message.sender && message.sender._id == ownerID) ? ownerID : 'visitorID'
-                        
+
                         if(message && message.body != 'New visitor joined!'){
                             var data = {
-                                message: message.body, 
-                                from: sender, 
+                                message: message.body,
+                                from: sender,
                                 to: $scope.selectedVisitorID,
                                 createdAt: message.createdAt,
                                 conversationID: message.conversation
                             }
-                            
+
                             $scope.messages = $scope.messages.concat(data);
                             $scope.messages = $filter('orderBy')($scope.messages, 'createdAt');
                         }
@@ -113,16 +113,16 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
     };
 
     //Get earliest conversationID
-    $scope.setConversationID = function(message) { 
+    $scope.setConversationID = function(message) {
         $scope.selectedConversationID = message.conversationID;
     }
 
     $scope.getMessageBody = function(){
         if($scope.messageText != undefined && !$scope.messageText.trim() == ""){
             var data = {
-                message: $scope.messageText, 
+                message: $scope.messageText,
                 from: ownerID,
-                to: $scope.selectedVisitorID, 
+                to: $scope.selectedVisitorID,
                 conversation: $scope.selectedConversationID,
                 channel: 'Website'
             }
@@ -144,7 +144,7 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
             //Send replies in this conversation
             $http({
                 method: 'POST',
-                url: 'https://localhost:4731/api/chat/reply/',
+                url: config.baseUrl + 'chat/reply/',
                 data: $.param({
                     conversationID: $scope.selectedConversationID,
                     message: $scope.messageText,
@@ -169,7 +169,7 @@ myApp.controller('messagesController', ['$scope', '$location', '$http', '$window
             $timeout(function() {
                 $http({
                     method: 'POST',
-                    url: 'https://localhost:4731/api/visitor/updatevisitorprofile',
+                    url: config.baseUrl + 'visitor/updatevisitorprofile',
                     data: $.param({
                         visitorID: $scope.selectedVisitorID,
                         updatedName: $scope.selectedVisitor.name,
