@@ -1,7 +1,7 @@
 myApp.controller('profileController', ['config', '$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook','GooglePlus', function(config, $scope, $location, $http, $window, AuthenticationService, Facebook, GooglePlus){
 
     var baseUrl = config.baseUrl;
-    var socket = io.connect(config.socketUrl);
+    var socket = io.connect(config.socketUrl, { secure: true }); 
 
     $scope.token = $window.localStorage.token;
     $scope.ownerID = $window.localStorage.userid;

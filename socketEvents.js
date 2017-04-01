@@ -128,15 +128,19 @@ exports = module.exports = function (io) {
 				}, function (error, response, body) {
 					if (error) throw new Error(error);
 					//Send a reply
-					console.log(data);
-
+					console.log('Sent Message: ', data);
+					
 					var replyBody = JSON.parse(body);
+					
 					var replyFromApiai = {
 						message: replyBody.reply,
-						// from: "58cc3218078f5b3729bbfbfc",
-						// to: "58c434aeb993070948ea5759",
-						// conversation: "58cc3218078f5b3729bbfbfd"
+						sender: 'owner',
+						from: data.to,
+						to: data.from,
+						conversation: data.conversation,
+						channel: 'Website'
 					};
+					console.log('Reply from API.ai: ', replyFromApiai);
 
 					sockets[data.from].socket.emit('sent message', replyFromApiai);
 					if (sockets[data.to])
@@ -165,18 +169,21 @@ exports = module.exports = function (io) {
 				});
 			}
 
+			//TODO: gives error when visitor id is in socket
+			if (sockets[data.to])
+				sockets[data.to].socket.emit('sent message', data);
+
 			//Save ther message in database
-			request({
-				url: config.api_server + 'api/chat/reply',
-				method: "POST",
-				json: { 'conversationID': data.conversation, 'message': data.message, 'sender': data.from, 'channel': data.channel },
-				headers: { 'content-type': 'application/x-www-form-urlencoded' }
-			}, function (error, response, body) {
-				if (error) console.log('ERROR: ', error);
-				//TODO: gives error when visitor id is in socket
-				if (sockets[data.to])
-					sockets[data.to].socket.emit('sent message', data);
-			});
+			if(!data.sender){
+				request({
+					url: config.api_server + 'api/chat/reply',
+					method: "POST",
+					json: { 'conversationID': data.conversation, 'message': data.message, 'sender': data.from, 'channel': data.channel },
+					headers: { 'content-type': 'application/x-www-form-urlencoded' }
+				}, function (error, response, body) {
+					if (error) console.log('ERROR: ', error);
+				});
+			}
 		});
 
 		// Disconnect a Visitor

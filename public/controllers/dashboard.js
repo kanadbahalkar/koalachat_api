@@ -139,7 +139,7 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
     $scope.faqsCount = 0;
     $http({
         method: 'POST',
-        url: config.baseUrl + 'crawler/getfaqscount',
+        url: config.baseUrl + '/crawler/getfaqscount',
         data: $.param({
             ownerID: $window.localStorage.userid
         }),

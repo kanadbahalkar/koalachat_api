@@ -1,6 +1,6 @@
 angular.module('myApp').service('SocketService', ["config", "$rootScope", function (config, $rootScope) {
 
-    var socket = io.connect(config.socketUrl);
+    var socket = io.connect(config.socketUrl, { secure: true }); 
     socket.on('serve', function (data) {
         if (typeof(Storage) !== "undefined") {
             if(localStorage.getItem('userid')) {

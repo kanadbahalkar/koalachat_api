@@ -10,6 +10,7 @@ myApp.controller('authController', ['config', '$route', '$routeParams', '$rootSc
 
     //Check if the user is already logged in
     if($window.localStorage.token && $window.localStorage.userid && $window.localStorage.useremail){
+
         //Get number of unique visitors last week
         $http({
             method: 'POST',

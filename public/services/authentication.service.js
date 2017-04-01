@@ -49,6 +49,7 @@ angular.module('myApp')
                 .error(error);
             },
             login: function(data, success, error) {
+                console.log(baseUrl + '/auth/login');
                 $http({
                     method: 'POST',
                     url: baseUrl + '/auth/login',

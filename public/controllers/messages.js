@@ -21,7 +21,7 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
         if($scope.selectedConversationID == null){
             $http({
                 method: 'POST',
-                url: config.baseUrl + 'chat/getconversations/',
+                url: config.baseUrl + '/chat/getconversations/',
                 data: $.param({
                     ownerID: $window.localStorage.userid
                 }),
@@ -38,10 +38,6 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
             });
         }
         else {
-            data.conversationID = $scope.selectedConversationID;
-            data.from = $window.localStorage.userid;
-            data.to = $scope.selectedVisitorID;
-            data.channel = 'Website';
             $scope.sendMessage(data);
         }
     });
@@ -50,7 +46,7 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
     $scope.loadVisitors = function() {
         $http({
             method: 'POST',
-            url: config.baseUrl + 'visitor/getvisitors/all',
+            url: config.baseUrl + '/visitor/getvisitors/all',
             data: $.param({
                 ownerID: ownerID
             }),
@@ -78,7 +74,7 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
 
         $http({
             method: 'POST',
-            url: config.baseUrl + 'chat/getconversations/',
+            url: config.baseUrl + '/chat/getconversations/',
             data: $.param({
                 ownerID: ownerID
             }),
@@ -92,17 +88,15 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
                 $scope.selectedConversationStartDate = conversation.date;
                 if(conversation) {
                     conversation.messages.forEach(function(message, index, messages){
-                        var sender = (message.sender && message.sender._id == ownerID) ? ownerID : 'visitorID'
-
                         if(message && message.body != 'New visitor joined!'){
                             var data = {
                                 message: message.body,
-                                from: sender,
+                                from: message.sender,
                                 to: $scope.selectedVisitorID,
                                 createdAt: message.createdAt,
                                 conversationID: message.conversation
                             }
-
+                            
                             $scope.messages = $scope.messages.concat(data);
                             $scope.messages = $filter('orderBy')($scope.messages, 'createdAt');
                         }
@@ -130,7 +124,6 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
             socket.emit('send message', data);
             $scope.messages = $scope.messages.concat(data);
             $scope.messageText = null;
-            //$scope.sendMessage(data);
         }
     }
 
@@ -144,12 +137,12 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
             //Send replies in this conversation
             $http({
                 method: 'POST',
-                url: config.baseUrl + 'chat/reply/',
+                url: config.baseUrl + '/chat/reply/',
                 data: $.param({
-                    conversationID: $scope.selectedConversationID,
-                    message: $scope.messageText,
+                    conversationID: data.conversation,
+                    message: data.message,
                     sender: data.from,
-                    channel: 'Website'
+                    channel: data.channel
                 }),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -169,7 +162,7 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
             $timeout(function() {
                 $http({
                     method: 'POST',
-                    url: config.baseUrl + 'visitor/updatevisitorprofile',
+                    url: config.baseUrl + '/visitor/updatevisitorprofile',
                     data: $.param({
                         visitorID: $scope.selectedVisitorID,
                         updatedName: $scope.selectedVisitor.name,

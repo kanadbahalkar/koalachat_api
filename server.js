@@ -8,7 +8,8 @@ const express = require('express'),
       socketEvents = require('./socketEvents'),
       passport = require('passport'),
       router = require('./router'),
-      session = require('express-session');
+      session = require('express-session'),
+      os = require("os");
 
 //Setup HTTPS
 var fs = require('fs');
@@ -44,7 +45,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(session({
     secret: 'SECRET',

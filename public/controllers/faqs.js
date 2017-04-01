@@ -134,7 +134,7 @@ myApp.controller('faqsController', ['config', '$scope', '$location', '$window', 
 
         $http({
                 method: 'POST',
-                url: config.baseUrl + 'crawler/retrievefaqs',
+                url: config.baseUrl + '/crawler/retrievefaqs',
                 data: $.param({
                         ownerID: $window.localStorage.userid
                 }),
