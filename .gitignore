@@ -2,6 +2,10 @@
 node_modules/
 npm-debug.log
 public/bower_components/
+
+#include d3
+!public/bower_components/d3/
+!public/bower_components/d3/*
 .gitignore
 /*.env
 *.DS_Store
