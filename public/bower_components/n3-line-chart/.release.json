@@ -1,0 +1,18 @@
+{
+    "non-interactive": true,
+    "dry-run": false,
+    "verbose": true,
+    "buildCommand": "gulp travis:angularjs && gulp travis:react && gulp && cp -a .tmp/build build",
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": false,
+      "releaseName": "Release %s",
+      "tokenRef": "GITHUB_TOKEN"
+    },
+    "dist": {
+      "repo": false,
+      "baseDir": "."
+    }
+}

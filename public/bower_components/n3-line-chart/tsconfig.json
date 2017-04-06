@@ -1,0 +1,13 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "sourceMap": true,
+        "out": "build/LineChart.js"
+    },
+    "files": [
+        "./src/angularjs/module.ts",
+        "./src/react/LineChart.ts"
+    ]
+}
