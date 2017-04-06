@@ -251,7 +251,7 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
      var script = document.createElement('script');
      script.setAttribute('src', "https://s3.amazonaws.com/koalachat/index.js");
      script.setAttribute('id', 'koala-index');
-     script.setAttribute('u', "58d08e8aca25739231c90223");
+     script.setAttribute('u', "58d08da84409aa91be05190c");
      jQuery('head').append(script);
 
 }]);
