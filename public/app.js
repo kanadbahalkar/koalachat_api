@@ -1,10 +1,10 @@
 var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook', 'googleplus', 'angularMoment', 'n3-line-chart', '720kb.tooltips']);
 
 myApp.constant('config', {
-  baseUrl:'https://localhost:4731/api',
-  socketUrl:'https://localhost:4731/'
-//   baseUrl: 'https://ec2-54-186-217-17.us-west-2.compute.amazonaws.com:4731/api/',
-//   socketUrl: 'https://ec2-54-186-217-17.us-west-2.compute.amazonaws.com:4731/'
+//   baseUrl:'https://localhost:4731/api',
+//   socketUrl:'https://localhost:4731/'
+  baseUrl: 'https://ec2-54-186-217-17.us-west-2.compute.amazonaws.com:4731/api/',
+  socketUrl: 'https://ec2-54-186-217-17.us-west-2.compute.amazonaws.com:4731/'
 });
 
 myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, FacebookProvider, GooglePlusProvider){
