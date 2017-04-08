@@ -97,10 +97,11 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
     $scope.setBusinessName = function () {
         $http({
 			method: 'POST',
-			url: '/api/profile/setbusinessname',
+			url: '/api/profile/updateownerinfo',
 			data: $.param({
                 ownerID: $window.localStorage.userid, 
-                businessName: $scope.businessName
+                fieldname : 'businessName',
+                fieldvalue: $scope.businessName
             }),
 			headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -120,7 +121,10 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         $http({
             method: 'POST',
             url: 'api/widget/embedcode',
-            data: $.param({userID: $window.localStorage.userid}),
+            data: $.param({
+                userID: $window.localStorage.userid,
+                businessName: $scope.businessName
+            }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': $window.localStorage.token

@@ -5,7 +5,7 @@ const express = require('express'),
     chatController = require('./controllers/chat'),
     profileController = require('./controllers/profile'),
     visitorController = require('./controllers/visitor'),
-    widgetController = require('./controllers/widget_controller'),
+    widgetController = require('./controllers/widget'),
     crawlerController = require('./controllers/crawler'),
     apiaiController = require('./controllers/api.ai');
 

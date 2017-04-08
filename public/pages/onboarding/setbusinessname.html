@@ -5,19 +5,19 @@
         <h1 class="onboarding-headline">What's your business or venture name?</h1>
         <p class="onboarding-blurb">Your business or venture name will be used in the chat header. It is simple way to preserve context about your business in your live chat. And no worries if you don't have a business name, just type in your own name... 😊</p>
 
-        <input type="text" class="onboarding-business-name" ng-model="businessName" placeholder="What's your business name?'"/>
+        <input type"text" class="business_info" placeholder="Your Full Name" ng-model="userName" />
+        <input type"text" class="business_info" placeholder="Your Business Name" ng-model="businessName" style="margin-top: 40px; margin-bottom: 220px;"/>
 
         <div class="next_prev">
             <a href="" class="back_left disabled">◀ Back</a>
-            <a href="" class="btn btn_blue" ng-click="setWelcomeMessage()">Next: Get Embed Code</a>
+            <a href="" class="btn btn_blue" ng-click="setBusinessName()">Next: Get Embed Code</a>
             <a href="/onboarding/getembedcode" class="back_right text-gray">Skip ▶</a>
         </div>
     </div>
 </div>
 
 <aside class="right_side">
-    <p class="explainer-blurb">This is how your business name looks like on your KoalaChat plugin...</p>
+    <p class="explainer-blurb">This is how your business name or venture name looks like on your KoalaChat plugin...</p>
     <img src="assets/images/arrow_down.svg" alt="" class="arrow_down">
-    <label id="dummy_chat_bubble" ng-model="welcomeMessage">Hey there! You looking for something specific? Let me know, I’m here to answer your questions... 🐨 😊</label>
-    <img class="dummy_bubble_close" src="assets/images/dummy_bubble_close.svg" alt="">
+    <img class="dummy_bubble_close" src="assets/images/setbusinessname.svg" alt="" style="width: 100%;">
 </aside>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="258px" viewBox="0 0 240 258" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>setbusinessname</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#389BFF" offset="0%"></stop>
+            <stop stop-color="#0054FF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M0,20.0060787 C0,8.95702654 8.94825466,0 20.00905,0 L199.99095,0 C211.041643,0 220,8.95712356 220,20.0060787 L220,194.000131 C220,196.209198 218.212989,198 215.993687,198 L20.00905,198 C8.95835681,198 0,189.042876 0,177.993921 L0,20.0060787 Z" id="path-3"></path>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#0B61FF" offset="0%"></stop>
+            <stop stop-color="#0B61FF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M0,19.9999784 C0,8.95429535 8.94825466,0 20.00905,0 L199.99095,0 C211.041643,0 220,8.95019024 220,19.9999784 L220,60 L0,60 L0,19.9999784 Z" id="path-6"></path>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-7">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3.2.-Onboarding---Fill-up-User-Profile" transform="translate(-1170.000000, -524.000000)">
+            <g id="setbusinessname" transform="translate(1180.000000, 532.000000)">
+                <g id="Group" filter="url(#filter-1)" transform="translate(190.000000, 208.000000)">
+                    <path d="M19.54075,0 C22.5525,0 24.058,0 25.67925,0.5125 C27.44925,1.15675 28.84325,2.55075 29.4875,4.32075 C30,5.94175 30,7.44775 30,10.45925 L30,19.54075 C30,22.5525 30,24.058 29.4875,25.67925 C28.84325,27.44925 27.44925,28.84325 25.67925,29.48725 C24.058,30 22.5525,30 19.54075,30 L10.45925,30 C7.4475,30 5.94175,30 4.32075,29.48725 C2.55075,28.84325 1.15675,27.44925 0.5125,25.67925 C0,24.058 0,22.5525 0,19.54075 L0,10.45925 C0,7.44775 0,5.94175 0.5125,4.32075 C1.15675,2.55075 2.55075,1.15675 4.32075,0.5125 C5.94175,0 7.4475,0 10.45925,0 L19.54075,0 Z" id="Icon" fill="url(#linearGradient-2)"></path>
+                    <path d="M14,14 L9.00684547,14 C8.44994876,14 8,14.4477153 8,15 C8,15.5561352 8.45078007,16 9.00684547,16 L14,16 L14,20.9931545 C14,21.5500512 14.4477153,22 15,22 C15.5561352,22 16,21.5492199 16,20.9931545 L16,16 L20.9931545,16 C21.5500512,16 22,15.5522847 22,15 C22,14.4438648 21.5492199,14 20.9931545,14 L16,14 L16,9.00684547 C16,8.44994876 15.5522847,8 15,8 C14.4438648,8 14,8.45078007 14,9.00684547 L14,14 Z" id="Combined-Shape" fill="#FFFFFF" transform="translate(15.000000, 15.000000) rotate(45.000000) translate(-15.000000, -15.000000) "></path>
+                </g>
+                <g id="Background">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                </g>
+                <g id="Background">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-7)" xlink:href="#path-6"></use>
+                    <use fill="url(#linearGradient-5)" fill-rule="evenodd" xlink:href="#path-6"></use>
+                </g>
+                <text id="Your-Business-Name" font-family="Avenir-Medium, Avenir" font-size="14" font-weight="400" line-spacing="20" fill="#FFFFFF">
+                    <tspan x="20" y="29">Your Business Name</tspan>
+                </text>
+                <text id="You-are-chatting-wit" font-family="Avenir-Light, Avenir" font-size="8" font-weight="300" line-spacing="10" fill="#FFFFFF">
+                    <tspan x="20" y="45">You are chatting with a KoalaBot… </tspan>
+                    <tspan x="146.865" y="43" font-family="AppleColorEmoji, Apple Color Emoji" font-weight="normal">😊🐨</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

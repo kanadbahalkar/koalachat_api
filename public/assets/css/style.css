@@ -401,25 +401,25 @@ a.btn.btn_blue, a.btn.btn_blue:active {
     border-bottom: solid 1px #0B61FF;
     background: none;
     font-size: 16px;
-    line-height: 20px;
+    line-height: 40px;
     display: block;
     margin: 0 auto;
-    width: 200px;
+    width: 400px;
     margin-bottom: 20px;
 }
 
 .business_info::-webkit-input-placeholder { /* Chrome */
-  color: #0B61FF;
+  color: #999;
 }
 business_info:-ms-input-placeholder { /* IE 10+ */
-  color: #0B61FF;
+  color: #999;
 }
 business_info::-moz-placeholder { /* Firefox 19+ */
-  color: #0B61FF;
+  color: #999;
   opacity: 1;
 }
 business_info:-moz-placeholder { /* Firefox 4 - 18 */
-  color: #0B61FF;
+  color: #999;
   opacity: 1;
 }
 
