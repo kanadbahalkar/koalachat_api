@@ -80,7 +80,6 @@ let facebookLogin = new FacebookStrategy({
     function(token, refreshToken, profile, done) {
         //Capture Facebook token
         var token = token;
-
         //Create social accounts array to be save in person
         var newSocialAccount = {
             provider_id: profile.id,
@@ -105,10 +104,11 @@ let facebookLogin = new FacebookStrategy({
         //Create object for user profile
         var profile = {
             firstName: profile.displayName.split(" ")[0],
-            givenName: '',
+            givenName: profile.name ? profile.name['givenName'] : '',
             lastName: profile.displayName.split(" ")[1],
             gender: profile.gender,
-            photo: profile.photos[0]['value']
+            photo: profile.photos[0]['value'],
+            birthday: profile.birthday
         }
 
         // asynchronous
@@ -133,7 +133,8 @@ let facebookLogin = new FacebookStrategy({
                         {
                             'profile.photo' : profile.photo,
                             'profile.gender' : profile.gender,
-                            'profile.firstName' : profile.first_name,
+                            'profile.firstName' : profile.firstName,
+                            'profile.lastName': profile.lastName,
                             'profile.birthday' : profile.birthday,
                             'managedPages': managedPages,
                             'socialAccounts': user.socialAccounts,
@@ -143,19 +144,24 @@ let facebookLogin = new FacebookStrategy({
                         function(err, doc){
                             if (err) console.log(err);
                         });
-                    return done(null, user);
+                    let returnObject = {
+                      'user': user,
+                      'isNewOwner': 'false'
+                    }
+                    return done(null, returnObject);
 
                 } else {
                     // if the user isnt in our database, create a new user
                     var newUser = new User();
                     newUser.authenticationType = 'facebook';
-                    newUser.id = profile.id;
+                    newUser.id = newSocialAccount.id;
                     // Only owner can login using facebook/google
-                    newUser.ownerID = profile.id;
-                    newUser.email = profile.emails ? profile.emails[0].value : '';
+                    newUser.ownerID = newUser.id;
+                    newUser.email = newSocialAccount.email;
                     newUser.profile = {
                         'firstName': profile.first_name,
                         'givenName': profile.displayName,
+                        'lastName': profile.lastName,
                         'photo': profile.photos ? profile.photos[0].value : '',
                         'gender': profile.gender,
                         'birthday': profile.birthday
@@ -172,9 +178,17 @@ let facebookLogin = new FacebookStrategy({
                     newUser.tempToken = tempToken;
 
                     // save the user
+
                     newUser.save(function(err) {
-                        if (err) throw err;
-                        return done(null, newUser);
+                        if (err) {
+                          console.log("error in saving user:  "+err);
+                          throw err;
+                        }
+                        let returnObject = {
+                          'user': newUser,
+                          'isNewOwner': 'true'
+                        }
+                        return done(null, returnObject);
                     });
                 }
             });
