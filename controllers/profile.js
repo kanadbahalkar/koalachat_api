@@ -51,6 +51,10 @@ module.exports = {
       json = '{$push:{"' + req.body.fieldname + '":' + '{"provider_id":"' + req.body.provider_id + '","provider":"' + req.body.provider + '","email":"'+ req.body.email + '","name":"' + req.body.name + '"}}}';
       field = json;
     }
+    else if(req.body.fieldname == 'ownerName'){
+      json = '{"profile.firstName":"' + req.body.fieldvalue.split(" ")[0] + '","profile.lastName":"' + req.body.fieldvalue.split(" ")[1] + '"}';
+      field = JSON.parse(json);
+    }
     else {
       json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
       field = JSON.parse(json);

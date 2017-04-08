@@ -115,7 +115,7 @@ exports = module.exports = function (io) {
 
 		socket.on('send message', function (data) {
 			//Get response from api.ai if the sender is visitor
-			if (data.sender == 'visitor' && data.email == false) {
+			if (data.sender == 'visitor' && data.email == false && data.to != '58d08da84409aa91be05190c') {
 				request({
 					method: 'POST',
 					url: config.api_server + 'api/apiai/sendmessagetoapiai',
@@ -166,6 +166,18 @@ exports = module.exports = function (io) {
 					}
 				}, function (err, resp, body) {
 					if (err) throw new Error(error);
+				});
+			}
+			else if( data.to == '58d08da84409aa91be05190c'){
+				//save message
+				request({
+					url: config.api_server + 'api/chat/reply',
+					method: "POST",
+					json: { 'conversationID': data.conversation, 'message': data.message, 'sender': data.from, 'channel': data.channel },
+					headers: { 'content-type': 'application/x-www-form-urlencoded' }
+				}, function (error, response, body) {
+					console.log('Saved Message from Owner to Admin: ', data);
+					if (error) console.log('ERROR: ', error);
 				});
 			}
 

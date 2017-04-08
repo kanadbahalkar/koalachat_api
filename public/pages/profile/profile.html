@@ -24,13 +24,13 @@
     <div class="profile_info">
         <div class="profile_info_col">
             <label class="profile_info_label">Name</label>
-            <input type="text" class="profile_info_textbox" value="{{ ownerName }}" style="text-transform: capitalize;"/>
+            <input type="text" class="profile_info_textbox" ng-model="ownerName" style="text-transform: capitalize;" ng-change="updateProfile('ownerName')" ng-model-options="{ updateOn: 'blur', debounce: 200 }"/>
 
             <label class="profile_info_label">Business Name</label>
-            <input type="text" class="profile_info_textbox" placeholder="Type in your Business Name here..." value="{{ businessName }}" />
+            <input type="text" class="profile_info_textbox" placeholder="Type in your Business Name here..." ng-model="businessName" ng-change="updateProfile('businessName')" ng-model-options="{ updateOn: 'blur', debounce: 200 }"/>
 
             <label class="profile_info_label">Business Website</label>
-            <input type="text" class="profile_info_textbox" placeholder="Type in your Business Website here..." value="{{ businessWebsite }}" />
+            <input type="text" class="profile_info_textbox" placeholder="Type in your Business Website here..." ng-model="businessWebsite" ng-disabled="true"/>
 
             <label class="profile_info_label">Notifications</label>
             <input type="checkbox" ng-model="emailNotifications" ng-change="subscribe()">
@@ -48,13 +48,13 @@
         </div>
 
         <div class="profile_info_col">
-            <label class="profile_info_label">Username</label>
-            <input type="text" class="profile_info_textbox" value="{{ userName }}" />
+            <label class="profile_info_label">Email</label>
+            <input type="text" class="profile_info_textbox" ng-model="userEmail" ng-disabled="true"/>
 
             <label class="profile_info_label">Password</label>
             <input type="password" class="profile_info_textbox" placeholder="•••••••••••••••••••••" ng-model="updatedPassword" />
 
-            <a class="text_button" href="/" ng-click="changePassword()">Change Password</a>
+            <a class="text_button" href="/" ng-click="updateProfile('password')">Change Password</a>
 
             <label class="profile_info_label"></label><label class="profile_info_label"></label>
             <input type="text" class="profile_info_textbox" value="" disabled="disabled"/>

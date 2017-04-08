@@ -93,6 +93,28 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         });
     };
 
+    //Set business name
+    $scope.setBusinessName = function () {
+        $http({
+			method: 'POST',
+			url: '/api/profile/setbusinessname',
+			data: $.param({
+                ownerID: $window.localStorage.userid, 
+                businessName: $scope.businessName
+            }),
+			headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+		})
+        .success(function (data, status, headers, config) {
+            $window.location.href = '/onboarding/getembedcode';
+        })
+        .error(function (data, status, headers, config) {
+            console.log('Error: Set Business Name Failed');
+        });
+    };
+
     //Get embed code
     $scope.getEmbedCode = function () {
         $http({

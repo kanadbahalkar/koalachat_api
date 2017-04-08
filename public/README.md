@@ -17,7 +17,8 @@ This README would normally document whatever steps are necessary to get your app
 ### Routing Structure:
 
 * 1.0. /login : For login and registration
-* 2.1. /onboarding/setwelcome : [For new users] Set welcome message
+<!--* 2.1. /onboarding/setwelcome : [For new users] Set welcome message-->
+* 2.1. /onboarding/setbusinessname : [For new users] Set business name
 * 2.2. /onboarding/addsocial : [For new users] Connect with social media account of a new user, and basic user info
 * 2.3. /onboarding/chooseplatform : [For new users] Choose a platform (Optional Screen)
 * 2.4. /onboarding/getembedcode : [For new users] Get Embed Code for the website

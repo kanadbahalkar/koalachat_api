@@ -25,10 +25,6 @@ myApp.controller('authController', ['config', '$route', '$routeParams', '$rootSc
             }
         })
         .then(function (response) {
-            console.log(response.data.token, ' ', $window.localStorage.token);
-            console.log(response.data.user._id, ' ', $window.localStorage.userid);
-            console.log(response.data.user.email, ' ', $window.localStorage.useremail);
-
             //Check if returned user is the same as the one in localStorage
             if( $window.localStorage.userid == response.data.user._id &&
                 $window.localStorage.useremail == response.data.user.email){
@@ -89,7 +85,7 @@ myApp.controller('authController', ['config', '$route', '$routeParams', '$rootSc
                 $window.localStorage.userid = res.user._id;
                 $window.localStorage.useremail = res.user.email;
                 $window.localStorage.userwebsite = res.user.website;
-                $window.location = '/onboarding/setwelcome';
+                $window.location = '/onboarding/getbusinessname';
             }
         }, function() {
             jQuery('.chat_login_alert').remove();

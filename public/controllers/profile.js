@@ -27,7 +27,7 @@ myApp.controller('profileController', ['config', '$scope', '$location', '$http',
         $scope.businessName = response.owner.businessName;
         $scope.businessWebsite = response.owner.website;
         $scope.accountCreationDate = response.owner.createdAt;
-        $scope.userName = response.owner.email;
+        $scope.userEmail = response.owner.email;
         $scope.profilepic = response.owner.profile.photo || '/assets/images/avatar.png';
         $window.localStorage.profilepic = $scope.profilepic;
         $scope.allowAnonMessages = response.owner.allowAnonymous || false;
@@ -58,24 +58,34 @@ myApp.controller('profileController', ['config', '$scope', '$location', '$http',
         console.log(err);
     });
 
-    //update Password
-    $scope.changePassword = function (){
+    //Update user profile on text change
+    $scope.updateProfile = function (fieldname){
+        
+        console.log(fieldname);
+
+        var fieldvalue;
+        if(fieldname == 'password')
+            fieldvalue = $scope.updatedPassword;
+        if(fieldname == 'businessName')
+            fieldvalue = $scope.businessName;
+        if(fieldname == 'ownerName')
+            fieldvalue = $scope.ownerName;
+
         $http({
             method: 'POST',
             url: baseUrl + '/profile/updateownerinfo',
             data: $.param({
                 ownerID : $scope.ownerID,
-                fieldname : 'password',
-                fieldvalue : $scope.updatedPassword
+                fieldname : fieldname,
+                fieldvalue : fieldvalue
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': $scope.token
             }
         })
-        .success(function(response) {3
-            console.log('Password Updated: ', response);
-            $window.location.href = '/Profile';
+        .success(function(response) {
+            console.log('Profile Updated!');
         })
         .error(function(err) {
             console.log(err);
@@ -244,5 +254,5 @@ myApp.controller('profileController', ['config', '$scope', '$location', '$http',
     //Connect Twitter
 
     //Connect Instagram
-
+    
 }]);

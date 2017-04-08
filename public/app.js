@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook', 'googleplus', 'angularMoment', 'n3-line-chart', '720kb.tooltips']);
+var myApp = angular.module('myApp', ['ngStorage', 'ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook', 'googleplus', 'angularMoment', 'n3-line-chart', '720kb.tooltips']);
 
 myApp.constant('config', {
   baseUrl:'https://localhost:4731/api',
@@ -51,6 +51,15 @@ myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, F
     //Onboarding Router
     .when('/onboarding/setwelcome', {
         templateUrl : 'pages/onboarding/setwelcome.html',
+        controller : 'onboardingController',
+        access: {
+            requiredLogin: true,
+            isOnboarding: true
+        }
+    })
+
+    .when('/onboarding/setbusinessname', {
+        templateUrl : 'pages/onboarding/setbusinessname.html',
         controller : 'onboardingController',
         access: {
             requiredLogin: true,

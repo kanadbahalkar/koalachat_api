@@ -1313,6 +1313,7 @@ textarea.koalabot_textarea {
 
 .add_faq_btn {
     float: right;
+    text-align: center;
     display: inline-block;
     width: 160px;
     border: none;
