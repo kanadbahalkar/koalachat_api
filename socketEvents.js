@@ -129,9 +129,9 @@ exports = module.exports = function (io) {
 					if (error) throw new Error(error);
 					//Send a reply
 					console.log('Sent Message: ', data);
-					
+
 					var replyBody = JSON.parse(body);
-					
+
 					var replyFromApiai = {
 						message: replyBody.reply,
 						sender: 'owner',
@@ -141,7 +141,7 @@ exports = module.exports = function (io) {
 						channel: 'Website'
 					};
 					console.log('Reply from API.ai: ', replyFromApiai);
-
+					console.log(sockets);
 					sockets[data.from].socket.emit('sent message', replyFromApiai);
 					if (sockets[data.to])
 						sockets[data.to].socket.emit('sent message', replyFromApiai);

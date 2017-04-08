@@ -7,7 +7,8 @@ const express = require('express'),
     visitorController = require('./controllers/visitor'),
     widgetController = require('./controllers/widget'),
     crawlerController = require('./controllers/crawler'),
-    apiaiController = require('./controllers/api.ai');
+    apiaiController = require('./controllers/api.ai'),
+    util = require('util');
 
 // Middleware to require login/auth
 var requireAuth = passport.authenticate('jwt', { session: false });
@@ -62,7 +63,14 @@ module.exports = function(app, io) {
             session: false
         }),
         function(req, res) {
-            res.redirect("/Overview?access_token=JWT " + req.user.tempToken + "&id=" + req.user._id);
+            console.log("***isNewOwner:"+req.user.isNewOwner);
+            if (req.user.isNewOwner) {
+                console.log("url is : /onboarding/setbusinessname?access_token=JWT "+req.user.user.tempToken + "&id=" + req.user.user._id);
+                res.redirect("/onboarding/setbusinessname?access_token=JWT " + req.user.user.tempToken + "&id=" + req.user.user._id);
+            } else {
+                console.log("url is: /Overview?access_token=JWT "+ req.user.tempToken + "&id=" + req.user._id);
+                res.redirect("/Overview?access_token=JWT " + req.user.tempToken + "&id=" + req.user._id);
+            }
         }
     );
 
@@ -98,7 +106,7 @@ module.exports = function(app, io) {
     chatRoutes.post('/newconversation', chatController.newConversation);
     // Delete a conversation
     chatRoutes.post('/deleteconversation', requireAuth, chatController.deleteConversation);
-    
+
     app.use(passport.initialize());
     app.use(passport.session());
 

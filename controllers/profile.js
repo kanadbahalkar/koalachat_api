@@ -1,5 +1,6 @@
 var User = require('../models/user');
-var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs')
+var authController = require('./authentication.js');
 
 module.exports = {
   updateWelcomeMessage: function(req, res, next) {
@@ -12,7 +13,7 @@ module.exports = {
           if(!owner || owner == undefined || owner == null) {
             res.status(422).send({"message": "Owner with given id not found", "status": "failure"});
           }
-        
+
           owner.welcomeMessage = req.body.welcomeMessage;
           owner.save();
 
@@ -38,7 +39,7 @@ module.exports = {
 
   // Update owner information
   updateOwnerInfo: function(req, res, next) {
-    
+
     var json;
     var field;
 
@@ -59,7 +60,7 @@ module.exports = {
       json = '{"' + req.body.fieldname + '":"' + req.body.fieldvalue + '"}';
       field = JSON.parse(json);
     }
-    
+
     User.findOneAndUpdate(
       { '_id' : req.body.ownerID },
       field,
@@ -83,10 +84,11 @@ module.exports = {
         if (err) return done(err);
 
         if (user) {
+          console.log("User found in updateSocialAccounts");
           var managedPages = [];
           if(req.body.managedPages != '' && req.body.managedPages)
             managedPages = JSON.parse(req.body.managedPages);
-          
+
           //Create object for social accounts
           var newSocialAccount = {
             provider_id: req.body.provider_id,
@@ -106,7 +108,7 @@ module.exports = {
           var socialAccountFound = user.socialAccounts.filter(function(item) {
               return item.provider == req.body.provider;
           });
-          
+
           //Update user with new social account and managed pages
           if(user.socialAccounts != null && socialAccountFound.length <= 0){
             user.socialAccounts.push(newSocialAccount);
@@ -117,9 +119,10 @@ module.exports = {
 
           user.profile = profile;
           user.save();
-        } 
+        }
         else {
-          console.log('User not found... :(');
+          console.log('New Owner, Registering it');
+          authController.registerowner(req, res, next)
         }
     });
   },

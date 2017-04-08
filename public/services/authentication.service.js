@@ -28,6 +28,7 @@ angular.module('myApp')
         function getUserFromToken() {
             var token = $window.localStorage.token;
             var user = {};
+            console.log("token :"+token);
             if (token != 'undefined' && token != undefined) {
                 var encoded = token.split('.')[1];
                 user = JSON.parse(urlBase64Decode(encoded));
