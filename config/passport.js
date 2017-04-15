@@ -12,7 +12,14 @@ const passport = require('passport'),
     jwt = require('jsonwebtoken');
 
 function generateToken(user) {
-  return jwt.sign(user, config.secret, {
+  let userInfo = {
+    _id: user._id,
+    email: user.email,
+    role: user.role,
+    ownerID: user.ownerID,
+    profile: user.profile
+  }
+  return jwt.sign(userInfo, config.secret, {
     expiresIn: 604800 // in seconds
   });
 }
@@ -62,10 +69,11 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
 
 var checkSocialAccounts = function (socialAccounts, provider){
     if(socialAccounts){
-        socialAccounts.forEach(function(socialAccount) {
-            if(socialAccount.provider.toUpperCase() === provider.toUpperCase())
+        for(var socialAccount of socialAccounts) {
+            if(socialAccount.provider.toUpperCase() === provider.toUpperCase()) {
                 return true;
-        });
+            }
+        }
     }
     return false;
 }
@@ -120,12 +128,9 @@ let facebookLogin = new FacebookStrategy({
                 if (err) return done(err);
 
                 if (user) {
-                    if(!checkSocialAccounts(user.socialAccounts, 'Facebook') && user.socialAccounts){
+                    if(!checkSocialAccounts(user.socialAccounts, 'facebook')){
                         user.socialAccounts.push(newSocialAccount);
                     }
-
-                    let tempToken = generateToken({email: user.email, _id: user._id});
-                    user.tempToken = tempToken;
 
                     //Update the user data
                     User.findOneAndUpdate(
@@ -138,7 +143,6 @@ let facebookLogin = new FacebookStrategy({
                             'profile.birthday' : profile.birthday,
                             'managedPages': managedPages,
                             'socialAccounts': user.socialAccounts,
-                            'tempToken': user.tempToken
                         },
                         { upsert : true },
                         function(err, doc){
@@ -146,7 +150,8 @@ let facebookLogin = new FacebookStrategy({
                         });
                     let returnObject = {
                       'user': user,
-                      'isNewOwner': 'false'
+                      'isNewOwner': false,
+                      'jwtToken': generateToken(user)
                     }
                     return done(null, returnObject);
 
@@ -174,9 +179,6 @@ let facebookLogin = new FacebookStrategy({
                     socialAccounts.push(newSocialAccount);
                     newUser.socialAccounts = socialAccounts;
 
-                    let tempToken = generateToken({email: newUser.email, _id: newUser._id});
-                    newUser.tempToken = tempToken;
-
                     // save the user
 
                     newUser.save(function(err) {
@@ -186,7 +188,8 @@ let facebookLogin = new FacebookStrategy({
                         }
                         let returnObject = {
                           'user': newUser,
-                          'isNewOwner': 'true'
+                          'isNewOwner': true,
+                          'jwtToken': generateToken(newUser)
                         }
                         return done(null, returnObject);
                     });
@@ -220,11 +223,9 @@ let googleLogin = new GoogleStrategy({
                         user.socialAccounts.push(newSocialAccount);
                     }
 
-                    let tempToken = generateToken({email: user.email, _id: user._id});
-                    user.tempToken = tempToken;
-
                     //Update the user data
                     User.findOneAndUpdate(
+
                         { 'email' : user.email },
                         {
                             'profile.photo' : profile.picture,
@@ -232,14 +233,19 @@ let googleLogin = new GoogleStrategy({
                             'profile.firstName' : profile.name.givenName,
                             'profile.lastName' : profile.name.familyName,
                             'socialAccounts': socialAccounts,
-                            'tempToken': user.tempToken
                         },
                         { upsert : true },
                         function(err, doc){
                             if (err) console.log(err);
                         });
 
-                    return done(null, user);
+                    let returnObject = {
+                      'user': user,
+                      'isNewOwner': false,
+                      'jwtToken': generateToken(user)
+                    }
+
+                    return done(null, returnObject);
               } else {
                     // if the user isnt in our database, create a new user
                     var newUser = new User();
@@ -260,12 +266,18 @@ let googleLogin = new GoogleStrategy({
                     });
                     newUser.socialAccounts = socialAccounts;
 
-                    let tempToken = generateToken({email: newUser.email, _id: newUser.ownerID_id});
                     newUser.tempToken = tempToken;
                     newUser.role = 'Owner';
                     newUser.save(function(err) {
                         if (err) throw err;
-                        return done(null, newUser)
+
+                        let returnObject = {
+                          'user': newUser,
+                          'isNewOwner': true,
+                          'jwtToken': generateToken(newUser)
+                        }
+
+                        return done(null, returnObject)
                     });
                 }
             });

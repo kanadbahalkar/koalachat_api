@@ -65,11 +65,9 @@ module.exports = function(app, io) {
         function(req, res) {
             console.log("***isNewOwner:"+req.user.isNewOwner);
             if (req.user.isNewOwner) {
-                console.log("url is : /onboarding/setbusinessname?access_token=JWT "+req.user.user.tempToken + "&id=" + req.user.user._id);
-                res.redirect("/onboarding/setbusinessname?access_token=JWT " + req.user.user.tempToken + "&id=" + req.user.user._id);
+                res.redirect("/onboarding/setbusinessname?access_token=JWT " + req.user.jwtToken + "&id=" + req.user.user.user._id);
             } else {
-                console.log("url is: /Overview?access_token=JWT "+ req.user.tempToken + "&id=" + req.user._id);
-                res.redirect("/Overview?access_token=JWT " + req.user.tempToken + "&id=" + req.user._id);
+                res.redirect("/Overview?access_token=JWT " + req.user.jwtToken + "&id=" + req.user.user._id);
             }
         }
     );
@@ -84,7 +82,11 @@ module.exports = function(app, io) {
             session: false
         }),
         function(req, res) {
-            res.redirect("/Overview?access_token=JWT " + req.user.tempToken + "&id=" + req.user._id);
+            if (req.user.isNewOwner) {
+                res.redirect("/onboarding/setbusinessname?access_token=JWT " + req.user.jwtToken + "&id=" + req.user.user.user._id);
+            } else {
+                res.redirect("/Overview?access_token=JWT " + req.user.jwtToken + "&id=" + req.user.user._id);
+            }
         }
     );
 
