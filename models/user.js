@@ -84,9 +84,6 @@ const UserSchema = new Schema({
     billingUpdates: { type: Boolean, default: true },
     announcements: {type: Boolean, default: true }
   },
-  tempToken: {
- 	  type: String
-  },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }
 },
