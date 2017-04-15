@@ -207,6 +207,33 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
         });
     };
 
+    //Delete a Visitor
+    $scope.importantVisitor = function(selectedVisitor, importantVisitor){
+        
+        selectedVisitor.importantVisitor = !importantVisitor;
+        
+        $http({
+            method: 'POST',
+            url: 'api/visitor/markimportant',
+            data: $.param({
+                vid: selectedVisitor._id,
+                importantVisitor: importantVisitor
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .success(function (data, status, headers, config) {
+            if(!data.visitor){
+                console.log('No visitor found! 😔');
+            }
+        })
+        .error(function (data, status, headers, config) {
+            console.log('Error: ' + status);
+        });
+    };
+
     $scope.$watch('selectedVisitor.name', saveProfileUpdates)
     $scope.$watch('selectedVisitor.nickname', saveProfileUpdates)
     $scope.$watch('selectedVisitor.email', saveProfileUpdates)

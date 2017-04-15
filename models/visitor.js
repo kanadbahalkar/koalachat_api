@@ -53,6 +53,9 @@ const VisitorSchema = new Schema({
   phone : { 
     type : String
   },
+  important : { 
+    type : Boolean 
+  },
   blacklisted : { 
     type : Boolean 
   },

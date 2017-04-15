@@ -184,6 +184,28 @@ module.exports = {
       });
   },
 
+  //Mark visitor as important
+  markVisitorAsImporatant: function(req, res, next) {
+    
+    // var reqData = JSON.parse(Object.keys(req.body)[0]);
+    
+    Visitor.findOneAndUpdate(
+      { '_id' : req.body.vid },
+      { 'importantVisitor' : req.body.importantVisitor },
+      function(err, visitor) {
+        if (err) { res.status(500).send({ message : 'Error!'}); }
+
+        if(!visitor) {
+          res.status(422).send({ message : 'Visitor with given ID not found' });
+        }
+        else {
+          res.status(200).send({
+            visitor : visitor
+          });
+        }
+      });
+  },
+
   //Get number of live visitors
   getLiveVisitorsCount: function(req, res, next) {
     Visitor.count(

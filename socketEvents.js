@@ -2,8 +2,8 @@
 //1. Change Visitor status to Offline when they disconnect √
 //2. Change it back to Live when they reconnect √
 //3. Add a timestamp to the message sent by Visitor
-//4. Remove the duplicate visitor error
-//5. Make plugin iframe clickthru / or atleast dynamic height
+//4. Remove the duplicate visitor error √
+//5. Make plugin iframe clickthru / or atleast dynamic height √
 //6. Stop sending error codes when the server is down or restarting
 //7. Save the conversation in the local storage of Visitor to be retieved later on
 //8. USE NAMESPACES AND ROOMS FOR ROUTING TRAFFIC
@@ -29,6 +29,21 @@ exports = module.exports = function (io) {
 		var socketID;
 		var userCategory;
 
+		//Send Business Name
+		socket.on('get my business name', function(ownerID){
+			request({
+				url: config.api_server + 'api/profile/getbusinessname',
+				method: "POST",
+				json: { ownerID: ownerID },
+				headers: { 'content-type': 'application/x-www-form-urlencoded' }
+			}, function (error, response, body) {
+				if (error) console.log('ERROR: ', error);
+				if (body.businessName) {
+					socket.emit('business name', body.businessName);
+				}
+			});
+		});
+		
 		//1. Emit a starter event when a new connection (Owner or Visitor) occurs
 		socket.emit('serve', 'New Connection!');
 

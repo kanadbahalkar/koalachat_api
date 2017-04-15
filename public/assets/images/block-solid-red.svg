@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>block-solid-red</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Iconography" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons" transform="translate(-402.000000, -706.000000)" fill-rule="nonzero" fill="#D0011B">
+            <g id="block-solid-red" transform="translate(402.000000, 706.000000)">
+                <path d="M14.0194805,0.0119565217 L5.85064935,0.0119565217 L0,5.88804348 L0,14.2032609 L5.85064935,19.9684783 L14.1298701,19.9684783 L19.9804762,14.0923913 L19.9804762,5.88804348 L14.0194805,0.0119565217 Z M9.93506494,15.8663043 C9.16233766,15.8663043 8.5,15.2010435 8.5,14.425 C8.5,13.6489565 9.16233766,12.9836957 9.93506494,12.9836957 C10.7077922,12.9836957 11.3701299,13.6489565 11.3701299,14.425 C11.3701299,15.2010435 10.7077922,15.8663043 9.93506494,15.8663043 Z M11.038961,11.098913 L8.83116883,11.098913 L8.83116883,4.44673913 L11.038961,4.44673913 L11.038961,11.098913 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

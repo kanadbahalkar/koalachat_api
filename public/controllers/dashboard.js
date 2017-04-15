@@ -14,6 +14,23 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
         $window.location = '/Overview';
     }
 
+    //Create a conversation between owner and Admin
+    $http({
+        method: 'POST',
+        url: baseUrl + '/chat/newconversation',
+        data: $.param({
+            ownerID: "58d08da84409aa91be05190c",
+            visitorID: $window.localStorage.userid,
+            message: "Owner " + $window.localStorage.userid + " joined!"
+        }),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+    .then(function (response) {
+        $window.localStorage.conversationid = response.data.conversation._id;
+    });
+
     //Get number of leads collected
     $http({
         method: 'POST',
@@ -247,11 +264,12 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
 
     //Profanity filter
 
-
      var script = document.createElement('script');
      script.setAttribute('src', "https://s3.amazonaws.com/koalachat/index.js");
      script.setAttribute('id', 'koala-index');
-     script.setAttribute('u', "58d08da84409aa91be05190c");
+     script.setAttribute('u', $window.localStorage.userid); //User id
+     script.setAttribute('a', "58d08da84409aa91be05190c"); //Admin id
+     script.setAttribute('c', $window.localStorage.conversationid); //Conversation id
      jQuery('head').append(script);
 
 }]);

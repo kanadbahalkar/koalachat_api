@@ -108,6 +108,8 @@ module.exports = function(app, io) {
     profileRouters.post('/setwelcomemessage', requireAuth, profileController.updateWelcomeMessage);
     //Get owner's info
     profileRouters.post('/getownerinfo', requireAuth, profileController.getOwnerInfo);
+    //Get business name
+    profileRouters.post('/getbusinessname', profileController.getBusinessName);
     //Update owner's info
     profileRouters.post('/updateownerinfo', requireAuth, profileController.updateOwnerInfo);
     //Update owner's social media accounts
@@ -154,6 +156,8 @@ module.exports = function(app, io) {
     visitorRouters.post('/updatevisitorstatus', visitorController.updateVisitorStatus);
     //Get a number of live visitors
     visitorRouters.post('/livevisitorscount', requireAuth, visitorController.getLiveVisitorsCount);
+    //Mar visitor as Important
+    visitorRouters.post('/markimportant', visitorController.markVisitorAsImporatant);
 
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);
