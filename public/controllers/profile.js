@@ -1,7 +1,7 @@
-myApp.controller('profileController', ['$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook','GooglePlus', function($scope, $location, $http, $window, AuthenticationService, Facebook, GooglePlus){
+myApp.controller('profileController', ['$scope', '$location', '$http', '$window','AuthenticationService', 'Facebook','GooglePlus', 'config', function($scope, $location, $http, $window, AuthenticationService, Facebook, GooglePlus, config){
 
-    var baseUrl = "https://localhost:4731/api";
-    var socket = io.connect("https://localhost:4731/");
+    var baseUrl = config.baseUrl;
+    var socket = io.connect(config.socketUrl);
 
     $scope.token = $window.localStorage.token;
     $scope.ownerID = $window.localStorage.userid;
