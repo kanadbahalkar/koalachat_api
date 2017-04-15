@@ -1,7 +1,16 @@
-myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http', '$window', '$timeout', '$q', 'clipboard', function($scope, $log, $timeout, $http, $window, $timeout, $q, clipboard){
+myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http', '$window', '$timeout', '$q', 'clipboard', '$routeParams', 'UserService', function($scope, $log, $timeout, $http, $window, $timeout, $q, clipboard, $routeParams, UserService){
 
     if (!clipboard.supported) {
         console.log('Sorry, copy to clipboard is not supported');
+    }
+
+    var access_token = $routeParams.access_token;
+    var userid = $routeParams.id;
+    if(access_token){
+        UserService.setIsLogged(true);
+        $window.localStorage.token = access_token;
+        $window.localStorage.userid = userid;
+        $window.location = '/onboarding/setbusinessname';
     }
 
     $scope.verificationBlurb = 'Chief Koala says your website is koalafied to be hooked up with KoalaChat! Copy paste the code below inside the "head" tag of your home page. To complete the setup on your site, we need to verify this Embed Code. After you’re done pasting the code in the HTML of your site, press the “Verify” button below...';
@@ -9,11 +18,11 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
     $scope.welcomeMessage = 'Hey there! You looking for something specific? Let me know, I’m here to answer your questions... 🐨 😊';
 
     var timeout;
-    
+
     // Save changes to the copy of the person back to the original,
     // including in the parent array
     var saveFAQs = function(updatedFAQ) {
-        
+
         $http({
             method: 'POST',
             url: 'api/crawler/updatefaq',
@@ -53,14 +62,14 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
             }
         }
     }, true);
-  
+
     //Set Welcome Message
     $scope.setWelcomeMessage = function () {
         $http({
 			method: 'POST',
 			url: '/api/profile/setwelcomemessage',
 			data: $.param({
-                ownerID: $window.localStorage.userid, 
+                ownerID: $window.localStorage.userid,
                 welcomeMessage: $scope.welcomeMessage
             }),
 			headers: {
@@ -72,8 +81,8 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
             $http({
                 method: 'POST',
                 url: '/api/apiai/createwelcomeintent',
-                data: $.param({ 
-                    ownerID: $window.localStorage.userid, 
+                data: $.param({
+                    ownerID: $window.localStorage.userid,
                     welcomeMessage: $scope.welcomeMessage,
                 }),
                 headers: {
@@ -99,7 +108,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
 			method: 'POST',
 			url: '/api/profile/updateownerinfo',
 			data: $.param({
-                ownerID: $window.localStorage.userid, 
+                ownerID: $window.localStorage.userid,
                 fieldname : 'businessName',
                 fieldvalue: $scope.businessName
             }),
@@ -139,7 +148,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         });
     };
 
-    //Copy embed code to clipboard 
+    //Copy embed code to clipboard
     $scope.copyEmbedCode = function () {
         clipboard.copyText($scope.embedcode);
         angular.element(document.querySelector('.copy_code')).html('Code Copied to Clipboard');
@@ -151,7 +160,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
 			method: 'POST',
 			url: 'api/crawler/verifyembedcode',
 			data: $.param({
-                ownerID: $window.localStorage.userid, 
+                ownerID: $window.localStorage.userid,
                 website: $window.localStorage.userwebsite
             }),
 			headers: {
@@ -182,7 +191,7 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
 			method: 'POST',
 			url: 'api/crawler/findfaqsurl',
 			data: $.param({
-                userID: $window.localStorage.userid, 
+                userID: $window.localStorage.userid,
                 website: $window.localStorage.userwebsite
             }),
 			headers: {
@@ -199,10 +208,10 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
                 $http({
                     method: 'POST',
                     url: 'api/crawler/findfaqs',
-                    data: $.param({ 
-                        userID: $window.localStorage.userid, 
-                        website: $window.localStorage.userwebsite, 
-                        faqurl: $scope.faqurl 
+                    data: $.param({
+                        userID: $window.localStorage.userid,
+                        website: $window.localStorage.userwebsite,
+                        faqurl: $scope.faqurl
                     }),
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -242,10 +251,10 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
             $http({
                 method: 'POST',
                 url: 'api/crawler/findfaqs',
-                data: $.param({ 
-                    userID: $window.localStorage.userid, 
-                    website: $window.localStorage.userwebsite, 
-                    faqurl: $scope.faqurl 
+                data: $.param({
+                    userID: $window.localStorage.userid,
+                    website: $window.localStorage.userwebsite,
+                    faqurl: $scope.faqurl
                 }),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -285,9 +294,9 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         $http({
             method: 'POST',
             url: 'api/apiai/createintent',
-            data: $.param({ 
-                ownerID: $window.localStorage.userid, 
-                intentQuestion: faq.question, 
+            data: $.param({
+                ownerID: $window.localStorage.userid,
+                intentQuestion: faq.question,
                 intentAnswer: faq.answer
             }),
             headers: {
@@ -311,8 +320,8 @@ myApp.controller('onboardingController', ['$scope', '$log', '$timeout', '$http',
         $http({
             method: 'POST',
             url: 'api/apiai/setfallbackintent',
-            data: $.param({ 
-                ownerID: $window.localStorage.userid, 
+            data: $.param({
+                ownerID: $window.localStorage.userid,
                 fallbackMessage: message
             }),
             headers: {
