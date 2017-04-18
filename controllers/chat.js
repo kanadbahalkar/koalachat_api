@@ -8,7 +8,10 @@ module.exports = {
 
   getConversations: function (req, res, next) {
 
-    Conversation.find({ participants: req.body.ownerID })
+    Conversation.find({ 
+      participants: req.body.ownerID,
+      $and: [ { participants: { $ne: "58d08da84409aa91be05190c" } } ]
+    })
       .sort('-createdAt')
       .exec(function (err, conversations) {
         if (err) {
