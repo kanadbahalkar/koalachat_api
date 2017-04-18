@@ -6,6 +6,10 @@ public/bower_components/
 #include d3
 !public/bower_components/d3/
 !public/bower_components/d3/*
+!public/bower_components/n3-charts/
+!public/bower_components/n3-charts/*
+!public/bower_components/n3-line-chart/
+!public/bower_components/n3-line-chart/*
 .gitignore
 /*.env
 *.DS_Store
