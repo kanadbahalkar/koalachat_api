@@ -119,7 +119,7 @@ module.exports = function(app, io) {
     //Get owner's info
     profileRouters.post('/getownerinfo', requireAuth, profileController.getOwnerInfo);
     //Get business name
-    profileRouters.post('/getbusinessname', profileController.getBusinessName);
+    profileRouters.post('/getbusinessprefs', profileController.getBusinessPrefs);
     //Update owner's info
     profileRouters.post('/updateownerinfo', requireAuth, profileController.updateOwnerInfo);
     //Update owner's social media accounts

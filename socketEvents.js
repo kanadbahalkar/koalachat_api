@@ -30,9 +30,9 @@ exports = module.exports = function (io) {
 		var userCategory;
 
 		//Send Business Name
-		socket.on('get my business name', function(ownerID){
+		socket.on('get business preferences', function(ownerID){
 			request({
-				url: config.api_server + 'api/profile/getbusinessname',
+				url: config.api_server + 'api/profile/getbusinessprefs',
 				method: "POST",
 				json: { ownerID: ownerID },
 				headers: { 'content-type': 'application/x-www-form-urlencoded' }
@@ -40,6 +40,7 @@ exports = module.exports = function (io) {
 				if (error) console.log('ERROR: ', error);
 				if (body.businessName) {
 					socket.emit('business name', body.businessName);
+					socket.emit('allow anonymous', body.allowAnonymous);
 				}
 			});
 		});
@@ -227,13 +228,6 @@ exports = module.exports = function (io) {
 			}
 
 			delete sockets.disconnectedSocket;
-		});
-
-		socket.on('allow anon', function (data) {
-			// Broadcast to all visitors in Owner's room
-			// if(sockets[data.ownerID]){
-			//   sockets[data.ownerID].emit('ask for email', data.allowAnon);
-			// }
 		});
 	});
 }

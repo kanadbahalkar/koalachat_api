@@ -61,7 +61,8 @@ const UserSchema = new Schema({
     type: String
   },
   allowAnonymous: {
-    type: String
+    type: Boolean,
+    default: false
   },
   enablePlugin: {
     type: String

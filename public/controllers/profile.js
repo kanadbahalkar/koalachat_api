@@ -30,7 +30,8 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
         $scope.userEmail = response.owner.email;
         $scope.profilepic = response.owner.profile.photo || '/assets/images/avatar.png';
         $window.localStorage.profilepic = $scope.profilepic;
-        $scope.allowAnonMessages = response.owner.allowAnonymous || false;
+        $scope.allowAnonMessages = (response.owner.allowAnonymous == "true") ? true : false;
+
         if(response.owner.socialAccounts){
             $scope.fbConnected = response.owner.socialAccounts.filter(function(item) {
                 return item.provider === 'facebook';
