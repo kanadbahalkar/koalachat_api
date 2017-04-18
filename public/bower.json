@@ -12,7 +12,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "!n3-charts",
+    "!n3-charts/*"
   ],
   "dependencies": {
     "angular-facebook": "^0.2.3",
