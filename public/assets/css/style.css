@@ -767,6 +767,10 @@ td:nth-child(3) {
     float: right;
 }
 
+.messaging_growth axes{
+    display: none;
+}
+
 .chart_title {
     text-align: center;
     font-size: 16px;

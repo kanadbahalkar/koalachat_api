@@ -171,17 +171,17 @@ function loginUser() {
       }
       else if(!validateEmail(email) && !validatePassword(password)){
         $('.chat_login_alert').remove();
-        var validationText = 'Hmmmm sneaky sneaky! 😉 Type in your email and password to get in... ';
+        var validationText = 'Hmmmm sneaky sneaky! Type in your email and password to get in... ';
         $('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
       }
       else if(!validateEmail(email)){
         $('.chat_login_alert').remove();
-        var validationText = 'Derp! Seems like this email id is not valid. Let’s try again... 😊';
+        var validationText = 'Derp! Seems like this email id is not valid. Let`s try again...';
         $('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
       }
       else if(!validatePassword(password)){
         $('.chat_login_alert').remove();
-        var validationText = 'Derp! Seems like your password is a little too short. Let’s make it longer shall we... 😊';
+        var validationText = 'Derp! Seems like your password is a little too short. Let`s make it longer shall we... ';
         $('.chat_login').prepend('<div class="chat_login_alert">' + validationText +  '</div>');
       }
     }
