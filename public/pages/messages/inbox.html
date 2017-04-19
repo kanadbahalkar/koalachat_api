@@ -65,10 +65,9 @@
                         
                         <span class="name_details" ng-show="showDelete" >
                             <img alt="" style="margin-right: 10px; height: 16px;" 
-                                ng-model="visitor.importantVisitor" 
-                                ng-init="visitor.importantVisitor = false" 
-                                ng-click="importantVisitor(visitor, visitor.importantVisitor)" 
-                                ng-src="{{ !visitor.importantVisitor ? 'assets/images/star-solid.svg' : 'assets/images/star-solid-blue.svg' }}">
+                                ng-model="visitor.important" 
+                                ng-click="importantVisitor(visitor, visitor.important)" 
+                                ng-src="{{ !visitor.important ? 'assets/images/star-solid.svg' : 'assets/images/star-solid-blue.svg' }}">
                         </span>
                         <span class="name_details" ng-show="showDelete" >
                             <img src="assets/images/recycling-bin-solid.svg" alt="" style="margin-right: 10px; height: 16px;" ng-click="deleteOrBlacklistVisitor(visitor, 'archivevisitor')" >
@@ -134,13 +133,8 @@
             <input type="text" ng-model='selectedVisitor.email' class="visitor_nickname" placeholder="{{ selectedVisitor.email || 'anonymous@koala.com'}}"/>
             <p class="profile_title">Phone number</p>
             <input type="text" ng-model='selectedVisitor.phone' class="visitor_nickname" placeholder="{{ selectedVisitor.phone || '+1 617.777.7777'}}"/>
-            <p class="profile_title">Gender</p>
-            <input type="text" ng-model='selectedVisitor.gender' class="visitor_nickname" placeholder="{{ selectedVisitor.gender || 'Unknown'}}"/>
-
-            <br><br>
-            <a href="" class=""><img src="assets/images/edit_text.svg" alt=""> Like / Star</a> <br><br>
-            <a href="" class=""><img src="assets/images/delete.svg" alt=""> Delete Visitor</a> <br><br>
-            <a href="" class=""><img src="assets/images/blacklisted.svg" alt=""> Block Visitor</a> <br><br>
+            <!--<p class="profile_title">Gender</p>-->
+            <!--<input type="text" ng-model='selectedVisitor.gender' class="visitor_nickname" placeholder="{{ selectedVisitor.gender || 'Unknown'}}"/>-->
         </div>
     </div>
 </div>

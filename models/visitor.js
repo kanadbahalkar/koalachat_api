@@ -54,7 +54,8 @@ const VisitorSchema = new Schema({
     type : String
   },
   important : { 
-    type : Boolean 
+    type : Boolean,
+    default : false 
   },
   blacklisted : { 
     type : Boolean 

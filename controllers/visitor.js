@@ -191,7 +191,7 @@ module.exports = {
     
     Visitor.findOneAndUpdate(
       { '_id' : req.body.vid },
-      { 'importantVisitor' : req.body.importantVisitor },
+      { 'important' : req.body.important },
       function(err, visitor) {
         if (err) { res.status(500).send({ message : 'Error!'}); }
 

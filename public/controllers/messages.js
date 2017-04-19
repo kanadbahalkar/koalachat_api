@@ -11,7 +11,6 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
 
     //Update the visitors list when a new visitor joins in
     socket.on('new visitor for admin', function (data) {
-        console.log(data);
         $scope.visitors = $scope.visitors.concat(data);
     });
 
@@ -208,16 +207,16 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
     };
 
     //Delete a Visitor
-    $scope.importantVisitor = function(selectedVisitor, importantVisitor){
+    $scope.importantVisitor = function(selectedVisitor, important){
         
-        selectedVisitor.importantVisitor = !importantVisitor;
+        selectedVisitor.important = !important;
         
         $http({
             method: 'POST',
             url: 'api/visitor/markimportant',
             data: $.param({
                 vid: selectedVisitor._id,
-                importantVisitor: importantVisitor
+                important: selectedVisitor.important
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
