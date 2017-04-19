@@ -30,7 +30,8 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
         $scope.userEmail = response.owner.email;
         $scope.profilepic = response.owner.profile.photo || '/assets/images/avatar.png';
         $window.localStorage.profilepic = $scope.profilepic;
-        $scope.allowAnonMessages = (response.owner.allowAnonymous == "true") ? true : false;
+        $scope.allowAnonMessages = (response.owner.allowAnonymous == "true" || response.owner.allowAnonymous == true) ? true : false;
+        $scope.enablePlugin = (response.owner.enablePlugin == "true" || response.owner.enablePlugin == true) ? true : false;
 
         if(response.owner.socialAccounts){
             $scope.fbConnected = response.owner.socialAccounts.filter(function(item) {
@@ -62,8 +63,6 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
     //Update user profile on text change
     $scope.updateProfile = function (fieldname){
         
-        console.log(fieldname);
-
         var fieldvalue;
         if(fieldname == 'password')
             fieldvalue = $scope.updatedPassword;
@@ -108,7 +107,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             }
         })
         .success(function(response) {
-            socket.emit('allow anon', { ownerID: $scope.ownerID, allowAnon: response.allowAnonymous });
+            // socket.emit('allow anon', { ownerID: $scope.ownerID, allowAnon: response.allowAnonymous });
         })
         .error(function(err) {
             console.log(err);
@@ -154,7 +153,7 @@ myApp.controller('profileController', ['$scope', '$location', '$http', '$window'
             }
         })
         .success(function(response) {
-            console.log('Enable Plugin: ', response);
+            // socket.emit('enable disable', response);
         })
         .error(function(err) {
             console.log(err);

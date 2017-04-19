@@ -17,7 +17,9 @@ var https = require('https');
 
 var options = {
     key: fs.readFileSync('private.key'),
-    cert: fs.readFileSync('certificate.pem')
+    cert: fs.readFileSync('certificate.pem'),
+    requestCert: false,
+    rejectUnauthorized: false
 };
 
 //Update mongoose promise

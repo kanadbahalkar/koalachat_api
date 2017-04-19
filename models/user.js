@@ -65,7 +65,8 @@ const UserSchema = new Schema({
     default: false
   },
   enablePlugin: {
-    type: String
+    type: Boolean,
+    default: true
   },
   profile: {
     firstName: { type: String, default: 'Anonymous' },

@@ -35,7 +35,8 @@ module.exports = {
 
       res.status(200).send({
         "businessName": owner.businessName,
-        "allowAnonymous": owner.allowAnonymous
+        "allowAnonymous": owner.allowAnonymous,
+        "enablePlugin": owner.enablePlugin
       });
     });
   },

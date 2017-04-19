@@ -41,6 +41,7 @@ exports = module.exports = function (io) {
 				if (body.businessName) {
 					socket.emit('business name', body.businessName);
 					socket.emit('allow anonymous', body.allowAnonymous);
+					socket.emit('enable disable', body.enablePlugin);
 				}
 			});
 		});
