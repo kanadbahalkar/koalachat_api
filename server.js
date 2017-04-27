@@ -1,4 +1,4 @@
-// Importing Node modules and initializing Express
+//Importing Node modules and initializing Express
 const express = require('express'),
       app = express(),
       bodyParser = require('body-parser'),

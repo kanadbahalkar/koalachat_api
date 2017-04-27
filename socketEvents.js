@@ -94,7 +94,6 @@ exports = module.exports = function (io) {
 				});
 			}
 			else if (data.visitor) {
-
 				socketID = data.visitorID;
 				userCategory = 'visitor';
 
@@ -130,6 +129,12 @@ exports = module.exports = function (io) {
 			}
 		});
 
+		socket.on('visitor is live', function(data){
+			if(data.visitor && sockets[data.owner]){
+				sockets[data.owner].socket.emit('visitor is live', data);
+			}
+		});
+		
 		socket.on('send message', function (data) {
 			//Get response from api.ai if the sender is visitor
 			if (data.sender == 'visitor' && data.email == false && data.to != '58d08da84409aa91be05190c') {

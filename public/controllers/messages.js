@@ -40,6 +40,15 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
             $scope.sendMessage(data);
         }
     });
+    
+    socket.on('visitor is live', function(data){
+        //Get the visitor, add green dot
+        for (var i=0; i<$scope.visitors.length; i++){
+            if($scope.visitors[i]._id == data.visitor){
+                $scope.visitors[i].live = data.live;
+            }
+        }
+    });
 
     //3. Get a list of website visitors
     $scope.loadVisitors = function() {
