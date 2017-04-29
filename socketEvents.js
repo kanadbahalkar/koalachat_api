@@ -42,7 +42,7 @@ exports = module.exports = function (io) {
 				}
 			});
 		});
-		
+
 		//1. Emit a starter event when a new connection (Owner or Visitor) occurs
 		socket.emit('serve', 'New Connection!');
 
@@ -160,7 +160,8 @@ exports = module.exports = function (io) {
 						channel: 'Website'
 					};
 					console.log('Reply from API.ai: ', replyFromApiai);
-					sockets[data.from].socket.emit('sent message', replyFromApiai);
+					if(sockets[data.from])
+						sockets[data.from].socket.emit('sent message', replyFromApiai);
 					if (sockets[data.to])
 						sockets[data.to].socket.emit('sent message', replyFromApiai);
 
