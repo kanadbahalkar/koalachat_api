@@ -3,8 +3,8 @@ var myApp = angular.module('myApp', ['ngStorage', 'ngMessages', 'ngResource', 'n
 myApp.constant('config', {
 //   baseUrl:'https://localhost:4731/api',
 //   socketUrl:'https://localhost:4731/'
-  baseUrl: 'https://ec2-54-186-217-17.us-west-2.compute.amazonaws.com:4731/api/',
-  socketUrl: 'https://ec2-54-186-217-17.us-west-2.compute.amazonaws.com:4731/'
+  baseUrl: 'https://staging.koalachat.com/api/',
+  socketUrl: 'https://staging.koalachat.com/'
 });
 
 myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, FacebookProvider, GooglePlusProvider){

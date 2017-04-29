@@ -1,6 +1,4 @@
 ////// TODO //////
-//1. Change Visitor status to Offline when they disconnect √
-//2. Change it back to Live when they reconnect √
 //3. Add a timestamp to the message sent by Visitor
 //4. Remove the duplicate visitor error √
 //5. Make plugin iframe clickthru / or atleast dynamic height √
@@ -9,7 +7,6 @@
 //8. USE NAMESPACES AND ROOMS FOR ROUTING TRAFFIC
 
 var request = require('request');
-var https = require("https");
 var url = require('url');
 var config = require('./config/main');
 
