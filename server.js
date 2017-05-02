@@ -7,6 +7,7 @@ const express = require('express'),
       config = require('./config/main'),
       socketEvents = require('./socketEvents'),
       passport = require('passport'),
+      http = require('http'),
       router = require('./router'),
       session = require('express-session'),
       os = require("os");
@@ -28,9 +29,12 @@ mongoose.Promise = global.Promise;
 // Database Connection
 mongoose.connect(config.database);
 
-var server = https.createServer(options, app).listen(config.port, function(){
-    console.log('Server is running on port: ' + config.port);
-});
+var server = http.createServer(app).listen(config.port, '172.31.32.185');
+console.log('Server is running on port: ' + config.port);
+
+//var server = https.createServer(options, app).listen(config.port, '172.31.32.185', function(){
+//    console.log('Server is running on port: ' + config.port);
+//});
 
 var io = require('socket.io').listen(server);
 socketEvents(io);
