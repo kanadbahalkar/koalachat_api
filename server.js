@@ -12,17 +12,6 @@ const express = require('express'),
       session = require('express-session'),
       os = require("os");
 
-//Setup HTTPS
-var fs = require('fs');
-var https = require('https');
-
-var options = {
-    key: fs.readFileSync('private.key'),
-    cert: fs.readFileSync('certificate.crt'),
-    requestCert: false,
-    rejectUnauthorized: false
-};
-
 //Update mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -31,10 +20,6 @@ mongoose.connect(config.database);
 
 var server = http.createServer(app).listen(config.port, '172.31.32.185');
 console.log('Server is running on port: ' + config.port);
-
-//var server = https.createServer(options, app).listen(config.port, '172.31.32.185', function(){
-//    console.log('Server is running on port: ' + config.port);
-//});
 
 var io = require('socket.io').listen(server);
 socketEvents(io);

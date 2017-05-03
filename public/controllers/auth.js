@@ -14,7 +14,7 @@ myApp.controller('authController', ['config', '$route', '$routeParams', '$rootSc
         //Get number of unique visitors last week
         $http({
             method: 'POST',
-            url: baseUrl + '/auth/checklogin',
+            url: baseUrl + 'auth/checklogin',
             data: $.param({
                 id: $window.localStorage.userid,
                 email: $window.localStorage.useremail
