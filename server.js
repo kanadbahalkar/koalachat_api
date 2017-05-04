@@ -18,6 +18,23 @@ mongoose.Promise = global.Promise;
 // Database Connection
 mongoose.connect(config.database);
 
+///////////////////////////
+//Setup HTTPS for localhost
+// var fs = require('fs');
+// var https = require('https');
+
+// var options = {
+//     key: fs.readFileSync('key.pem', 'utf8'),
+//     cert: fs.readFileSync('server.crt', 'utf8'),
+//     requestCert: false,
+//     rejectUnauthorized: false
+// };
+
+// var server = https.createServer(options, app).listen(config.port, function(){
+//     console.log('Server is running on port: ' + config.port);
+// });
+///////////////////////////
+
 var server = http.createServer(app).listen(config.port, '172.31.32.185');
 console.log('Server is running on port: ' + config.port);
 

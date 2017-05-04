@@ -3,7 +3,7 @@ var myApp = angular.module('myApp', ['ngStorage', 'ngMessages', 'ngResource', 'n
 myApp.constant('config', {
 //   baseUrl:'https://localhost:4731/api',
 //   socketUrl:'https://localhost:4731/'
-  baseUrl: 'https://staging.koalachat.com/api/',
+  baseUrl: 'https://staging.koalachat.com/api',
   socketUrl: 'https://staging.koalachat.com/'
 });
 
