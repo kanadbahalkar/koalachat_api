@@ -27,7 +27,9 @@ module.exports = {
   // Get's Business Name
   getBusinessPrefs: function(req, res, next) {
     User.findOne({'_id': JSON.parse(Object.keys(req.body)[0]).ownerID}, function(err, owner) {
-      if (err) return next(err);
+      if (err) {
+        res.status(422).send({"message": "Derp! There was a stupid error: " + err, "status": "failure"});
+      }
 
       if(!owner) {
         res.status(422).send({"message": "Owner with given id not found", "status": "failure"});
