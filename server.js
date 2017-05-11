@@ -41,7 +41,7 @@ var server = http.createServer(app).listen(config.port, '172.31.32.185');
 console.log('Server is running on port: ' + config.port);
 
 var io = require('socket.io').listen(server);
-io.set('transports', ['websocket']);
+io.set('transports', ['websocket', 'polling']);
 socketEvents(io);
 
 // Setting up basic middleware for all Express requests
