@@ -218,6 +218,30 @@ module.exports = {
       });
   },
 
+  //Increment number of messages sent by a visitor
+  incrementMessageCount: function(req, res, next) {
+    var reqData = JSON.parse(Object.keys(req.body)[0]);
+    Visitor.findOneAndUpdate(
+      { '_id' : reqData.visitorID },
+      { upsert : true },
+      function(err, visitor) {
+        if (err) return next(err);
+
+        if(!visitor) {
+          res.status(422).send({ message : 'Visitor with given ID not found' });
+        }
+        else {
+          //Update messages count
+          visitor.totalNumberOfMessages ? visitor.totalNumberOfMessages+=1 : visitor.totalNumberOfMessages = 1;
+          visitor.save();
+
+          res.status(200).send({
+            visitor : visitor
+          });
+        }
+      });
+  },
+
   //Get a list of all visitors / visitors with email / anonymous visitors
   getVisitors: function(req, res, next) {
 
@@ -231,16 +255,63 @@ module.exports = {
         blacklisted: { $ne: true },
       };
     }
+    else if(req.params.filter == 'active'){
+      json = {
+        ownerID  : req.body.ownerID,
+        archived: { $ne: true },
+        blacklisted: { $ne: true },
+        totalNumberOfMessages: { $gt: 0 }
+      };
+    }
+    else if(req.params.filter == 'live'){
+      json = {
+        ownerID  : req.body.ownerID,
+        live: { $eq: true },
+        archived: { $ne: true },
+        blacklisted: { $ne: true },
+        totalNumberOfMessages: { $gt: 0 }
+      };
+    }
+    else if(req.params.filter == 'important'){
+      json = {
+        ownerID  : req.body.ownerID,
+        important: { $eq: true },
+        archived: { $ne: true },
+        blacklisted: { $ne: true },
+        totalNumberOfMessages: { $gt: 0 }
+      };
+    }
+    else if(req.params.filter == 'recent'){
+      var today = new Date();
+      json = {
+        ownerID  : req.body.ownerID,
+        lastSeen: { $lt: today, $gt: today.getDate() - 1 },
+        archived: { $ne: true },
+        blacklisted: { $ne: true },
+        totalNumberOfMessages: { $gt: 0 }
+      };
+    }
     else if(req.params.filter == 'known'){
       json = {
         ownerID: req.body.ownerID,
-        email: { $ne: config.default_email }
+        email: { $ne: config.default_email },
+        archived: { $ne: true },
+        blacklisted: { $ne: true }
       };
     }
     else if(req.params.filter == 'anonymous'){
       json = {
         ownerID: req.body.ownerID,
-        email: config.default_email
+        email: { $eq: config.default_email },
+        archived: { $ne: true },
+        blacklisted: { $ne: true }
+      };
+    }
+    else if(req.params.filter == 'blacklisted'){
+      json = {
+        ownerID: req.body.ownerID,
+        archived: { $ne: true },
+        blacklisted: { $eq: true }
       };
     }
     else if(req.params.filter == 'one'){

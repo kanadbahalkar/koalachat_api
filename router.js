@@ -166,8 +166,10 @@ module.exports = function(app, io) {
     visitorRouters.post('/updatevisitorstatus', visitorController.updateVisitorStatus);
     //Get a number of live visitors
     visitorRouters.post('/livevisitorscount', requireAuth, visitorController.getLiveVisitorsCount);
-    //Mar visitor as Important
+    //Mark visitor as Important
     visitorRouters.post('/markimportant', visitorController.markVisitorAsImporatant);
+    //Increment visitor's message count
+    visitorRouters.post('/incrementmessagecount', visitorController.incrementMessageCount);
 
     //Crawler Routes
     apiRoutes.use('/crawler', crawlerRouters);

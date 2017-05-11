@@ -51,10 +51,12 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
     });
 
     //3. Get a list of website visitors
-    $scope.loadVisitors = function() {
+    $scope.loadVisitors = function(messageFilter) {
+        $scope.messages = [];
+        $scope.messageFilter = messageFilter;
         $http({
             method: 'POST',
-            url: config.baseUrl + '/visitor/getvisitors/all',
+            url: config.baseUrl + '/visitor/getvisitors/' + messageFilter,
             data: $.param({
                 ownerID: ownerID
             }),
@@ -65,6 +67,7 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
         })
         .then(function(data){
             $scope.visitors = data.data.visitors;
+            
             if($scope.visitors && $scope.visitors.length > 0) {
                 $scope.selectedConversationStartDate = $scope.visitors[0].visitedAt;
                 $scope.selectedVisitorID = $scope.visitors[0]._id;
@@ -78,13 +81,12 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
 
         $scope.selectedVisitor = visitor;
         $scope.selectedVisitorID = visitor._id;
-        $scope.messages = [];
-
         $http({
             method: 'POST',
             url: config.baseUrl + '/chat/getconversations/',
             data: $.param({
-                ownerID: ownerID
+                ownerID: ownerID,
+                visitorID: $scope.selectedVisitorID
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

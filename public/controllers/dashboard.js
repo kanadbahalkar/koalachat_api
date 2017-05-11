@@ -3,8 +3,6 @@
 myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$window', '$routeParams', 'VisitorsService', 'UserService', function(config, $http, $scope, $log, $window, $routeParams, VisitorsService, UserService){
 
     //Get number of current visitors on the site
-    var baseUrl = config.baseUrl;
-
     var access_token = $routeParams.access_token;
     var userid = $routeParams.id;
     if(access_token){
@@ -17,7 +15,7 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
     //Get number of leads collected
     $http({
         method: 'POST',
-        url: baseUrl + '/visitor/getvisitors/known',
+        url: config.baseUrl + '/visitor/getvisitors/known',
         data: $.param({
             ownerID: $window.localStorage.userid
         }),
@@ -33,7 +31,7 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
     //Get number of unique visitors last week
     $http({
         method: 'POST',
-        url: baseUrl + '/visitor/visitorslastweek',
+        url: config.baseUrl + '/visitor/visitorslastweek',
         data: $.param({
             ownerID: $window.localStorage.userid
         }),
@@ -49,7 +47,7 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
     //Get number of live visitors
     $http({
         method: 'POST',
-        url: baseUrl + '/visitor/livevisitorscount',
+        url: config.baseUrl + '/visitor/livevisitorscount',
         data: $.param({
             ownerID: $window.localStorage.userid
         }),
@@ -62,10 +60,10 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
         $scope.liveVisitorsCount = response.data.liveVisitors;
     });
 
-    //Get number of messages
+    //Get number of messages and Draw messaging chart
     $http({
         method: 'POST',
-        url: baseUrl + '/chat/getconversations',
+        url: config.baseUrl + '/chat/getconversations',
         data: $.param({
             ownerID: $window.localStorage.userid
         }),
@@ -75,14 +73,10 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
         }
     })
     .then(function (response) {
-        $scope.messageCount = response.data.totalMessages;
-        $scope.conversationsCount = response.data.conversations.length;
-        $scope.conversations = response.data.conversations;
-
+        
         var dataForChart = [];
-        angular.forEach($scope.conversations, function(value, index) {
-            dataForChart.push({x: value.date, messagesCount: parseInt(value.messages.length)});
-        });
+        dataForChart = response.data.dailyConversationCount;
+        $scope.conversationsCount = response.data.totalConversationsLastWeek;
 
         //Draw messaging chart
         $scope.options = {
@@ -90,16 +84,16 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
                 {
                     axis: "y",
                     dataset: "timed",
-                    key: "messagesCount",
+                    key: "conversationsCount",
                     label: "Conversations with Visitors: ",
                     color: "#0B61FF",
-                    type: ['line', 'dot', 'area'],
+                    type: ['line', 'area'],
                     id: "mySeries0"
                 }
             ],
             axes: {
                 x: {
-                    key: "x",
+                    key: "date",
                     type: "date",
                     ticks: 0
                 },
@@ -117,8 +111,8 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
             $scope.data = {
                 timed: [
                     {
-                        x: "2017-01-01T00:00:00.000Z",
-                        messagesCount: 0
+                        date: "2017-01-01T00:00:00.000Z",
+                        conversationsCount: 0
                     },
                     dataForChart[0]
                 ]
@@ -130,7 +124,7 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
             };
         }
         $scope.data.timed.forEach(function(row) {
-            row.x = new Date(row.x);
+            row.date = new Date(row.date);
         });
     });
 
@@ -260,7 +254,7 @@ myApp.controller('dashboardController', ['config', '$http', '$scope', '$log', '$
     if(!$window.localStorage.conversationid){
         $http({
             method: 'POST',
-            url: baseUrl + '/chat/newconversation',
+            url: config.baseUrl + '/chat/newconversation',
             data: $.param({
                 ownerID: "58d08da84409aa91be05190c",
                 visitorID: $window.localStorage.userid,

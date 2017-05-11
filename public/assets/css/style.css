@@ -291,6 +291,10 @@ a {
     border-right: solid rgb(11, 97, 255) 4px;
 }
 
+.navigation-items-active > a {
+    color: rgb(11, 97, 255) !important;
+}
+
 /*Onboarding Screens Shit*/
 .embed_code_box {
     width: auto;
@@ -978,8 +982,8 @@ img.small_icon {
 p.sent_message {
     color: #FFF;
     padding: 15px 20px 15px 20px;
-    margin-bottom: 2px;
     display: inline-block;
+    max-width: 60%;
     border-radius: 25px 5px 5px 25px;
     background: #0B61FF; /* For browsers that do not support gradients */
 }
@@ -1022,7 +1026,7 @@ p.received_message {
     color: #4A4A4A;
     padding: 15px 20px 15px 20px;
     display: table;
-    margin-bottom: 2px;
+    max-width: 60%;
     border-radius: 5px 25px 25px 5px;
     /*box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.3);*/
     background: #EEE;

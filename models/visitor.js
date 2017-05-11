@@ -33,6 +33,10 @@ const VisitorSchema = new Schema({
     type: Number,
     default: 0
   },
+  totalNumberOfMessages: { 
+    type: Number,
+    default: 0
+  },
   firstSeen : { 
     type : Date, 
     default: Date.now 

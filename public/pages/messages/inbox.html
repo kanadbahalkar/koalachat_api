@@ -1,49 +1,33 @@
 <!--TODO-->
-<!-- √ 1. Sort visitors list by recent message first-->
-<!-- √ 2. Highlight selected visitor-->
-<!-- √ 3. Select the first visitor in the list by default-->
-<!-- √ 4. Show channel below the visitor email-->
-<!-- √ 5. User sees messages from a visitor when they select that visitor from the list-->
-<!-- √ 5. Owner can edit the visitor profile shown on the right-->
 <!--6. User can see the 'Channel' of the visitor (Website, Fb, etc.)-->
-<!-- √ 7. Create directives for message bubbles-->
-<!-- √ 8. Send messge after pressing enter-->
-<!-- √ 9. User can delete a message thread-->
-<!-- √ 10. User can blacklist a Visitor-->
-<!-- √ 11. User can 'Like or Star' a Visitor-->
-<!-- √ 12. If the visitor is new, Print on screen "New Conversation Started: <timestamp>"-->
-<!-- √ 13. Select the first visitor from the list by default-->
-<!-- √ 14. Automatically add a visitor to the list when a new connection occurs-->
-<!-- √ 15. Show relative timestamp wherever applicable (tute: https://scotch.io/tutorials/display-time-relatively-in-angular)-->
 <!--16. Add a blue dot when a new message is sent by a visitor-->
-<!-- √ 17. Validation for empty message-->
-<!-- √ 18. Get correct start date for the conversation-->
-<!-- √ 19. Add a green dot when a visitor is live-->
 
 <topnav></topnav>
 
 <div ng-controller="navbarController">
     <div class="sidebar" sidebar-directive="state">
         <ul class="navigation">
-            <li class="navigation-items list-header"> Messaging </li>
-            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Messages/Inbox')};"> <a href="/Messages/Inbox"> <!--<img src="/assets/images/inbox.svg"/>-->Inbox</a> </li>
-            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Messages/Sent')};"> <a href="/Messages/Sent"> <!--<img src="/assets/images/sent.svg"/>--> Sent</a> </li>
-            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Messages/Drafts')};"> <a href="/Messages/Drafts"> <!--<img src="/assets/images/drafts.svg"/>--> Drafts</a> </li>
-            <li class="navigation-items ng-class:{'navigation-items-active':isActive('/Messages/Trash')};"> <a href="/Messages/Trash"> <!--<img src="/assets/images/trash.svg"/>--> Trash</a> </li>
+            <li class="navigation-items list-header"> Conversations </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':messageFilter === 'active'};"> <a href="" ng-click="loadVisitors('active')"> <!--<img src="/assets/images/inbox.svg"/>-->Active</a> </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':messageFilter === 'live'};"> <a href="" ng-click="loadVisitors('live')"> <!--<img src="/assets/images/sent.svg"/>--> Live</a> </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':messageFilter === 'important'};"> <a href="" ng-click="loadVisitors('important')"> <!--<img src="/assets/images/drafts.svg"/>--> Important</a> </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':messageFilter === 'recent'};"> <a href="" ng-click="loadVisitors('recent')"> <!--<img src="/assets/images/trash.svg"/>--> Recent</a> </li>
+            <li class="navigation-items ng-class:{'navigation-items-active':messageFilter === 'all'};"> <a href="" ng-click="loadVisitors('all')"> <!--<img src="/assets/images/trash.svg"/>--> All</a> </li>
 
+            <!-- 
             <li class="navigation-items list-header"> Channels </li>
-            <li class="navigation-items"> <a href="/Messages/All"> <!--<img src="/assets/images/all.svg"/>--> All</a> </li>
-            <li class="navigation-items"> <a href="/Messages/Website"> <!--<img src="/assets/images/website.svg"/>--> Website</a> </li>
-            <li class="navigation-items"> <a href="/Messages/Facebook"> <!--<img src="/assets/images/facebook.svg"/>--> Facebook</a> </li>
-            <li class="navigation-items"> <a href="/Messages/Twitter"> <!--<img src="/assets/images/twitter.svg"/>--> Twitter</a> </li>
-            <li class="navigation-items"> <a href="/Messages/WhatsApp"> <!--<img src="/assets/images/whatsapp.svg"/>--> WhatsApp</a> </li>
-            <li class="navigation-items"> <a href="/Messages/Instagram"> <!--<img src="/assets/images/instagram.svg"/>--> Instagram</a> </li>
-            <!--<li class="navigation-items"> <a href=""> <img src="/assets/images/help.svg"/> Help Me Pweez!</a> </li>-->
+            <li class="navigation-items"> <a href="/Messages/All"><img src="/assets/images/all.svg"/>All</a> </li>
+            <li class="navigation-items"> <a href="/Messages/Website"><img src="/assets/images/website.svg"/> Website</a> </li>
+            <li class="navigation-items"> <a href="/Messages/Facebook"><img src="/assets/images/facebook.svg"/> Facebook</a> </li>
+            <li class="navigation-items"> <a href="/Messages/Twitter"><img src="/assets/images/twitter.svg"/> Twitter</a> </li>
+            <li class="navigation-items"> <a href="/Messages/WhatsApp"><img src="/assets/images/whatsapp.svg"/> WhatsApp</a> </li>
+            <li class="navigation-items"> <a href="/Messages/Instagram"><img src="/assets/images/instagram.svg"/> Instagram</a> </li>
+            -->
         </ul>
     </div>
 </div>
 
-<div class="main_box" ng-init="loadVisitors()">
+<div class="main_box" ng-init="loadVisitors('active')">
     <div class="list_user">
         <ul class="list">
             <li class="search_chat">
@@ -53,7 +37,7 @@
 
             <li ng-repeat= "visitor in visitors | filter:searchBox | orderBy: '-visitedAt'" 
                 style="cursor: pointer; cursor: hand;" 
-                ng-click="loadMessages(visitor)" 
+                ng-click="loadMessagesAndVisitorProfile(visitor)" 
                 ng-class="{ visitor_selected: visitor._id === selectedVisitorID }"
                 ng-mouseenter="showDelete=true" ng-mouseleave="showDelete=false">
                 <a href="">

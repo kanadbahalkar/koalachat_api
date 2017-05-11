@@ -166,8 +166,17 @@ exports = module.exports = function (io) {
 						sockets[data.to].socket.emit('sent message', replyFromApiai);
 
 					if (replyBody.action == 'input.unknown') {
-						sockets[data.from].socket.emit('ask for email', true);
+						sockets[data.from].socket.emit('ask for email', false); //false means input is unknown and ask for email
 					}
+
+					request({
+						url: config.api_server + 'api/visitor/incrementmessagecount',
+						method: "POST",
+						json: { 'visitorID': data.from },
+						headers: { 'content-type': 'application/x-www-form-urlencoded' }
+					}, function (error, response, body) {
+						if (error) console.log('ERROR: ', error);
+					});
 				});
 			}
 			else if (data.sender == 'visitor' && data.email == true) {

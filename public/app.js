@@ -1,10 +1,10 @@
 var myApp = angular.module('myApp', ['ngStorage', 'ngMessages', 'ngResource', 'ngRoute', 'oc.lazyLoad', 'angular-clipboard', 'ngAnimate', 'facebook', 'googleplus', 'angularMoment', 'n3-line-chart', '720kb.tooltips']);
 
 myApp.constant('config', {
-//   baseUrl:'https://localhost:4731/api',
-//   socketUrl:'https://localhost:4731/'
-  baseUrl: 'https://staging.koalachat.com/api',
-  socketUrl: 'https://staging.koalachat.com/'
+  baseUrl:'https://localhost:4731/api',
+  socketUrl:'https://localhost:4731/'
+//   baseUrl: 'https://staging.koalachat.com/api',
+//   socketUrl: 'https://staging.koalachat.com/'
 });
 
 myApp.config(function ($routeProvider, $locationProvider, $ocLazyLoadProvider, FacebookProvider, GooglePlusProvider){

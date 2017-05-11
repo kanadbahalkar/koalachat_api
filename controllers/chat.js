@@ -5,48 +5,97 @@ const Conversation = require('../models/conversation'),
   User = require('../models/user');
 
 module.exports = {
-
+  
   getConversations: function (req, res, next) {
 
-    Conversation.find({ 
-      participants: req.body.ownerID,
-      $and: [ { participants: { $ne: "58d08da84409aa91be05190c" } } ]
+    var participants;
+    req.body.visitorID ? (participants = [ req.body.ownerID, req.body.visitorID ]) : (participants = req.body.ownerID);
+
+    // TODO: Create aggregate query for getting the counts directly from DB as opposed to process it on the server
+    // Conversation.aggregate([
+    //   {
+    //     $match: {
+    //       participants: participants,
+    //       $and: [ { participants: { $ne: "58d08da84409aa91be05190c" } } ],
+    //       createdAt: { $gt:new Date(Date.now() - 7*24*60*60 * 1000) }
+    //     }
+    //   },
+    //   {
+    //     $group: {
+    //       _id: { 
+    //         "year":  { "$year": "$createdAt" },
+    //         "month": { "$month": "$createdAt" },
+    //         "day":   { "$dayOfMonth": "$createdAt" }
+    //       },
+    //       count : { $sum : 1 }
+    //     },
+    //   }
+    // ])
+    // .exec(function(err, conversations){
+    //   if (err) {
+    //     console.log('Error Fetching conversations: ', err);
+    //   } else {
+    //     console.log('------', conversations);
+    //   }
+    // });
+
+    Conversation.find({
+      participants: participants,
+      $and: [ { participants: { $ne: "58d08da84409aa91be05190c" } } ],
+      createdAt: { $gte: new Date(Date.now() - 7*24*60*60 * 1000) }
     })
-      .sort('-createdAt')
-      .exec(function (err, conversations) {
-        if (err) {
-          res.send({ error: err });
-          return next(err);
+    .sort('-createdAt')
+    .exec(function (err, conversations) {
+      if (err) {
+        res.send({ error: err });
+        return next(err);
+      }
+
+      var dayCounter = 24*60*60 * 1000;
+      let dailyConversationCount = [
+        {
+          date: new Date(Date.now()),
+          conversationsCount: 0
+        },
+        {
+          date: new Date(Date.now() - 1*dayCounter),
+          conversationsCount: 0
+        },
+        {
+          date: new Date(Date.now() - 2*dayCounter),
+          conversationsCount: 0
+        },
+        {
+          date: new Date(Date.now() - 3*dayCounter),
+          conversationsCount: 0
+        },
+        {
+          date: new Date(Date.now() - 4*dayCounter),
+          conversationsCount: 0
+        },
+        {
+          date: new Date(Date.now() - 5*dayCounter),
+          conversationsCount: 0
+        },
+        {
+          date: new Date(Date.now() - 6*dayCounter),
+          conversationsCount: 0
         }
-
-        let fullConversations = [];
-        let totalMessages = 0;
-        if (conversations.length == 0) {
-          return res.status(200).json({ conversations: conversations });
-        }
-        else {
-          conversations.forEach(function (conversation) {
-            var conversationDate = conversation.createdAt;
-            Message.find({ 'conversation': conversation._id })
-              .exec(function (err, messages) {
-                if (err) {
-                  res.send({ error: err });
-                  return next(err);
-                }
-
-                totalMessages += messages.length;
-                fullConversations.push({ messages: messages, date: conversationDate, messagesCount: messages.length, conversationID: conversation._id });
-
-                if (fullConversations.length === conversations.length) {
-                  return res.status(200).json({ 
-                    conversations: fullConversations, 
-                    totalMessages: totalMessages 
-                  });
-                }
-              });
-          });
+      ];
+      
+      conversations.forEach(function (conversation) {
+        for(var i=0; i<7; i++){
+          if(conversation.createdAt.toLocaleDateString() == dailyConversationCount[i].date.toLocaleDateString()){
+            dailyConversationCount[i].conversationsCount += 1;
+          }
         }
       });
+
+      return res.status(200).json({
+        dailyConversationCount: dailyConversationCount,
+        totalConversationsLastWeek: conversations.length
+      });
+    });
   },
 
   getConversation: function (req, res, next) {

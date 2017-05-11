@@ -9,20 +9,23 @@ myApp.controller('contactsController', ['config', '$scope', '$http', '$window', 
     var baseUrl = config.baseUrl;
 
     //Get number of unique visitors last week
-    $http({
-        method: 'POST',
-        url: baseUrl + '/visitor/getvisitors/all',
-        data: $.param({
-            ownerID: $window.localStorage.userid
-        }),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': $window.localStorage.token
-        }
-    })
-    .then(function (response) {
-        $scope.leads = response.data.visitors;
-    });
+    $scope.loadLeads = function(leadsFilter){
+        $scope.leadsFilter = leadsFilter;
+        $http({
+            method: 'POST',
+            url: baseUrl + '/visitor/getvisitors/' + leadsFilter,
+            data: $.param({
+                ownerID: $window.localStorage.userid
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': $window.localStorage.token
+            }
+        })
+        .then(function (response) {
+            $scope.leads = response.data.visitors;
+        });
+    }
 
     //Delete a Lead
     $scope.deleteOrBlacklistLead = function(selectedLead, action){
