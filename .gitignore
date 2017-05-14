@@ -10,6 +10,8 @@ public/bower_components/
 !public/bower_components/n3-charts/*
 !public/bower_components/n3-line-chart/
 !public/bower_components/n3-line-chart/*
+!public/bower_components/angular-tooltips/
+!public/bower_components/angular-tooltips/*
 .gitignore
 /*.env
 *.DS_Store

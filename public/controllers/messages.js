@@ -20,7 +20,7 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
         if($scope.selectedConversationID == null){
             $http({
                 method: 'POST',
-                url: config.baseUrl + '/chat/getconversations/',
+                url: config.baseUrl + '/chat/getmesages/',
                 data: $.param({
                     ownerID: $window.localStorage.userid
                 }),
@@ -79,11 +79,12 @@ myApp.controller('messagesController', ['config', '$scope', '$location', '$http'
     //5. Get conversations between owner and visitor
     $scope.loadMessagesAndVisitorProfile = function(visitor) {
 
+        $scope.messages = [];
         $scope.selectedVisitor = visitor;
         $scope.selectedVisitorID = visitor._id;
         $http({
             method: 'POST',
-            url: config.baseUrl + '/chat/getconversations/',
+            url: config.baseUrl + '/chat/getmessages/',
             data: $.param({
                 ownerID: ownerID,
                 visitorID: $scope.selectedVisitorID

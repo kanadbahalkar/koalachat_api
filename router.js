@@ -98,7 +98,9 @@ module.exports = function(app, io) {
 
     // Chat routes
     apiRoutes.use('/chat', chatRoutes);
-    // Retrieve all conversations between owner and visitor
+    // Retrieve all messages between owner and visitor
+    chatRoutes.post('/getmessages', requireAuth, chatController.getMessages);
+    // Get conversations count
     chatRoutes.post('/getconversations', requireAuth, chatController.getConversations);
     // Retrieve single conversation between participants
     chatRoutes.post('/getoneconversation', requireAuth, chatController.getConversation);

@@ -6,6 +6,55 @@ const Conversation = require('../models/conversation'),
 
 module.exports = {
   
+  getMessages: function (req, res, next) {
+
+    var participants;
+    req.body.visitorID ? (participants = [ req.body.ownerID, req.body.visitorID ]) : (participants = req.body.ownerID);
+
+    Conversation.find({ 
+      participants: participants,
+      $and: [ { participants: { $ne: "58d08da84409aa91be05190c" } } ]
+    })
+    .sort('-createdAt')
+    .exec(function (err, conversations) {
+      if (err) {
+        res.send({ error: err });
+        return next(err);
+      }
+ 
+      let fullConversations = [];
+      let totalMessages = 0;
+      
+      if (conversations.length == 0) {
+        return res.status(200).json({ conversations: conversations });
+      }
+      else {
+        conversations.forEach(function (conversation) {
+          var conversationDate = conversation.createdAt;
+          Message.find({ 'conversation': conversation._id })
+            .exec(function (err, messages) {
+              if (err) {
+                res.send({ error: err });
+                return next(err);
+              }
+
+              totalMessages += messages.length;
+              fullConversations.push({ messages: messages, date: conversationDate, messagesCount: messages.length, conversationID: conversation._id });
+
+              console.log('----\n', fullConversations);
+              
+              if (fullConversations.length === conversations.length) {
+                return res.status(200).json({ 
+                  conversations: fullConversations, 
+                  totalMessages: totalMessages 
+                });
+              }
+            });
+        });
+      }
+    });
+  },
+
   getConversations: function (req, res, next) {
 
     var participants;
